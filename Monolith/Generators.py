@@ -18,7 +18,8 @@ class Generator:
     music=None
     bm=0
     extabs=[]
-    etools=[]
+    extools=[]
+    gspoint=True
     def generate(self,world):
         for x in range(len(world.terr)):
             for y in range(len(world.terr[0])):
@@ -53,7 +54,7 @@ class HeightMap(Generator):
     music="NNC_SPLASH.ogg"
     extabs=[Forestry.FTab,Fishery.FisheryTab]
     bm=1000
-    etools=[Fishery.FishingRod,Tools.Axe]
+    extools=[Fishery.FishingRod,Tools.Axe]
     def generate(self,world):
         poss=[]
         heightmap=[[None]*len(world.terr[0]) for n in range(len(world.terr))]
@@ -104,6 +105,7 @@ class RGBFactory(Generator):
     music="Tetris.ogg"
     extabs=[RGB.RGBCategory]
     bm=5000
+    gspoint=False
     def generatec(self,world,x,y):
         world.set_terr(x,y,6)
     def egen(self,world):
@@ -119,6 +121,7 @@ class RGBPuzzle(Generator):
     music="Tetris.ogg"
     extabs=[RGB.RGBCategoryPuzz]
     bm=1000000
+    gspoint=False
     def __init__(self,rgb):
         self.rgb=rgb
     def generatec(self,world,x,y):

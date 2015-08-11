@@ -13,7 +13,7 @@ import Generators
 import Img
 
 numplayers=1
-wgen=3
+wgen=0
 pset=0
 puzzles=0
 pnum=0
@@ -27,6 +27,7 @@ kp=True
 scroll=True
 #titlescreen
 srect=pygame.Rect(0,0,0,0)
+grects=[]
 while cont:
     for ev in pygame.event.get():
         if ev.type==pygame.QUIT:
@@ -35,9 +36,16 @@ while cont:
             mpos=pygame.mouse.get_pos()
             if srect.collidepoint(mpos):
                 cont=False
+            for gr,n in grects:
+                if gr.collidepoint(mpos):
+                    wgen=n
     screen.fill(rgb)
     screen.blit(nland,(0,0))
     Img.bcentre(Img.bfont, "MONOLITH", screen,-200)
+    Img.bcentre(Img.dfont, "GENERATOR:", screen,175,(100,100,100))
+    grects=[]
+    for n in range(4):
+        grects.append((pygame.draw.rect(screen,(200,200,200) if n==wgen else (100,100,100),pygame.Rect(220+n*50,512,48,48)),n))
     srect=Img.bcentre(Img.sbfont, "START GAME", screen,275,(100,255,100))
     pygame.display.flip()
     c.tick(60)

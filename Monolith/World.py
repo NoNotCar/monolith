@@ -28,8 +28,8 @@ class World(object):
         Players.tabclasses=[Players.MechCategory]
         for etab in generator.extabs:
             Players.tabclasses.append(etab)
-        for etool in generator.etools:
-            Players.toolclasses.append(etool)
+        for extool in generator.extools:
+            Players.toolclasses.append(extool)
         self.terr=[]
         self.objs=[]
         if not kp:
@@ -59,9 +59,10 @@ class World(object):
         music=generator.generate(self)
         if music:
             Img.musply(music)
-        self.objs[0][0]=Object.SellPoint(0,0,self.ents[0])
-        if np==2:
-            self.objs[0][24]=Object.SellPoint(0,24,self.ents[1])
+        if generator.gspoint:
+            self.objs[0][0]=Object.SellPoint(0,0,self.ents[0])
+            if np==2:
+                self.objs[0][24]=Object.SellPoint(0,24,self.ents[1])
         self.anitick=0
         self.scroll=scroll
         if scroll:
