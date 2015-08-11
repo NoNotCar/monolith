@@ -28,6 +28,8 @@ scroll=True
 #titlescreen
 srect=pygame.Rect(0,0,0,0)
 grects=[]
+wsizemod=0
+wsrects=[]
 while cont:
     for ev in pygame.event.get():
         if ev.type==pygame.QUIT:
@@ -39,13 +41,20 @@ while cont:
             for gr,n in grects:
                 if gr.collidepoint(mpos):
                     wgen=n
+            for ws,n in wsrects:
+                if ws.collidepoint(mpos):
+                    wsizemod=n
     screen.fill(rgb)
     screen.blit(nland,(0,0))
     Img.bcentre(Img.bfont, "MONOLITH", screen,-200)
-    Img.bcentre(Img.dfont, "GENERATOR:", screen,175,(100,100,100))
+    screen.blit(Img.dfont.render("GENERATOR:",True,(100,100,100)),(0,480))
+    screen.blit(Img.dfont.render("SIZE:",True,(100,100,100)),(490,480))
     grects=[]
-    for n in range(4):
-        grects.append((pygame.draw.rect(screen,(200,200,200) if n==wgen else (100,100,100),pygame.Rect(220+n*50,512,48,48)),n))
+    wsrects=[]
+    for n in range(6):
+        grects.append((pygame.draw.rect(screen,(200,200,200) if n==wgen else (100,100,100),pygame.Rect(2+n*50,512,48,48)),n))
+    for n in range(3):
+        wsrects.append((pygame.draw.rect(screen,(200,200,200) if n==wsizemod else (100,100,100),pygame.Rect(490+n*50,512,48,48)),n))
     srect=Img.bcentre(Img.sbfont, "START GAME", screen,275,(100,255,100))
     pygame.display.flip()
     c.tick(60)
@@ -62,7 +71,7 @@ else:
     screen=pygame.display.set_mode((384,384))
 #main loop
 while True:
-    w=World.World(numplayers,wgen,puzzles,pnum,pset,kp,scroll)
+    w=World.World(numplayers,wgen,puzzles,pnum,pset,kp,scroll,(32*2**wsizemod,32*2**wsizemod))
     while not w.complete:
         e=pygame.event.get()
         for ev in e:

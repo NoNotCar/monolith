@@ -21,6 +21,7 @@ class RGBSpawner(Object.Object):
         self.x=x
         self.y=y
         self.rgb=rgb
+        self.mcol=rgb
         self.img=Img.imgret("MachBlock.png")
         pygame.draw.rect(self.img,rgb,pygame.Rect(4,4,8,8))
         self.img=pygame.transform.scale2x(self.img)

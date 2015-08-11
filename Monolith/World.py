@@ -16,10 +16,11 @@ e=enumerate
 selimage=imgret2("Mouse.png")
 border=imgret2("MenuWrapper.png")
 border2=pygame.transform.rotate(border,90)
+ranconv={32:(1,7),64:(1,1),128:(4,1)}
 def cmenu(menu,select):
     return [menu[(select-1)%len(menu)],menu[select],menu[(select+1)%len(menu)]]
 class World(object):
-    def __init__(self,np,wgen,puz,pn,ps,kp,scroll):
+    def __init__(self,np,wgen,puz,pn,ps,kp,scroll,size=(32,25)):
         if puz:
             generator = Generators.puzzles[ps][pn]
         else:
@@ -47,11 +48,13 @@ class World(object):
             for p in self.players:
                 p.menu=[b for b in p.menu if b.iscat]
         self.complete=False
-        self.size=(32,25)
-        for x in xrange(32):
+        self.size=size
+        self.sv=(size[0]//32)**2
+        self.tran=ranconv[size[0]]
+        for x in xrange(size[0]):
             xr=[]
             oxr=[]
-            for y in xrange(25):
+            for y in xrange(size[1]):
                 xr.append(0)
                 oxr.append(None)
             self.terr.append(xr)
@@ -69,10 +72,11 @@ class World(object):
             self.scrollp=self.ents[0]
     def update(self,events):
         """Update Everything"""
-        if not randint(0,8):
-            rx=randint(0,31)
-            ry=randint(0,24)
-            terrlist[self.terr[rx][ry]].ranupdate(self,rx,ry)
+        for n in range(self.tran[0]):
+            if not randint(0,self.tran[1]):
+                rx=randint(0,self.size[0]-1)
+                ry=randint(0,self.size[1]-1)
+                terrlist[self.terr[rx][ry]].ranupdate(self,rx,ry)
         for ent in self.ents:
             ent.update(self,events)
             ent.mupdate(self,events)
@@ -215,7 +219,10 @@ class World(object):
         return None
     def inworld(self,x,y):
         """Is the coordinate in the world?"""
-        return 0<=x<=31 and 0<=y<=24
+        return 0<=x<self.size[0] and 0<=y<self.size[1]
+    def ranpos(self):
+        """return a random coordinate"""
+        return randint(0,self.size[0]-1),randint(0,self.size[1]-1)
     def dest_obj(self,x,y):
         """Destroy the object at the coordinates"""
         self.objs[x][y]=None
@@ -250,13 +257,13 @@ class World(object):
             return False
         return not (self.get_obj(x, y) and (self.get_obj(x, y).solid or (player and not self.get_obj(x,y).playerenter))) and not (self.get_ent(x,y) and self.get_ent(x,y).solid)
     def get_terr(self,x,y):
-        """Does what it says on the tin"""
+        """Get the terrain object of the location"""
         return terrlist[self.get_tid(x, y)]
     def get_tid(self,x,y):
-        """Does what it says on the tin (as I hate writing [][] over and over again)"""
+        """Get the terrain id at the location"""
         return self.terr[x][y]
     def set_terr(self,x,y,tid):
-        """Does what it says on the tin (as I hate writing [][] over and over again)"""
+        """Set the terrain id at the location"""
         self.terr[x][y]=tid
     def make_map(self):
         """Create Minimap image"""
@@ -264,5 +271,9 @@ class World(object):
         for x in range(32):
             for y in range(32):
                 pygame.draw.rect(mmap,self.get_terr(x*self.size[0]//32, y*self.size[1]//32).mcol,pygame.Rect(x*2,y*2,2,2))
+                if self.get_obj(x*self.size[0]//32, y*self.size[1]//32):
+                    omcol=self.get_obj(x*self.size[0]//32, y*self.size[1]//32).mcol
+                    if omcol:
+                        pygame.draw.rect(mmap,omcol,pygame.Rect(x*2,y*2,2,2))
         pygame.draw.rect(mmap,(255,0,0),pygame.Rect(self.players[0].x*64//self.size[0]-1,self.players[0].y*64//self.size[1]-1,4,4))
         return mmap

@@ -14,7 +14,6 @@ import Entity
 import Tools
 from random import randint,shuffle
 e=enumerate
-ruleround=((-1,-1),(0,-1),(1,-1),(-1,0),(1,0),(-1,1),(0,1),(1,1))
 class Generator:
     music=None
     bm=0
@@ -35,18 +34,17 @@ class Original(Generator):
     music="NNC_SPLASH.ogg"
     extabs=[Forestry.FTab]
     extools=[Tools.Axe]
-    def __init__(self):
-        self.lake=randint(10,22),randint(7,18)
-    def egen(self,world):
-        for n in range(randint(3,5)):
-            tx = randint(1, 30)
-            ty = randint(1, 23)
-            if world.get_tid(tx,ty)==1:
-                world.spawn_obj(Hunting.RabbitHole(tx,ty))
+    def generate(self,world):
+        self.lake=randint(10,world.size[0]-10),randint(10,world.size[1]-10)
+        for x in range(len(world.terr)):
+            for y in range(len(world.terr[0])):
+                self.generatec(world,x,y)
+        self.egen(world)
+        return self.music
     def generatec(self,world,x,y):
         generatelake(x,y,5,self.lake,3,5,world)
-        dmiddle=math.sqrt(abs(x-16)**2+abs(y-12)**2)
-        if dmiddle<randint(3,12) and not world.get_tid(x,y):
+        dmiddle=math.sqrt(abs(x-world.size[0]//2)**2+abs(y-world.size[1]//2)**2)
+        if dmiddle<randint(3*world.size[0]//32,12*world.size[0]//32) and not world.get_tid(x,y):
             if randint(0,50):
                 world.spawn_obj(Forestry.Tree(x,y))
             else:
@@ -56,6 +54,8 @@ class HeightMap(Generator):
     extabs=[Forestry.FTab,Fishery.FisheryTab,Farming.FarmCat]
     bm=1000
     extools=[Fishery.FishingRod,Tools.Axe,Farming.Hoe]
+    def __init__(self,smoothness):
+        self.smooth=smoothness
     def generate(self,world):
         poss=[]
         heightmap=[[None]*len(world.terr[0]) for n in range(len(world.terr))]
@@ -64,11 +64,16 @@ class HeightMap(Generator):
                 poss.append((x,y))
         shuffle(poss)
         heightmap[0][0]=5
+        rround=[]
+        for x in range(-self.smooth,self.smooth+1):
+            for y in range(-self.smooth,self.smooth+1):
+                if (x,y) != (0,0):
+                    rround.append((x,y))
         for pos in poss:
             x,y=pos
             roundp=[]
             if heightmap[x][y] is None:
-                for dx,dy in ruleround:
+                for dx,dy in rround:
                     tx=dx+x
                     ty=dy+y
                     if world.inworld(tx,ty) and heightmap[tx][ty] is not None:
@@ -94,7 +99,7 @@ class EcoDesert(Generator):
     extabs=[Forestry.FTab]
     extools=[Tools.Axe]
     def generatec(self,world,x,y):
-        dmiddle=math.sqrt(abs(x-16)**2+abs(y-12)**2)
+        dmiddle=math.sqrt(abs(x-world.size[0]//2)**2+abs(y-world.size[1]//2)**2)
         if dmiddle<randint(2,4):
             if randint(0,50):
                 world.spawn_obj(Forestry.Tree(x,y))
@@ -110,13 +115,11 @@ class RGBFactory(Generator):
     def generatec(self,world,x,y):
         world.set_terr(x,y,6)
     def egen(self,world):
-        for n in range(randint(4,6)):
-            tx = randint(1, 30)
-            ty = randint(1, 23)
+        for n in range(randint(4*world.sv,6*world.sv)):
+            tx,ty=world.ranpos()
             world.spawn_obj(RGB.RGBSpawner(tx,ty,(0,0,0)))
-        for n in range(randint(4,6)):
-            tx = randint(1, 30)
-            ty = randint(1, 23)
+        for n in range(randint(4*world.sv,6*world.sv)):
+            tx,ty=world.ranpos()
             world.spawn_obj(RGB.RGBSpawner(tx,ty,(255,255,255)))
 class RGBPuzzle(Generator):
     music="Tetris.ogg"
@@ -146,6 +149,6 @@ def generatelake(x,y,tid,centre,fullsize,partsize,world):
     dmiddle=math.sqrt(abs(x-32+centre[0])**2+abs(y-25+centre[1])**2)
     if dmiddle<randint(fullsize,partsize):
         world.set_terr(x,y,tid)
-gens=[Original(),EcoDesert(),RGBFactory(),HeightMap(),Test()]
+gens=[Original(),EcoDesert(),RGBFactory(),HeightMap(1),HeightMap(2),HeightMap(3),Test()]
 puzzles=[[RGBPuzzle((0,0,0)),RGBPuzzle((0,255,0)),RGBPuzzle((255,255,255)),RGBPuzzle((127,127,0))],
          [RGBPuzzle((63,0,63)),RGBPuzzle((0,191,63)),RGBPuzzle((127,63,191)),RGBPuzzle((31,127,0))]]

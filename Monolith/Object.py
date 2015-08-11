@@ -17,6 +17,7 @@ class Object(object):
     is3d=False
     hasio=False
     ispipe=False
+    mcol=None
     def __init__(self,x,y):
         self.x=x
         self.y=y

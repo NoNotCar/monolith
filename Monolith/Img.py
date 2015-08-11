@@ -41,10 +41,10 @@ def blitrect(screen,col, x, y, w, h):
     pygame.draw.rect(screen, col, pygame.Rect(x,y,w,h))
 def inversecol(col):
     return (0,0,0) if sum(col)>475 else (255, 255, 255)
-def bcentre(font,text,surface,offset=0,col=(0,0,0)):
+def bcentre(font,text,surface,offset=0,col=(0,0,0),xoffset=0):
     render=font.render(str(text),True,col)
     textrect=render.get_rect()
-    textrect.centerx = surface.get_rect().centerx
+    textrect.centerx = surface.get_rect().centerx+xoffset
     textrect.centery = surface.get_rect().centery+offset
     return surface.blit(render,textrect)
 pfont = pygame.font.Font(pygame.font.get_default_font(), 30)

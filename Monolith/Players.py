@@ -186,7 +186,7 @@ class KeyPlayer(Player):
         self.images=[pygame.transform.scale2x(im) for im in self.images]
         self.dir=(0,-1)
         self.hand=None
-        self.godmode=0
+        self.godmode=1
         if bm!="Inf":
             self.money=bm
         else:
