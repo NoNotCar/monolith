@@ -71,7 +71,7 @@ class World(object):
         if scroll:
             self.scrollp=self.ents[0]
     def update(self,events):
-        """Update Everything"""
+        "Update Everything"
         for n in range(self.tran[0]):
             if not randint(0,self.tran[1]):
                 rx=randint(0,self.size[0]-1)
@@ -86,7 +86,7 @@ class World(object):
                 if obj and obj.updatable:
                     obj.update(self)
     def render(self,screen):
-        """Render Everything"""
+        "Render Everything"
         is3ds=[]
         for x,row in e(self.terr):
             for y,tile in e(row):
@@ -132,7 +132,7 @@ class World(object):
         for obj3 in is3ds:
             screen.blit(obj3.get_img(self),(obj3.x*32+32,obj3.y*32+26))
     def scrollrender(self,screen):
-        """Render Everything in scrolling mode"""
+        "Render Everything in scrolling mode"
         is3ds=[]
         sx=self.scrollp.x
         sy=self.scrollp.y
@@ -196,59 +196,59 @@ class World(object):
         pygame.draw.rect(screen,(50,50,50),pygame.Rect(32,32,288,288),2)
         screen.blit(self.make_map(),(320,320))
     def get_obj(self,x,y):
-        """Get object from coordinates. If the coordinates are not in the world, returns None"""
+        "Get object from coordinates. If the coordinates are not in the world, returns None"
         if self.inworld(x,y):
             return self.objs[x][y]
         return None
     def get_ent(self,x,y):
-        """Get an entity from coordinates. If there are no entities at the location, returns None"""
+        "Get an entity from coordinates. If there are no entities at the location, returns None"
         for ent in self.ents:
             if (ent.x,ent.y)==(x,y):
                 return ent
         return None
     def dest_ent(self,x,y):
-        """Destroy all entities at the coordinates"""
+        "Destroy all entities at the coordinates"
         for ent in self.ents:
             if (ent.x,ent.y)==(x,y):
                 self.ents.remove(ent)
     def get_objname(self,x,y):
-        """Get object name from coordinates. If the coordinates are not in the world, returns None"""
+        "Get object name from coordinates. If the coordinates are not in the world, returns None"
         getob=self.get_obj(x, y)
         if getob:
             return getob.name
         return None
     def inworld(self,x,y):
-        """Is the coordinate in the world?"""
+        "Is the coordinate in the world?"
         return 0<=x<self.size[0] and 0<=y<self.size[1]
     def ranpos(self):
-        """return a random coordinate"""
+        "return a random coordinate"
         return randint(0,self.size[0]-1),randint(0,self.size[1]-1)
     def dest_obj(self,x,y):
-        """Destroy the object at the coordinates"""
+        "Destroy the object at the coordinates"
         self.objs[x][y]=None
     def spawn_obj(self,obj):
-        """Create an object at its x,y position"""
+        "Create an object at its x,y position"
         self.objs[obj.x][obj.y]=obj
     def move_ent(self,ent,tx,ty):
-        """Legacy non-smooth movement function"""
+        "Legacy non-smooth movement function"
         ent.place(tx,ty)
         if self.get_obj(tx, ty):
             self.get_obj(tx, ty).drop(self,ent)
     def spawn_ent(self,ent):
-        """Does what it says on the tin"""
+        "Does what it says on the tin"
         self.ents.append(ent)
     def is_empty(self,x,y):
-        """If there are no objects or solid entities at the location"""
+        "If there are no objects or solid entities at the location"
         return self.get_obj(x, y)==None and not (self.get_ent(x,y) and self.get_ent(x,y).solid)
     def is_placeable(self,x,y,boat=False):
-        """If there are no objects, solid entities or water at the location. If boat is True, there must be water at the location. Used for buying things"""
+        "If there are no objects, solid entities or water at the location. If boat is True, there must be water at the location. Used for buying things"
         if boat and not self.get_terr(x,y).iswasser:
             return False
         elif not boat and self.get_terr(x,y).iswasser:
             return False
         return self.get_obj(x, y)==None and not (self.get_ent(x,y) and self.get_ent(x,y).solid)
     def is_clear(self,x,y,player=False,boat=False):
-        """If an entity can enter this location"""
+        "If an entity can enter this location"
         if not self.inworld(x, y):
             return False
         if player and not boat and self.get_terr(x,y).iswasser:
@@ -257,16 +257,16 @@ class World(object):
             return False
         return not (self.get_obj(x, y) and (self.get_obj(x, y).solid or (player and not self.get_obj(x,y).playerenter))) and not (self.get_ent(x,y) and self.get_ent(x,y).solid)
     def get_terr(self,x,y):
-        """Get the terrain object of the location"""
+        "Get the terrain object of the location"
         return terrlist[self.get_tid(x, y)]
     def get_tid(self,x,y):
-        """Get the terrain id at the location"""
+        "Get the terrain id at the location"
         return self.terr[x][y]
     def set_terr(self,x,y,tid):
-        """Set the terrain id at the location"""
+        "Set the terrain id at the location"
         self.terr[x][y]=tid
     def make_map(self):
-        """Create Minimap image"""
+        "Create Minimap image"
         mmap=pygame.Surface((64,64))
         for x in range(32):
             for y in range(32):
