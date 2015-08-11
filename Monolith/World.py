@@ -47,6 +47,7 @@ class World(object):
             for p in self.players:
                 p.menu=[b for b in p.menu if b.iscat]
         self.complete=False
+        self.size=(32,25)
         for x in xrange(32):
             xr=[]
             oxr=[]
@@ -126,7 +127,7 @@ class World(object):
         for obj3 in is3ds:
             screen.blit(obj3.get_img(self),(obj3.x*32+32,obj3.y*32+26))
     def scrollrender(self,screen):
-        """Render Everything"""
+        """Render Everything in scrolling mode"""
         is3ds=[]
         sx=self.scrollp.x
         sy=self.scrollp.y
@@ -188,6 +189,7 @@ class World(object):
             sscreen.blit(obj3.get_img(self),(obj3.x*32-asx,obj3.y*32-6-asy))
         screen.blit(sscreen,(32,32))
         pygame.draw.rect(screen,(50,50,50),pygame.Rect(32,32,288,288),2)
+        screen.blit(self.make_map(),(320,320))
     def get_obj(self,x,y):
         """Get object from coordinates. If the coordinates are not in the world, returns None"""
         if self.inworld(x,y):
@@ -242,3 +244,10 @@ class World(object):
         return self.terr[x][y]
     def set_terr(self,x,y,tid):
         self.terr[x][y]=tid
+    def make_map(self):
+        mmap=pygame.Surface((64,64))
+        for x in range(32):
+            for y in range(32):
+                pygame.draw.rect(mmap,self.get_terr(x*self.size[0]//32, y*self.size[1]//32).mcol,pygame.Rect(x*2,y*2,2,2))
+        pygame.draw.rect(mmap,(255,0,0),pygame.Rect(self.players[0].x*64//self.size[0]-1,self.players[0].y*64//self.size[1]-1,4,4))
+        return mmap

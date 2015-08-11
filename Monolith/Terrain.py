@@ -10,11 +10,13 @@ class Terrain(object):
     image=Img.blank32
     walkspeed=10
     iswasser=False
+    mcol=(200,200,200)
     def ranupdate(self,world,x,y):
         pass
 ruleround=((-1,-1),(0,-1),(1,-1),(-1,0),(1,0),(-1,1),(0,1),(1,1))
 class Grass(Terrain):
     image=Img.imgret2("Grass2.png")
+    mcol=(0,255,0)
     def ranupdate(self,world,x,y):
         if world.is_empty(x,y):
             trees=[]
@@ -31,9 +33,11 @@ class Gravel(Terrain):
     image=Img.imgret2("Gravel.png")
     walkspeed=20
 class Sand(Terrain):
+    mcol=(255,255,0)
     image=Img.imgret2("Sand.png")
     walkspeed=20
 class Sand2(Sand):
+    mcol=(200,200,0)
     image=Img.imgret2("Sand2.png")
 class Dirt(Terrain):
     image=Img.imgret2("Dirt.png")
@@ -41,6 +45,7 @@ class Dirt(Terrain):
     def ranupdate(self,world,x,y):
         world.set_terr(x,y,0)
 class Wasser(Terrain):
+    mcol=(0,0,255)
     image=Img.imgret2("Wasser.png")
     walkspeed=20
     iswasser=True

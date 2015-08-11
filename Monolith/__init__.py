@@ -50,7 +50,7 @@ while cont:
 if not scroll:
     screen=pygame.display.set_mode((1088,864))
 else:
-    screen=pygame.display.set_mode((352,352))
+    screen=pygame.display.set_mode((384,384))
 #main loop
 while True:
     w=World.World(numplayers,wgen,puzzles,pnum,pset,kp,scroll)
