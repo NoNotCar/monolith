@@ -1,9 +1,12 @@
 # monolith
-A game made with pygame. 
+A game made with pygame.
+##SCREENSHOTS
+![Screenshot 1](/Assets/Screenshots/1.png)
+![Screenshot 2](/Assets/Screenshots/2.png)
 ##CONTROLS (mouse and keyboard):
   * Left Mouse Button - use tool 
   * Right Mouse Button - buy object/go into category 
-  * Middle Mosue Button - rotate object in top menu 
+  * Middle Mouse Button - rotate object in top menu 
   * Scroll Wheel - scroll through top menu 
   * Shift+Scroll Wheel - scroll through side menu 
   * E - exit category 
