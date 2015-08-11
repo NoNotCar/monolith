@@ -9,6 +9,7 @@ import Hunting
 import RGB
 import Object
 import Fishery
+import Farming
 import Entity
 import Tools
 from random import randint,shuffle
@@ -52,9 +53,9 @@ class Original(Generator):
                 world.spawn_obj(Forestry.SpTree(x,y))
 class HeightMap(Generator):
     music="NNC_SPLASH.ogg"
-    extabs=[Forestry.FTab,Fishery.FisheryTab]
+    extabs=[Forestry.FTab,Fishery.FisheryTab,Farming.FarmCat]
     bm=1000
-    extools=[Fishery.FishingRod,Tools.Axe]
+    extools=[Fishery.FishingRod,Tools.Axe,Farming.Hoe]
     def generate(self,world):
         poss=[]
         heightmap=[[None]*len(world.terr[0]) for n in range(len(world.terr))]

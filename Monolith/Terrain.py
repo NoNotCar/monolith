@@ -58,5 +58,8 @@ class Bridge(Terrain):
 class GrassIF(Terrain):
     image=Img.imgret2("GrassIF.png")
     walkspeed=8
+class Field(Terrain):
+    image=Img.imgret2("Farming\\Farmland.png")
+    mcol=(66,26,0)
                 
-terrlist=[Grass(),Road(),Gravel(),Dirt(),Sand(),Wasser(),Metal(),Sand2(),Bridge(),GrassIF()]
+terrlist=[Grass(),Road(),Gravel(),Dirt(),Sand(),Wasser(),Metal(),Sand2(),Bridge(),GrassIF(),Field()]
