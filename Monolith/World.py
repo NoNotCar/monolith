@@ -197,11 +197,13 @@ class World(object):
             return self.objs[x][y]
         return None
     def get_ent(self,x,y):
+        """Get an entity from coordinates. If there are no entities at the location, returns None"""
         for ent in self.ents:
             if (ent.x,ent.y)==(x,y):
                 return ent
         return None
     def dest_ent(self,x,y):
+        """Destroy all entities at the coordinates"""
         for ent in self.ents:
             if (ent.x,ent.y)==(x,y):
                 self.ents.remove(ent)
@@ -212,26 +214,34 @@ class World(object):
             return getob.name
         return None
     def inworld(self,x,y):
+        """Is the coordinate in the world?"""
         return 0<=x<=31 and 0<=y<=24
     def dest_obj(self,x,y):
+        """Destroy the object at the coordinates"""
         self.objs[x][y]=None
     def spawn_obj(self,obj):
+        """Create an object at its x,y position"""
         self.objs[obj.x][obj.y]=obj
     def move_ent(self,ent,tx,ty):
+        """Legacy non-smooth movement function"""
         ent.place(tx,ty)
         if self.get_obj(tx, ty):
             self.get_obj(tx, ty).drop(self,ent)
     def spawn_ent(self,ent):
+        """Does what it says on the tin"""
         self.ents.append(ent)
     def is_empty(self,x,y):
+        """If there are no objects or solid entities at the location"""
         return self.get_obj(x, y)==None and not (self.get_ent(x,y) and self.get_ent(x,y).solid)
     def is_placeable(self,x,y,boat=False):
+        """If there are no objects, solid entities or water at the location. If boat is True, there must be water at the location. Used for buying things"""
         if boat and not self.get_terr(x,y).iswasser:
             return False
         elif not boat and self.get_terr(x,y).iswasser:
             return False
         return self.get_obj(x, y)==None and not (self.get_ent(x,y) and self.get_ent(x,y).solid)
     def is_clear(self,x,y,player=False,boat=False):
+        """If an entity can enter this location"""
         if not self.inworld(x, y):
             return False
         if player and not boat and self.get_terr(x,y).iswasser:
@@ -240,12 +250,16 @@ class World(object):
             return False
         return not (self.get_obj(x, y) and (self.get_obj(x, y).solid or (player and not self.get_obj(x,y).playerenter))) and not (self.get_ent(x,y) and self.get_ent(x,y).solid)
     def get_terr(self,x,y):
+        """Does what it says on the tin"""
         return terrlist[self.get_tid(x, y)]
     def get_tid(self,x,y):
+        """Does what it says on the tin (as I hate writing [][] over and over again)"""
         return self.terr[x][y]
     def set_terr(self,x,y,tid):
+        """Does what it says on the tin (as I hate writing [][] over and over again)"""
         self.terr[x][y]=tid
     def make_map(self):
+        """Create Minimap image"""
         mmap=pygame.Surface((64,64))
         for x in range(32):
             for y in range(32):

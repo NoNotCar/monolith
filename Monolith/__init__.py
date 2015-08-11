@@ -55,6 +55,7 @@ while cont:
         tick=10
     elif tick!=0:
         tick-=1
+#resize screen
 if not scroll:
     screen=pygame.display.set_mode((1088,864))
 else:
