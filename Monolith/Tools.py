@@ -1,7 +1,7 @@
 '''
 Created on 24 Jun 2015
 
-@author: Thomas
+@author: NoNotCar
 '''
 import Img
 

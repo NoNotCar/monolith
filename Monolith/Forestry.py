@@ -1,7 +1,7 @@
 '''
 Created on 13 Jun 2015
 The Trees Are Growing Once More
-@author: Thomas
+@author: NoNotCar
 '''
 import Object
 import Entity

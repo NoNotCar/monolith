@@ -1,7 +1,7 @@
 '''
 Created on 13 Jun 2015
 The Grubs Squirmed and Writhed
-@author: Thomas
+@author: NoNotCar
 '''
 import Img
 from random import choice

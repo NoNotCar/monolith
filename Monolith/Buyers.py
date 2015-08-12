@@ -1,7 +1,7 @@
 '''
 Created on 14 Jun 2015
 FOUND A BUYER!!!
-@author: Thomas
+@author: NoNotCar
 '''
 import Terrain
 import Img

@@ -1,7 +1,7 @@
 '''
 Created on 22 Jun 2015
 NOT VERY NICE
-@author: Thomas
+@author: NoNotCar
 '''
 import Entity
 import Object

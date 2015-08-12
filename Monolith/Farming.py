@@ -1,7 +1,7 @@
 '''
 Created on 11 Aug 2015
 AGRICOLA!!!
-@author: Thomas
+@author: NoNotCar
 '''
 import Tools
 import Img

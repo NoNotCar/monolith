@@ -1,7 +1,7 @@
 '''
 Created on 17 Jun 2015
 Don't be late!
-@author: Thomas
+@author: NoNotCar
 '''
 import Entity
 import Img

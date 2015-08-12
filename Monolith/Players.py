@@ -1,7 +1,7 @@
 '''
 Created on 22 Sep 2014
 
-@author: Thomas
+@author: NoNotCar
 '''
 import pygame
 import os
@@ -35,6 +35,7 @@ class Player(Entity.Entity):
     name="Player"
     solid=True
     estop=False
+    psupply=0
     def __init__(self, num,bm):
         self.j=pygame.joystick.Joystick(num)
         self.j.init()
@@ -65,6 +66,8 @@ class Player(Entity.Entity):
         self.tools=[Tools.Hammer()]
         for tool in toolclasses:
             self.tools.append(tool())
+        self.pstorage=[]
+        self.psuppliers=[]
     def get_img(self):
         return self.images[hdirconv[self.dir]]
     def update(self,world,events):
@@ -203,6 +206,8 @@ class KeyPlayer(Player):
         self.tools=[Tools.Hammer(),Tools.Estop()]
         for tool in toolclasses:
             self.tools.append(tool())
+        self.pstorage=[]
+        self.psuppliers=[]
     def update(self,world,events):
         if not self.disable:
             for e in events:

@@ -1,7 +1,7 @@
 '''
 Created on 14 Jun 2015
 "All The Latest Gadgets"
-@author: Thomas
+@author: NoNotCar
 '''
 import Object
 import Img
@@ -321,5 +321,4 @@ class MultiBlock(Object.Object):
     def update(self,world):
         if not world.exists(self.eo):
             world.dest_obj(self.x,self.y)
-                    
                 

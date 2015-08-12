@@ -1,7 +1,7 @@
 '''
 Created on 24 Jun 2015
 
-@author: Thomas
+@author: NoNotCar
 '''
 import Entity,Object,pygame,Img,Buyers
 class RGBResource(Entity.ResourceB):

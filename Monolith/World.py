@@ -1,7 +1,7 @@
 '''
 Created on 22 Sep 2014
 
-@author: Thomas
+@author: NoNotCar
 '''
 import Players
 from Img import imgret2
@@ -15,6 +15,7 @@ import pygame
 e=enumerate
 selimage=imgret2("Mouse.png")
 border=imgret2("MenuWrapper.png")
+picon=imgret2("PowerIcon.png")
 border2=pygame.transform.rotate(border,90)
 ranconv={32:(1,7),64:(1,1),128:(4,1)}
 def cmenu(menu,select):
@@ -192,6 +193,9 @@ class World(object):
             screen.blit(Img.dfont.render("\xa3"+str(ent.money),True, (255,255,255)),(160,0+832*ent.num))
             if ent.hand:
                 screen.blit(ent.hand.get_img(),(0,0+832*ent.num))
+            screen.blit(picon,(0,352))
+            screen.blit(Img.dfont.render("%g" % (ent.psupply/1000.0)+"kW",True, (255,255,255)),(32,352))
+            screen.blit(Img.dfont.render("%g" % (sum([ps.stop for ps in ent.pstorage])/60000.0)+"kJ",True, (100,255,100)),(128,352))
         for obj3 in is3ds:
             sscreen.blit(obj3.get_img(self),(obj3.x*32-asx,obj3.y*32-obj3.off3d-asy))
         screen.blit(sscreen,(32,32))

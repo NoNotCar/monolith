@@ -1,7 +1,7 @@
 '''
 Created on 21 Jun 2015
 And the computer said .generate(world) and it was
-@author: Thomas
+@author: NoNotCar
 '''
 import math
 import Forestry

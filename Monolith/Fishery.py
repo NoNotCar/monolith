@@ -1,7 +1,7 @@
 '''
 Created on 1 Aug 2015
 
-@author: Thomas
+@author: NoNotCar
 '''
 import Img
 import Entity

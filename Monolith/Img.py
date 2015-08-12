@@ -1,7 +1,7 @@
 '''
 Created on 7 Sep 2014
 Once Seen, Cannot Be Unseen
-@author: Thomas
+@author: NoNotCar
 '''
 import pygame
 import os

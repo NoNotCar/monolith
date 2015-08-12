@@ -1,7 +1,7 @@
 '''
 Created on 13 Jun 2015
 And The Earth Rose To Cleanse Him
-@author: Thomas
+@author: NoNotCar
 '''
 import Img
 from random import randint,choice

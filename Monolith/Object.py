@@ -1,7 +1,7 @@
 '''
 Created on 13 Jun 2015
 The Base Of All Things
-@author: Thomas
+@author: NoNotCar
 '''
 import Img
 import sys

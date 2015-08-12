@@ -1,7 +1,7 @@
 '''
 Created on 22 Jun 2015
 FLOOD ZONE
-@author: Thomas
+@author: NoNotCar
 '''
 import Object
 def flipdir(dire):
