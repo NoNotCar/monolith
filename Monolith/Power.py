@@ -15,6 +15,27 @@ class PowerSupply(Object.OObject):
             self.owner.psuppliers.append(self)
     def get_power(self,world):
         return 0
+class PowerStorer(Object.OObject):
+    maxS=0
+    def __init__(self, x, y, owner):
+        self.x = x
+        self.y = y
+        self.owner = owner
+        self.stored=0
+        if self.owner:
+            self.owner.pstorage.append(self)
+    def give_power(self,world,amount):
+        if self.stored+amount<self.maxS:
+            self.stored+=amount
+            return amount
+        else:
+            asto=self.maxS-self.stored
+            self.stored=self.maxS
+            return asto
+class Battery(PowerStorer):
+    doc="Stores electrical power. This model can store 60kJ"
+    img=Img.imgret2("Electricity\\Battery.png")
+    maxS=3600000
 class SolarPanel(PowerSupply):
     doc="Generates power from the sun. Produces 200W"
     is3d=True
@@ -49,4 +70,4 @@ class PowerCategory(object):
     iscat=True
     doc="Power Suppliers and Storage"
     def __init__(self):
-        self.menu=[Buyers.ObjBuyer(SolarPanel,1000),Buyers.ObjBuyer(Generator1,200)]
+        self.menu=[Buyers.ObjBuyer(SolarPanel,1000),Buyers.ObjBuyer(Generator1,200),Buyers.ObjBuyer(Battery,1000)]

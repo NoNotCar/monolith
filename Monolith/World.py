@@ -76,6 +76,11 @@ class World(object):
             for obj in row:
                 if obj and obj.updatable:
                     obj.update(self)
+        if self.player.psupply>0:
+            for pst in self.player.pstorage:
+                self.player.psupply-=pst.give_power(self,self.player.psupply)
+                if self.player.psupply==0:
+                    break
     def scrollrender(self,screen):
         """Render Everything in scrolling mode"""
         is3ds=[]
@@ -140,7 +145,8 @@ class World(object):
             screen.blit(ply.hand.get_img(),(0,0))
         screen.blit(picon,(0,352))
         screen.blit(Img.dfont.render("%g" % (ply.psupply/1000.0)+"kW",True, (255,255,255)),(32,352))
-        screen.blit(Img.dfont.render("%g" % (sum([ps.stop for ps in ply.pstorage])/60000.0)+"kJ",True, (100,255,100)),(128,352))
+        screen.blit(Img.dfont.render("%g" % (round(sum([ps.stored for ps in ply.pstorage])/60000.0,1))+"/"+
+                                     "%g" % (round(sum([ps.maxS for ps in ply.pstorage])/60000.0,1))+"kJ",True, (100,255,100)),(128,352))
         for obj3 in is3ds:
             sscreen.blit(obj3.get_img(self),(obj3.x*32-asx,obj3.y*32-obj3.off3d-asy))
         screen.blit(sscreen,(32,32))

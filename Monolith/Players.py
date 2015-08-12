@@ -68,8 +68,14 @@ class KeyPlayer(Entity.Entity):
         self.psuppliers=[]
     def update(self,world,events):
         self.psupply=0
-        for psup in self.psuppliers:
-            self.psupply+=psup.get_power(world)
+        for psup in self.psuppliers[:]:
+            if world.exists(psup):
+                self.psupply+=psup.get_power(world)
+            else:
+                self.psuppliers.remove(psup)
+        #Garbage collection
+        for psto in [pst for pst in self.pstorage if not world.exists(pst)]:
+            self.pstorage.remove(psto)
         if not self.disable:
             for e in events:
                 if e.type==pygame.MOUSEBUTTONDOWN:
@@ -180,5 +186,22 @@ class KeyPlayer(Entity.Entity):
                 picksound.play()
     def get_img(self):
         return self.images[hdirconv[self.dir]]
-            
+    def get_power(self,amount):
+        if self.psupply>=amount:
+            self.psupply-=amount
+            return True
+        elif self.psupply+sum([ps.stored for ps in self.pstorage])>=amount:
+            amount-=self.psupply
+            self.psupply=0
+            pstonum=0
+            while amount>0:
+                supply=self.pstorage[pstonum]
+                if supply.stored>=amount:
+                    supply.stored-=amount
+                    amount=0
+                else:
+                    amount-=supply.stored
+                    supply.stored=0
+            return True
+        return False
             
