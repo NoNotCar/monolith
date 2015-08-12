@@ -24,7 +24,6 @@ rgb=[200,255,255]
 tick=0
 cont=True
 kp=True
-scroll=True
 #titlescreen
 srect=pygame.Rect(0,0,0,0)
 grects=[]
@@ -65,13 +64,10 @@ while cont:
     elif tick!=0:
         tick-=1
 #resize screen
-if not scroll:
-    screen=pygame.display.set_mode((1088,864))
-else:
-    screen=pygame.display.set_mode((384,384))
+screen=pygame.display.set_mode((384,384))
 #main loop
 while True:
-    w=World.World(numplayers,wgen,puzzles,pnum,pset,kp,scroll,(32*2**wsizemod,32*2**wsizemod))
+    w=World.World(numplayers,wgen,puzzles,pnum,pset,kp,(32*2**wsizemod,32*2**wsizemod))
     while not w.complete:
         e=pygame.event.get()
         for ev in e:
@@ -79,10 +75,7 @@ while True:
                 sys.exit()
         screen.fill((100,100,100))
         w.update(e)
-        if scroll:
-            w.scrollrender(screen)
-        else:
-            w.render(screen)
+        w.scrollrender(screen)
         pygame.display.flip()
         c.tick(60)
     pygame.mixer.music.stop()

@@ -21,30 +21,23 @@ ranconv={32:(1,7),64:(1,1),128:(4,1)}
 def cmenu(menu,select):
     return [menu[(select-1)%len(menu)],menu[select],menu[(select+1)%len(menu)]]
 class World(object):
-    def __init__(self,np,wgen,puz,pn,ps,kp,scroll,size=(32,25)):
+    def __init__(self,np,wgen,puz,pn,ps,kp,size=(32,25)):
         if puz:
             generator = Generators.puzzles[ps][pn]
         else:
             generator = Generators.gens[wgen]
         basemoney=generator.bm
-        Players.tabclasses=[Players.MechCategory]
         for etab in generator.extabs:
             Players.tabclasses.append(etab)
         for extool in generator.extools:
             Players.toolclasses.append(extool)
         self.terr=[]
         self.objs=[]
-        if not kp:
-            if puz:
-                self.ents=[Players.Player(0,"Inf")]
-            else:
-                self.ents=[Players.Player(0,basemoney),Players.Player(1,basemoney)][:np]
+        if puz:
+            self.ents=[Players.KeyPlayer(0,"Inf")]
         else:
-            if puz:
-                self.ents=[Players.KeyPlayer(0,"Inf")]
-            else:
-                self.ents=[Players.KeyPlayer(0,basemoney)]
-        self.players=self.ents[:]
+            self.ents=[Players.KeyPlayer(0,basemoney)]
+        self.player=self.ents[0]
         if puz:
             for p in self.players:
                 p.menu=[b for b in p.menu if b.iscat]
@@ -68,9 +61,6 @@ class World(object):
             if np==2:
                 self.objs[0][24]=Object.SellPoint(0,24,self.ents[1])
         self.anitick=0
-        self.scroll=scroll
-        if scroll:
-            self.scrollp=self.ents[0]
     def update(self,events):
         """Update Everything"""
         for n in range(self.tran[0]):
@@ -86,60 +76,14 @@ class World(object):
             for obj in row:
                 if obj and obj.updatable:
                     obj.update(self)
-    def render(self,screen):
-        """Render Everything"""
-        is3ds=[]
-        for x,row in e(self.terr):
-            for y,tile in e(row):
-                screen.blit(terrlist[tile].image,(x*32+32,y*32+32))
-        for y in xrange(self.size[1]):
-            for x in xrange(self.size[0]):
-                obj = self.get_obj(x, y)
-                if obj:
-                    if not obj.is3d:
-                        screen.blit(obj.get_img(self),(x*32+32,y*32+32))
-                    else:
-                        is3ds.append(obj)
-        for ent in [en for en in self.ents if not en.hidden]:
-            screen.blit(ent.get_img(),(ent.x*32+32+int(round(ent.xoff)),ent.y*32+32+int(round(ent.yoff))))
-        for ent in self.players:
-            if ent.submenu is None:
-                smenu=cmenu(ent.menu,ent.selected)
-            else:
-                smenu=cmenu(ent.menu[ent.selected].menu,ent.submenu)
-            stools=cmenu(ent.tools,ent.tsel)
-            for n,buyer in e(smenu):
-                if buyer.iscat:
-                    screen.blit(buyer.img,(32*(n+1)+16,0+832*ent.num))
-                else:
-                    screen.blit(buyer.get_img(self),(32*(n+1)+16,0+832*ent.num))
-            screen.blit(Img.sfont.render(smenu[1].doc,True,(255,255,255)),(300,0))
-            screen.blit(border,(32,0+832*ent.num))
-            for n,tool in e(stools):
-                screen.blit(tool.img,(0,32*(n+1)+16+672*ent.num))
-            screen.blit(border2,(0,32+672*ent.num))
-            if ent.submenu is None:
-                selitem=ent.menu[ent.selected]
-            else:
-                selitem=ent.menu[ent.selected].menu[ent.submenu]
-            if not selitem.iscat:
-                if selitem.cost%1000==0:
-                    screen.blit(Img.sfont.render("\xa3"+str(selitem.cost//1000)+"k",True, (0,0,0)),(80,23+832*ent.num))
-                else:
-                    screen.blit(Img.sfont.render("\xa3"+str(selitem.cost),True, (0,0,0)),(80,23+832*ent.num))
-            screen.blit(selimage,(0,0+832*ent.num))
-            screen.blit(Img.dfont.render("\xa3"+str(ent.money),True, (255,255,255)),(160,0+832*ent.num))
-            if ent.hand:
-                screen.blit(ent.hand.get_img(),(0,0+832*ent.num))
-        for obj3 in is3ds:
-            screen.blit(obj3.get_img(self),(obj3.x*32+32,obj3.y*32+32-obj3.off3d))
     def scrollrender(self,screen):
         """Render Everything in scrolling mode"""
         is3ds=[]
-        sx=self.scrollp.x
-        sy=self.scrollp.y
-        asx=sx*32+int(round(self.scrollp.xoff))-128
-        asy=sy*32+int(round(self.scrollp.yoff))-128
+        ply = self.player
+        sx=ply.x
+        sy=ply.y
+        asx=sx*32+int(round(ply.xoff))-128
+        asy=sy*32+int(round(ply.yoff))-128
         sscreen=pygame.Surface((288,288))
         sscreen.fill((100,100,100))
         for x,row in e(self.terr):
@@ -154,48 +98,49 @@ class World(object):
                         sscreen.blit(obj.get_img(self),(x*32-asx,y*32-asy))
                     else:
                         is3ds.append(obj)
+        #Entity Rendering
         for ent in [en for en in self.ents if not en.hidden]:
             if abs(ent.x-sx)<7 and abs(ent.y-sy)<7:
                 sscreen.blit(ent.get_img(),(ent.x*32-asx+int(round(ent.xoff)),ent.y*32-asy+int(round(ent.yoff))))
-        for ent in self.players:
-            if ent.submenu is None:
-                smenu=cmenu(ent.menu,ent.selected)
+        #Player Rendering
+        if ply.submenu is None:
+            smenu=cmenu(ply.menu,ply.selected)
+        else:
+            smenu=cmenu(ply.menu[ply.selected].menu,ply.submenu)
+        stools=cmenu(ply.tools,ply.tsel)
+        for n,buyer in e(smenu):
+            if buyer.iscat:
+                screen.blit(buyer.img,(32*(n+1)+16,0))
             else:
-                smenu=cmenu(ent.menu[ent.selected].menu,ent.submenu)
-            stools=cmenu(ent.tools,ent.tsel)
-            for n,buyer in e(smenu):
-                if buyer.iscat:
-                    screen.blit(buyer.img,(32*(n+1)+16,0+832*ent.num))
-                else:
-                    screen.blit(buyer.get_img(self),(32*(n+1)+16,0+832*ent.num))
-            if len(smenu[1].doc)>60:
-                for n,char in enumerate(smenu[1].doc):
-                    if char==" " and n>60:
-                        screen.blit(Img.sfont.render(smenu[1].doc[:n],True,(255,255,255)),(0,325))
-                        screen.blit(Img.sfont.render(smenu[1].doc[n+1:],True,(255,255,255)),(0,335))
-                        break
+                screen.blit(buyer.get_img(self),(32*(n+1)+16,0))
+        if len(smenu[1].doc)>60:
+            for n,char in enumerate(smenu[1].doc):
+                if char==" " and n>60:
+                    screen.blit(Img.sfont.render(smenu[1].doc[:n],True,(255,255,255)),(0,325))
+                    screen.blit(Img.sfont.render(smenu[1].doc[n+1:],True,(255,255,255)),(0,335))
+                    break
+        else:
+            screen.blit(Img.sfont.render(smenu[1].doc,True,(255,255,255)),(0,330))
+        screen.blit(border,(32,0))
+        for n,tool in e(stools):
+            screen.blit(tool.img,(0,32*(n+1)+16))
+        screen.blit(border2,(0,32))
+        if ply.submenu is None:
+            selitem=ply.menu[ply.selected]
+        else:
+            selitem=ply.menu[ply.selected].menu[ply.submenu]
+        if not selitem.iscat:
+            if selitem.cost%1000==0:
+                screen.blit(Img.sfont.render("\xa3"+str(selitem.cost//1000)+"k",True, (0,0,0)),(80,23))
             else:
-                screen.blit(Img.sfont.render(smenu[1].doc,True,(255,255,255)),(0,330))
-            screen.blit(border,(32,0+832*ent.num))
-            for n,tool in e(stools):
-                screen.blit(tool.img,(0,32*(n+1)+16+672*ent.num))
-            screen.blit(border2,(0,32+672*ent.num))
-            if ent.submenu is None:
-                selitem=ent.menu[ent.selected]
-            else:
-                selitem=ent.menu[ent.selected].menu[ent.submenu]
-            if not selitem.iscat:
-                if selitem.cost%1000==0:
-                    screen.blit(Img.sfont.render("\xa3"+str(selitem.cost//1000)+"k",True, (0,0,0)),(80,23+832*ent.num))
-                else:
-                    screen.blit(Img.sfont.render("\xa3"+str(selitem.cost),True, (0,0,0)),(80,23+832*ent.num))
-            screen.blit(selimage,(0,0+832*ent.num))
-            screen.blit(Img.dfont.render("\xa3"+str(ent.money),True, (255,255,255)),(160,0+832*ent.num))
-            if ent.hand:
-                screen.blit(ent.hand.get_img(),(0,0+832*ent.num))
-            screen.blit(picon,(0,352))
-            screen.blit(Img.dfont.render("%g" % (ent.psupply/1000.0)+"kW",True, (255,255,255)),(32,352))
-            screen.blit(Img.dfont.render("%g" % (sum([ps.stop for ps in ent.pstorage])/60000.0)+"kJ",True, (100,255,100)),(128,352))
+                screen.blit(Img.sfont.render("\xa3"+str(selitem.cost),True, (0,0,0)),(80,23))
+        screen.blit(selimage,(0,0+832*ply.num))
+        screen.blit(Img.dfont.render("\xa3"+str(ply.money),True, (255,255,255)),(160,0))
+        if ply.hand:
+            screen.blit(ply.hand.get_img(),(0,0))
+        screen.blit(picon,(0,352))
+        screen.blit(Img.dfont.render("%g" % (ply.psupply/1000.0)+"kW",True, (255,255,255)),(32,352))
+        screen.blit(Img.dfont.render("%g" % (sum([ps.stop for ps in ply.pstorage])/60000.0)+"kJ",True, (100,255,100)),(128,352))
         for obj3 in is3ds:
             sscreen.blit(obj3.get_img(self),(obj3.x*32-asx,obj3.y*32-obj3.off3d-asy))
         screen.blit(sscreen,(32,32))
@@ -283,7 +228,7 @@ class World(object):
                     omcol=self.get_obj(x*self.size[0]//32, y*self.size[1]//32).mcol
                     if omcol:
                         pygame.draw.rect(mmap,omcol,pygame.Rect(x*2,y*2,2,2))
-        pygame.draw.rect(mmap,(255,0,0),pygame.Rect(self.players[0].x*64//self.size[0]-1,self.players[0].y*64//self.size[1]-1,4,4))
+        pygame.draw.rect(mmap,(255,0,0),pygame.Rect(self.player.x*64//self.size[0]-1,self.player.y*64//self.size[1]-1,4,4))
         return mmap
     def exists(self,obj):
         """Has this object been destroyed?"""
