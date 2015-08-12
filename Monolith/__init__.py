@@ -51,7 +51,7 @@ while cont:
     screen.blit(Img.dfont.render("SIZE:",True,(100,100,100)),(490,480))
     grects=[]
     wsrects=[]
-    for n in range(6):
+    for n in range(len(Generators.gens)):
         grects.append((pygame.draw.rect(screen,(200,200,200) if n==wgen else (100,100,100),pygame.Rect(2+n*50,512,48,48)),n))
     for n in range(3):
         wsrects.append((pygame.draw.rect(screen,(200,200,200) if n==wsizemod else (100,100,100),pygame.Rect(490+n*50,512,48,48)),n))

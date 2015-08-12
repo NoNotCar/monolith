@@ -149,6 +149,6 @@ def generatelake(x,y,tid,centre,fullsize,partsize,world):
     dmiddle=math.sqrt(abs(x-32+centre[0])**2+abs(y-25+centre[1])**2)
     if dmiddle<randint(fullsize,partsize):
         world.set_terr(x,y,tid)
-gens=[Original(),EcoDesert(),RGBFactory(),HeightMap(1),HeightMap(2),HeightMap(3),Test()]
+gens=[Original(),EcoDesert(),RGBFactory(),HeightMap(1),HeightMap(3)]
 puzzles=[[RGBPuzzle((0,0,0)),RGBPuzzle((0,255,0)),RGBPuzzle((255,255,255)),RGBPuzzle((127,127,0))],
          [RGBPuzzle((63,0,63)),RGBPuzzle((0,191,63)),RGBPuzzle((127,63,191)),RGBPuzzle((31,127,0))]]
