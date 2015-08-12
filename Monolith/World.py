@@ -130,7 +130,7 @@ class World(object):
             if ent.hand:
                 screen.blit(ent.hand.get_img(),(0,0+832*ent.num))
         for obj3 in is3ds:
-            screen.blit(obj3.get_img(self),(obj3.x*32+32,obj3.y*32+26))
+            screen.blit(obj3.get_img(self),(obj3.x*32+32,obj3.y*32+32-obj3.off3d))
     def scrollrender(self,screen):
         """Render Everything in scrolling mode"""
         is3ds=[]
@@ -191,7 +191,7 @@ class World(object):
             if ent.hand:
                 screen.blit(ent.hand.get_img(),(0,0+832*ent.num))
         for obj3 in is3ds:
-            sscreen.blit(obj3.get_img(self),(obj3.x*32-asx,obj3.y*32-6-asy))
+            sscreen.blit(obj3.get_img(self),(obj3.x*32-asx,obj3.y*32-obj3.off3d-asy))
         screen.blit(sscreen,(32,32))
         pygame.draw.rect(screen,(50,50,50),pygame.Rect(32,32,288,288),2)
         screen.blit(self.make_map(),(320,320))
@@ -242,6 +242,8 @@ class World(object):
         return self.get_obj(x, y)==None and not (self.get_ent(x,y) and self.get_ent(x,y).solid)
     def is_placeable(self,x,y,boat=False):
         """If there are no objects, solid entities or water at the location. If boat is True, there must be water at the location. Used for buying things"""
+        if not self.inworld(x,y):
+            return False
         if boat and not self.get_terr(x,y).iswasser:
             return False
         elif not boat and self.get_terr(x,y).iswasser:
@@ -277,3 +279,6 @@ class World(object):
                         pygame.draw.rect(mmap,omcol,pygame.Rect(x*2,y*2,2,2))
         pygame.draw.rect(mmap,(255,0,0),pygame.Rect(self.players[0].x*64//self.size[0]-1,self.players[0].y*64//self.size[1]-1,4,4))
         return mmap
+    def exists(self,obj):
+        """Has this object been destroyed?"""
+        return self.get_obj(obj.x, obj.y) is obj

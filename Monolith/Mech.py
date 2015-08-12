@@ -305,5 +305,21 @@ class Splitter(Object.OObject):
             self.buffer=ent
             return True
         return False
+class MultiBlock(Object.Object):
+    def __init__(self, x, y,exblock):
+        self.x = x
+        self.y = y
+        self.eo=exblock
+        self.hasio=self.eo.hasio
+        self.updatable=True
+        if self.hasio in ["output","both","2both","2output"]:
+            self.output=self.eo.output
+        if self.hasio in ["2both","2output"]:
+            self.output2=self.eo.output2
+    def input(self,ent):
+        return self.eo.input(ent)
+    def update(self,world):
+        if not world.exists(self.eo):
+            world.dest_obj(self.x,self.y)
                     
                 

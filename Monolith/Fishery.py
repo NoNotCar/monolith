@@ -8,6 +8,7 @@ import Entity
 import Object
 import Tools
 import Buyers
+import Mech
 from random import randint
 def imgref2(fil):
     return Img.imgret2("Fishery\\"+fil)
@@ -21,7 +22,6 @@ class FishingRod(Tools.Tool):
         if not randint(0,5) and w.get_terr(x,y).iswasser and not p.hand:
             p.hand=Fish(x,y)
 class Fisher(Object.OObject):
-    solid=True
     is3d=True
     img=imgref2("Shocker.png")
     hasio="output"
@@ -38,6 +38,28 @@ class Fisher(Object.OObject):
             if not self.output:
                 self.output.append(Fish(self.x,self.y))
             self.idle=randint(360,1000)
+class FishFarm(Object.OObject):
+    is3d=True
+    img=imgref2("FISHTANK.png")
+    hasio="both"
+    updatable=False
+    off3d=12
+    doc="When a fish is inputed into this machine, they multiply inside the water and a lot of fish are produced. IO: Both"
+    def __init__(self,x,y,owner):
+        Object.OObject.__init__(self,x,y,owner)
+        self.delay=randint(1000,2000)
+        self.output=[]
+    def update(self,world):
+        self.delay-=1
+        if self.delay==0:
+            self.output.extend([Fish(self.x,self.y) for x in range(randint(128,256))])
+            self.updatable=False
+            self.delay=randint(1000,2000)
+    def input(self,ent):
+        if ent.name=="Fish" and not self.updatable:
+            self.updatable=True
+            return True
+        return False
 class FloatBuyer(Buyers.ObjBuyer):
     def buy(self, world, tx, ty, p):
         if world.is_placeable(tx, ty,True):
@@ -45,10 +67,20 @@ class FloatBuyer(Buyers.ObjBuyer):
              p))
             return True
         return False
+class FFBuyer(Buyers.ObjBuyer):
+    def buy(self, world, tx, ty, p):
+        if all([world.is_placeable(tx, ty), world.is_placeable(tx+1, ty),world.is_placeable(tx, ty+1),world.is_placeable(tx+1, ty+1)]):
+            ff=FishFarm(tx, ty, p)
+            world.spawn_obj(ff)
+            world.spawn_obj(Mech.MultiBlock(tx+1, ty,ff))
+            world.spawn_obj(Mech.MultiBlock(tx, ty+1,ff))
+            world.spawn_obj(Mech.MultiBlock(tx+1, ty+1,ff))
+            return True
+        return False
 class FisheryTab(object):
     img=imgref2("Fish.png")
     iscat=True
     doc="Fishing apparatus"
     def __init__(self):
-        self.menu=[FloatBuyer(Fisher,1000)]
+        self.menu=[FloatBuyer(Fisher,1000),FFBuyer(FishFarm,500)]
             
