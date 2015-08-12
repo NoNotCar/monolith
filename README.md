@@ -14,3 +14,4 @@ A game made with pygame.
   * WASD - move 
   * Left Shift - pick up object/enter or exit vehicle
   * R - reset position (if stuck)
+  * (Optional) WASD+Shift - scroll through menus 
