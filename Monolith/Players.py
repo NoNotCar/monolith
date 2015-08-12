@@ -66,6 +66,7 @@ class KeyPlayer(Entity.Entity):
             self.tools.append(tool())
         self.pstorage=[]
         self.psuppliers=[]
+        self.mmovewait=0
     def update(self,world,events):
         self.psupply=0
         for psup in self.psuppliers[:]:
@@ -119,7 +120,17 @@ class KeyPlayer(Entity.Entity):
             if not self.moving:
                 hatpos=self.get_dirkeys()
                 if hatpos!=(0,0):
-                    self.move(*(hatpos+ (2, world,True)))
+                    if not pygame.key.get_mods() & pygame.KMOD_LSHIFT:
+                        self.move(*(hatpos+ (2, world,True)))
+                    elif self.mmovewait==0:
+                        self.tsel=(self.tsel+hatpos[1])%len(self.tools)
+                        if self.submenu is None:
+                            self.selected=(self.selected+hatpos[0])%len(self.menu)
+                        else:
+                            self.submenu=(self.submenu+hatpos[0])%len(self.menu[self.selected].menu)
+                        self.mmovewait=10
+                    else:
+                        self.mmovewait-=1
             mp=pygame.mouse.get_pos()
             mdx=mp[0]-176
             mdy=mp[1]-176
