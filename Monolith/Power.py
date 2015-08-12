@@ -16,13 +16,37 @@ class PowerSupply(Object.OObject):
     def get_power(self,world):
         return 0
 class SolarPanel(PowerSupply):
+    doc="Generates power from the sun. Produces 200W"
     is3d=True
     img=Img.imgret2("Electricity\\SolarPanel.png")
     def get_power(self,world):
         return 200
+class Generator1(PowerSupply):
+    doc="Generates power from burning fuel. Produces 1kW. IO: Input"
+    img=Img.imgret2("Electricity\\GeneratorMk1.png")
+    imgon=Img.imgret2("Electricity\\GeneratorMk1on.png")
+    hasio="input"
+    fuels={"Woodpile":60,"WoodpileSp":30}
+    def __init__(self, x, y, owner):
+        PowerSupply.__init__(self, x, y, owner)
+        self.fuel=0
+    def get_power(self,world):
+        if self.fuel:
+            self.fuel-=1
+            return 1000
+        return 0
+    def input(self,ent):
+        if self.fuels.has_key(ent.name):
+            self.fuel=self.fuels[ent.name]*60
+            return True
+        return False
+    def get_img(self,world):
+        if self.fuel:
+            return self.imgon
+        return self.img
 class PowerCategory(object):
     img=Img.imgret2("PowerIcon.png")
     iscat=True
     doc="Power Suppliers and Storage"
     def __init__(self):
-        self.menu=[Buyers.ObjBuyer(SolarPanel,1000)]
+        self.menu=[Buyers.ObjBuyer(SolarPanel,1000),Buyers.ObjBuyer(Generator1,200)]
