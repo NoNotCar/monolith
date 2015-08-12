@@ -197,7 +197,7 @@ class KeyPlayer(Player):
         self.hatrest=False
         self.disable=False
         self.submenu=None
-        self.menu=[Buyers.ObjBuyer(Object.Monolith,30000),Buyers.TerrBuyer(2,10),Buyers.VBuyer(Vehicles.FastCar,1000),Buyers.VBuyer(Vehicles.Boat,500),Buyers.BridgeBuyer()]
+        self.menu=[Buyers.ObjBuyer(Object.Monolith,30000),Buyers.TerrBuyer(2,10),Buyers.VBuyer(Vehicles.FastCar,1000)]
         for tab in tabclasses:
             self.menu.append(tab())
         self.tools=[Tools.Hammer(),Tools.Estop()]

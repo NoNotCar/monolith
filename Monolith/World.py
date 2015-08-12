@@ -91,8 +91,9 @@ class World(object):
         for x,row in e(self.terr):
             for y,tile in e(row):
                 screen.blit(terrlist[tile].image,(x*32+32,y*32+32))
-        for x,row in e(self.objs):
-            for y,obj in e(row):
+        for y in xrange(self.size[1]):
+            for x in xrange(self.size[0]):
+                obj = self.get_obj(x, y)
                 if obj:
                     if not obj.is3d:
                         screen.blit(obj.get_img(self),(x*32+32,y*32+32))
@@ -142,17 +143,18 @@ class World(object):
         sscreen.fill((100,100,100))
         for x,row in e(self.terr):
             for y,tile in e(row):
-                if abs(x-sx)<6 and abs(y-sy)<6:
+                if abs(x-sx)<7 and abs(y-sy)<7:
                     sscreen.blit(terrlist[tile].image,(x*32-asx,y*32-asy))
-        for x,row in e(self.objs):
-            for y,obj in e(row):
-                if obj and abs(x-sx)<6 and abs(y-sy)<6:
+        for y in xrange(self.size[1]):
+            for x in xrange(self.size[0]):
+                obj = self.get_obj(x, y)
+                if obj and abs(x-sx)<7 and abs(y-sy)<7:
                     if not obj.is3d:
                         sscreen.blit(obj.get_img(self),(x*32-asx,y*32-asy))
                     else:
                         is3ds.append(obj)
         for ent in [en for en in self.ents if not en.hidden]:
-            if abs(ent.x-sx)<6 and abs(ent.y-sy)<6:
+            if abs(ent.x-sx)<7 and abs(ent.y-sy)<7:
                 sscreen.blit(ent.get_img(),(ent.x*32-asx+int(round(ent.xoff)),ent.y*32-asy+int(round(ent.yoff))))
         for ent in self.players:
             if ent.submenu is None:

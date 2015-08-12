@@ -80,7 +80,7 @@ class Tree(Object.Object):
     name="Tree"
     woodpileclass=Woodpile
     doc="Plants a tree"
-    mcol=(127,51,0)
+    mcol=(0,127,0)
     def cut(self,world,drop=True):
         world.dest_obj(self.x,self.y)
         if drop:
