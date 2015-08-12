@@ -3,6 +3,7 @@ A game made with pygame.
 ##SCREENSHOTS
 ![Screenshot 1](/Assets/Screenshots/1.png)
 ![Screenshot 2](/Assets/Screenshots/2.png)
+![Screenshot 3](/Assets/Screenshots/3.png)
 ##CONTROLS (mouse and keyboard):
   * Left Mouse Button - use tool 
   * Right Mouse Button - buy object/go into category 
