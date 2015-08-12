@@ -61,6 +61,7 @@ class World(object):
             if np==2:
                 self.objs[0][24]=Object.SellPoint(0,24,self.ents[1])
         self.anitick=0
+        self.map=self.make_map()
     def update(self,events):
         """Update Everything"""
         for n in range(self.tran[0]):
@@ -71,7 +72,10 @@ class World(object):
         for ent in self.ents:
             ent.update(self,events)
             ent.mupdate(self,events)
-        self.anitick=(self.anitick+1)%56
+        self.anitick+=1
+        if self.anitick==56:
+            self.anitick=0
+            self.map=self.make_map()
         for row in self.objs:
             for obj in row:
                 if obj and obj.updatable:
@@ -151,7 +155,7 @@ class World(object):
             sscreen.blit(obj3.get_img(self),(obj3.x*32-asx,obj3.y*32-obj3.off3d-asy))
         screen.blit(sscreen,(32,32))
         pygame.draw.rect(screen,(50,50,50),pygame.Rect(32,32,288,288),2)
-        screen.blit(self.make_map(),(320,320))
+        screen.blit(self.map,(320,320))
     def get_obj(self,x,y):
         """Get object from coordinates. If the coordinates are not in the world, returns None"""
         if self.inworld(x,y):
