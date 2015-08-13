@@ -284,7 +284,7 @@ class Splitter(Object.OObject):
     name="Splitter"
     hasio="2both"
     updatable=False
-    doc="Splits items between its two output. IO: Both (2 outputs)"
+    doc="Splits items between its two outputs. IO: Both (2 outputs)"
     def __init__(self,x,y,owner):
         self.x=x
         self.y=y
@@ -302,6 +302,27 @@ class Splitter(Object.OObject):
             self.buffer=ent
             return True
         return False
+class PurpPri(Object.OObject):
+    is3d=True
+    img=Img.imgret2("PPBlock.png")
+    name="PurplePrioritizer"
+    hasio="2both"
+    updatable=False
+    doc="Will send items to its purple output if possible, otherwise the blue output. IO: Both (2 outputs)"
+    def __init__(self,x,y,owner):
+        self.x=x
+        self.y=y
+        self.owner=owner
+        self.output=[]
+        self.output2=[]
+    def input(self,ent):
+         if not self.output2:
+             self.output2.append(ent)
+             return True
+         elif not self.output:
+             self.output.append(ent)
+             return True
+         return False
 class MultiBlock(Object.Object):
     def __init__(self, x, y,exblock):
         self.x = x

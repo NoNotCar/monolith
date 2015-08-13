@@ -28,7 +28,7 @@ class MechCategory(object):
     def __init__(self):
         self.menu=[Buyers.RotObjBuyer(Mech.SlowConv,25),Buyers.RotObjBuyer(Mech.Conv,100),Buyers.RotObjBuyer(Mech.RainConv,1000),
                    Buyers.RotObjBuyer(Mech.Output,100),Buyers.RotObjBuyer(Mech.Output2,200),Buyers.ObjBuyer(Mech.Input,100),Buyers.RotObjBuyer(Mech.IOput,300),Buyers.ObjBuyer(Mech.Buffer5,500),
-                   Buyers.ObjBuyer(Mech.Splitter,500),Buyers.VBuyer(Vehicles.Lorry,1000),Buyers.ObjBuyer(Mech.VInput,50),Buyers.ObjBuyer(Object.SellPointBlock,10000)]
+                   Buyers.ObjBuyer(Mech.Splitter,500),Buyers.ObjBuyer(Mech.PurpPri,500),Buyers.VBuyer(Vehicles.Lorry,1000),Buyers.ObjBuyer(Mech.VInput,50),Buyers.ObjBuyer(Object.SellPointBlock,10000)]
 
 tabclasses=[MechCategory,Power.PowerCategory]
 toolclasses=[]
