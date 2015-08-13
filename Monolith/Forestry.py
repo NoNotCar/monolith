@@ -28,7 +28,7 @@ class AutoChopper(Object.OObject):
     img=Img.imgret2("AutoChopper.png")
     hasio="output"
     updatable=True
-    doc="Chops down trees in the 3x3 square around it and outputs the logs. IO: Output"
+    doc="Chops down trees in the 3x3 square around it and outputs the logs. Uses 0.1kJ per operation. IO: Output"
     def __init__(self,x,y,owner):
         Object.OObject.__init__(self,x,y,owner)
         self.idle=60
@@ -37,7 +37,7 @@ class AutoChopper(Object.OObject):
         if self.idle==0:
             for x in range(self.x-1,self.x+2):
                 for y in range(self.y-1,self.y+2):
-                    if world.get_obj(x,y) and world.get_objname(x,y)[:4]=="Tree" and not self.output:
+                    if world.get_obj(x,y) and world.get_objname(x,y)[:4]=="Tree" and not self.output and self.owner.get_power(6000):
                         self.output.append(world.get_obj(x,y).cut(world,False))
                         break
             self.idle=60
@@ -45,12 +45,12 @@ class AutoChopper(Object.OObject):
             self.idle-=1
 class AutoChopperPlus(AutoChopper):
     img=Img.imgret2("AutoChopperPlus.png")
-    doc="Chops down trees in the 5x5 square around it and outputs the logs. IO: Output"
+    doc="Chops down trees in the 5x5 square around it and outputs the logs. Uses 0.1kJ per operation. IO: Output"
     def update(self,world):
         if self.idle==0:
             for x in range(self.x-2,self.x+3):
                 for y in range(self.y-2,self.y+3):
-                    if not (x in range(self.x-1,self.x+2) and y in range(self.y-1,self.y+2)) and world.get_obj(x,y) and world.get_objname(x,y)[:4]=="Tree" and not self.output:
+                    if not (x in range(self.x-1,self.x+2) and y in range(self.y-1,self.y+2)) and world.get_obj(x,y) and world.get_objname(x,y)[:4]=="Tree" and not self.output and self.owner.get_power(6000):
                         self.output.append(world.get_obj(x,y).cut(world,False))
                         break
             self.idle=60

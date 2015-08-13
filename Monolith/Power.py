@@ -60,6 +60,7 @@ class Battery(PowerStorer):
     doc="Stores electrical power. This model can store 60kJ"
     img=Img.imgret2("Electricity\\Battery.png")
     maxS=3600000
+    is3d=True
 class SolarPanel(PowerSupply):
     doc="Generates power from the sun. Produces 200W"
     is3d=True
