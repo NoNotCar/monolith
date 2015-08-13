@@ -24,6 +24,14 @@ class Entity(object):
     def update(self,world,events):
         pass
     def mupdate(self,world,events):
+        if self.xoff>0:
+            self.xoff-=self.speed
+        elif self.xoff<0:
+            self.xoff+=self.speed
+        if self.yoff>0:
+            self.yoff-=self.speed
+        elif self.yoff<0:
+            self.yoff+=self.speed
         if abs(self.xoff)<self.speed and abs(self.yoff)<self.speed and self.moving:
             self.xoff=0
             self.yoff=0
@@ -41,15 +49,6 @@ class Entity(object):
                 else:
                     self.pathfollowing=False
                     self.path=None
-        else:
-            if self.xoff>0:
-                self.xoff-=self.speed
-            elif self.xoff<0:
-                self.xoff+=self.speed
-            if self.yoff>0:
-                self.yoff-=self.speed
-            elif self.yoff<0:
-                self.yoff+=self.speed
     def pathfind(self,end,world):
         if end==(self.x,self.y):
             return True
