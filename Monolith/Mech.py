@@ -339,4 +339,69 @@ class MultiBlock(Object.Object):
     def update(self,world):
         if not world.exists(self.eo):
             world.dest_obj(self.x,self.y)
-                
+class DownTunnel(Object.OObject):
+    is3d=True
+    off3d=16
+    hasio="input"
+    imgs=[Img.imgret2("Tunnel\\TunDown"+s+".png") for s in ["L","D","R","U"]]
+    maxlength=5
+    def __init__(self,x,y,dire,owner):
+        self.x=x
+        self.y=y
+        self.owner=owner
+        self.dir=dire
+        self.buffer=None
+    def get_img(self,world):
+        return self.imgs[self.dir]
+    def input(self,ent):
+        if not self.buffer:
+            self.buffer=ent
+            self.updatable=True
+            return True
+        return False
+    def update(self,world):
+        if self.buffer:
+            tx,ty=self.x,self.y
+            for stretch in range(self.maxlength):
+                tx+=dirconv[self.dir][0]
+                ty+=dirconv[self.dir][1]
+                if world.get_objname(tx,ty)=="UpTunnel":
+                    if world.get_obj(tx,ty).addent(self,self.buffer,stretch):
+                        self.buffer=None
+                        self.updatable=False
+                    break
+class UpTunnel(Object.OObject):
+    is3d=True
+    off3d=16
+    hasio="output"
+    imgs=[Img.imgret2("Tunnel\\TunUp"+s+".png") for s in ["L","D","R","U"]]
+    speed=16
+    updatable=True
+    name="UpTunnel"
+    def __init__(self,x,y,dire,owner):
+        self.x=x
+        self.y=y
+        self.owner=owner
+        self.dir=dire
+        self.tunnel=[]
+        self.output=[]
+        self.wait=self.speed
+    def get_img(self,world):
+        return self.imgs[self.dir]
+    def update(self,world):
+        if self.wait:
+            self.wait-=1
+        else:
+            self.wait=self.speed
+            for pair in self.tunnel[:]:
+                if not pair[0] and not self.output:
+                    self.output=[pair[1]]
+                    self.tunnel.remove(pair)
+                elif pair[0]:
+                    if not len([x for x in self.tunnel if x[0]==pair[0]-1]):
+                        pair[0]-=1
+    def addent(self,tun,ent,stretch):
+        if self.dir != tun.dir or len([x for x in self.tunnel if x[0]==stretch]):
+            return False
+        self.tunnel.append([stretch,ent])
+        return True
