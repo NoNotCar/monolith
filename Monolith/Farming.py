@@ -28,7 +28,9 @@ class Crop(Object.OObject):
         if not random.randint(0,2000) and self.growth<4:
             self.growth+=1
 class Wheat(Crop):
-    imgs=[Img.imgret2("Farming\\Wheat%s.png" % (n+1)) for n in range(5)]
+    imgs=[Img.imgret32("Farming\\Wheat%s.png" % (n+1)) for n in range(5)]
+    is3d=True
+    off3d=10
 class CropBuyer(Buyers.ObjBuyer):
     def buy(self, world, tx, ty, p):
         if world.is_placeable(tx, ty) and world.get_tid(tx,ty)==10:
