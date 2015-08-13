@@ -19,7 +19,7 @@ picon=imgret2("PowerIcon.png")
 border2=pygame.transform.rotate(border,90)
 ranconv={32:(1,7),64:(1,1),128:(4,1)}
 def cmenu(menu,select):
-    return [menu[(select-1)%len(menu)],menu[select],menu[(select+1)%len(menu)]]
+    return [menu[(select+n)%len(menu)] for n in range(-3,4)]
 class World(object):
     def __init__(self,np,wgen,puz,pn,ps,kp,size=(32,25)):
         if puz:
@@ -122,14 +122,14 @@ class World(object):
                 screen.blit(buyer.img,(32*(n+1)+16,0))
             else:
                 screen.blit(buyer.get_img(self),(32*(n+1)+16,0))
-        if len(smenu[1].doc)>55:
-            for n,char in enumerate(smenu[1].doc):
+        if len(smenu[3].doc)>55:
+            for n,char in enumerate(smenu[3].doc):
                 if char==" " and n>55:
-                    screen.blit(Img.sfont.render(smenu[1].doc[:n],True,(255,255,255)),(0,325))
-                    screen.blit(Img.sfont.render(smenu[1].doc[n+1:],True,(255,255,255)),(0,335))
+                    screen.blit(Img.sfont.render(smenu[3].doc[:n],True,(255,255,255)),(0,325))
+                    screen.blit(Img.sfont.render(smenu[3].doc[n+1:],True,(255,255,255)),(0,335))
                     break
         else:
-            screen.blit(Img.sfont.render(smenu[1].doc,True,(255,255,255)),(0,330))
+            screen.blit(Img.sfont.render(smenu[3].doc,True,(255,255,255)),(0,330))
         screen.blit(border,(32,0))
         for n,tool in e(stools):
             screen.blit(tool.img,(0,32*(n+1)+16))
@@ -140,11 +140,11 @@ class World(object):
             selitem=ply.menu[ply.selected].menu[ply.submenu]
         if not selitem.iscat:
             if selitem.cost%1000==0:
-                screen.blit(Img.sfont.render("\xa3"+str(selitem.cost//1000)+"k",True, (0,0,0)),(80,23))
+                screen.blit(Img.sfont.render("\xa3"+str(selitem.cost//1000)+"k",True, (0,0,0)),(144,23))
             else:
-                screen.blit(Img.sfont.render("\xa3"+str(selitem.cost),True, (0,0,0)),(80,23))
+                screen.blit(Img.sfont.render("\xa3"+str(selitem.cost),True, (0,0,0)),(144,23))
         screen.blit(selimage,(0,0+832*ply.num))
-        screen.blit(Img.dfont.render("\xa3"+str(ply.money),True, (255,255,255)),(160,0))
+        screen.blit(Img.dfont.render("\xa3"+str(ply.money),True, (255,255,255)),(288,0))
         if ply.hand:
             screen.blit(ply.hand.get_img(),(0,0))
         screen.blit(picon,(0,352))
