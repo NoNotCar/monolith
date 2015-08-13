@@ -3,7 +3,6 @@ A game made with pygame.
 ##SCREENSHOTS
 ![Screenshot 1](/Assets/Screenshots/1.png)
 ![Screenshot 2](/Assets/Screenshots/2.png)
-![Screenshot 3](/Assets/Screenshots/3.png)
 ##CONTROLS (mouse and keyboard required):
   * Left Mouse Button - use tool 
   * Right Mouse Button - buy object/go into category 
@@ -14,4 +13,8 @@ A game made with pygame.
   * WASD - move 
   * Left Shift - pick up object/enter or exit vehicle
   * R - reset position (if stuck)
-  * (Optional) WASD+Shift - scroll through menus 
+  * (Optional) WASD+Shift - scroll through menus  
+
+##BONUS SCREENSHOTS  
+![Screenshot 3](/Assets/Screenshots/3.png)
+![Screenshot 4](/Assets/Screenshots/4.png)
