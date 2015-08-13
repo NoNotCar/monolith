@@ -122,9 +122,9 @@ class World(object):
                 screen.blit(buyer.img,(32*(n+1)+16,0))
             else:
                 screen.blit(buyer.get_img(self),(32*(n+1)+16,0))
-        if len(smenu[1].doc)>60:
+        if len(smenu[1].doc)>55:
             for n,char in enumerate(smenu[1].doc):
-                if char==" " and n>60:
+                if char==" " and n>55:
                     screen.blit(Img.sfont.render(smenu[1].doc[:n],True,(255,255,255)),(0,325))
                     screen.blit(Img.sfont.render(smenu[1].doc[n+1:],True,(255,255,255)),(0,335))
                     break

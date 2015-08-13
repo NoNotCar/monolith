@@ -47,7 +47,6 @@ class Conv(Object.OObject):
     def get_img(self,world):
         if self.owner is not None and self.owner.estop:
             return self.images[self.dir*14]
-            print "STOPPED"
         return self.images[world.anitick%14+self.dir*14]
     def update(self,world):
         if not self.owner.estop and self.ent.move(dirconv[self.dir][0],dirconv[self.dir][1],self.speed,world):
@@ -65,7 +64,6 @@ class SlowConv(Conv):
     def get_img(self,world):
         if self.owner is not None and self.owner.estop:
             return self.images[self.dir*14]
-            print "STOPPED"
         return self.images[world.anitick//4%14+self.dir*14]
 class RainConv(Conv):
     name="FastConveyor"
@@ -76,7 +74,6 @@ class RainConv(Conv):
     def get_img(self,world):
         if self.owner is not None and self.owner.estop:
             return self.images[self.dir*14]
-            print "STOPPED"
         return self.images[(world.anitick*2)%14+self.dir*14]
 class Output(Object.OObject):
     name="Output"

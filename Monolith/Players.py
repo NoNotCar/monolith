@@ -67,7 +67,7 @@ class KeyPlayer(Entity.Entity):
         self.pstorage=[]
         self.psuppliers=[]
         self.mmovewait=0
-    def update(self,world,events):
+    def pupdate(self,world):
         self.psupply=0
         for psup in self.psuppliers[:]:
             if world.exists(psup):
@@ -77,6 +77,8 @@ class KeyPlayer(Entity.Entity):
         #Garbage collection
         for psto in [pst for pst in self.pstorage if not world.exists(pst)]:
             self.pstorage.remove(psto)
+    def update(self,world,events):
+        self.pupdate(world)
         if not self.disable:
             for e in events:
                 if e.type==pygame.MOUSEBUTTONDOWN:
@@ -141,6 +143,7 @@ class KeyPlayer(Entity.Entity):
         else:
             self.disable=False
     def vupdate(self,world,events,v):
+        self.pupdate(world)
         for e in events:
             if e.type==pygame.KEYDOWN:
                 if e.key==pygame.K_LSHIFT:

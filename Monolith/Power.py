@@ -6,6 +6,8 @@ POWER TO TEH PEOPLES
 import Object
 import Img
 import Buyers
+import Mech
+import pygame
 class PowerSupply(Object.OObject):
     def __init__(self, x, y, owner):
         self.x = x
@@ -32,6 +34,28 @@ class PowerStorer(Object.OObject):
             asto=self.maxS-self.stored
             self.stored=self.maxS
             return asto
+class PushPlate(Mech.Conv):
+    doc="Uses electromagnetic force to move items much faster than a conveyor belt could. Requires 200W"
+    speed=8
+    hasp=False
+    imgoff=Img.imgret2("Electricity\\PushPlateOff.png")
+    imgon=Img.imgret2("Electricity\\PushPlate.png")
+    imgsoff=[pygame.transform.rotate(imgoff,n*90) for n in range(4)]
+    imgson=[pygame.transform.rotate(imgon,n*90) for n in range(4)]
+    updatable=True
+    def get_img(self,world):
+        if self.owner is not None and not self.hasp and not self.owner.estop:
+            return self.imgsoff[self.dir]
+        else:
+            return self.imgson[self.dir]
+    def update(self,world):
+        if not self.owner.estop:
+            self.hasp=self.owner.get_power(200)
+            if self.hasp and self.ent and self.ent.move(Mech.dirconv[self.dir][0],Mech.dirconv[self.dir][1],self.speed,world):
+                self.ent=None
+    def drop(self,world,ent):
+        if world.inworld(ent.x+Mech.dirconv[self.dir][0],ent.y+Mech.dirconv[self.dir][1]):
+            self.ent=ent
 class Battery(PowerStorer):
     doc="Stores electrical power. This model can store 60kJ"
     img=Img.imgret2("Electricity\\Battery.png")
@@ -57,7 +81,7 @@ class Generator1(PowerSupply):
             return 1000
         return 0
     def input(self,ent):
-        if self.fuels.has_key(ent.name):
+        if self.fuels.has_key(ent.name) and not self.fuel:
             self.fuel=self.fuels[ent.name]*60
             return True
         return False
@@ -70,4 +94,4 @@ class PowerCategory(object):
     iscat=True
     doc="Power Suppliers and Storage"
     def __init__(self):
-        self.menu=[Buyers.ObjBuyer(SolarPanel,1000),Buyers.ObjBuyer(Generator1,200),Buyers.ObjBuyer(Battery,1000)]
+        self.menu=[Buyers.ObjBuyer(SolarPanel,1000),Buyers.ObjBuyer(Generator1,200),Buyers.ObjBuyer(Battery,1000),Buyers.RotObjBuyer(PushPlate,200)]

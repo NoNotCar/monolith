@@ -54,6 +54,7 @@ class Lorry(Vehicle):
     def update(self,world,events):
         self.vspeed=5+len(self.output)
         if self.hasp:
+            self.p.x,self.p.xoff,self.p.y,self.p.yoff=self.x,self.xoff,self.y,self.yoff
             self.p.vupdate(world,events,self)
     def movev(self, direction, world):
         if not self.moving:
