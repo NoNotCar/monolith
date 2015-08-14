@@ -9,10 +9,10 @@ import pygame
 convimgs=[]
 slowconvimgs=[]
 rainconvimgs=[]
-baseimg=Img.imgret("Conv\\ConvBase.png")
-sbaseimg=Img.imgret("Conv\\ConvBaseSlow.png")
-rbaseimg=Img.imgret("Conv\\ConvBaseRain.png")
-plusimg=Img.imgret("Conv\\ConvPlus.png")
+baseimg=Img.imgret("Conv/ConvBase.png")
+sbaseimg=Img.imgret("Conv/ConvBaseSlow.png")
+rbaseimg=Img.imgret("Conv/ConvBaseRain.png")
+plusimg=Img.imgret("Conv/ConvPlus.png")
 dirconv=[[-1,0],[0,1],[1,0],[0,-1]]
 odirconv=[[0,-1],[-1,0],[0,1],[1,0]]
 idirconv=[[0,1],[1,0],[0,-1],[-1,0]]
@@ -343,7 +343,7 @@ class DownTunnel(Object.OObject):
     is3d=True
     off3d=16
     hasio="input"
-    imgs=[Img.imgret2("Tunnel\\TunDown"+s+".png") for s in ["L","D","R","U"]]
+    imgs=[Img.imgret2("Tunnel/TunDown"+s+".png") for s in ["L","D","R","U"]]
     maxlength=5
     doc="Will send items to an upward tunnel no more than 5 tiles away. IO: Input"
     def __init__(self,x,y,dire,owner):
@@ -372,14 +372,14 @@ class DownTunnel(Object.OObject):
                         self.updatable=False
                     break
 class DownTunnelL(DownTunnel):
-    imgs=[Img.imgret2("Tunnel\\TunDownL"+s+".png") for s in ["L","D","R","U"]]
+    imgs=[Img.imgret2("Tunnel/TunDownL"+s+".png") for s in ["L","D","R","U"]]
     doc="Long distance tunnel: Will send items to an upward tunnel no more than 15 tiles away. IO: Input"
     maxlength=15
 class UpTunnel(Object.OObject):
     is3d=True
     off3d=16
     hasio="output"
-    imgs=[Img.imgret2("Tunnel\\TunUp"+s+".png") for s in ["L","D","R","U"]]
+    imgs=[Img.imgret2("Tunnel/TunUp"+s+".png") for s in ["L","D","R","U"]]
     speed=16
     updatable=True
     name="UpTunnel"

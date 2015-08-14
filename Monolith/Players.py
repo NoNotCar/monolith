@@ -14,7 +14,7 @@ import Vehicles
 import Img
 import Power
 pygame.init()
-loc = os.path.dirname(os.getcwd())+"\Assets\\"
+loc = os.path.dirname(os.getcwd())+"/Assets/"
 imgconv = "u", "l", "", "r"
 colinpl = (255, 0, 0), (0, 255, 0), (0, 0, 255), (0, 255, 255), (255, 0, 255), (255, 255, 0), (0, 0, 0), (255, 255, 255)
 hdirconv={(0,-1):0,(-1,0):1,(0,1):2,(1,0):3}

@@ -49,7 +49,7 @@ class RGBSetter(Object.OObject):
 class RGBSpect(Object.OObject):
     hasio="input"
     is3d=True
-    img=Img.imgret2("RGB\\RGBSpect.png")
+    img=Img.imgret2("RGB/RGBSpect.png")
     doc="Displays the colour values of items on its screen, destroying the items. IO: Input"
     def __init__(self,x,y,p,startrgb=(0,0,0)):
         self.x=x
@@ -70,21 +70,21 @@ class RGBSpect(Object.OObject):
         img.blit(screen,(0,0))
         return img
 class RGBSred(RGBSetter):
-    img=Img.imgret2("RGB\\RLoad.png")
+    img=Img.imgret2("RGB/RLoad.png")
     rgbx=(1,0,0)
     doc="Sets the red value of tiles to 255. IO: Both"
 class RGBSgreen(RGBSetter):
-    img=Img.imgret2("RGB\\GLoad.png")
+    img=Img.imgret2("RGB/GLoad.png")
     rgbx=(0,1,0)
     doc="Sets the green value of tiles to 255. IO: Both"
 class RGBSblue(RGBSetter):
-    img=Img.imgret2("RGB\\BLoad.png")
+    img=Img.imgret2("RGB/BLoad.png")
     rgbx=(0,0,1)
     doc="Sets the blue value of tiles to 255. IO: Both"
 class RGBMixer(Object.OObject):
     hasio="both"
     is3d=True
-    img=Img.imgret2("RGB\\Mixer.png")
+    img=Img.imgret2("RGB/Mixer.png")
     doc="Takes in two tiles and produces one tile with the average of their colours. IO: Both (2 Inputs recommended)"
     def __init__(self,x,y,p):
         self.x=x
@@ -110,7 +110,7 @@ class RGBMixer(Object.OObject):
 class RGBBuyer(Object.OObject):
     solid=False
     playerenter=False
-    img=Img.imgret2("RGB\\RGBBUY.png")
+    img=Img.imgret2("RGB/RGBBUY.png")
     name="RGBBUY"
     is3d=True
     hasio="input"
@@ -129,7 +129,7 @@ class RGBBuyer(Object.OObject):
 class RGBGoal(Object.Object):
     solid=False
     playerenter=False
-    img=Img.imgret2("RGB\\RGBBUY.png")
+    img=Img.imgret2("RGB/RGBBUY.png")
     name="RGBBUY"
     is3d=True
     hasio="input"
@@ -154,13 +154,13 @@ class RGBGoal(Object.Object):
         if self.ileft<1:
             world.complete=True
 class RGBCategory(object):
-    img=Img.imgret2("RGB\\RGBTab.png")
+    img=Img.imgret2("RGB/RGBTab.png")
     iscat=True
     doc="RGB stuff"
     def __init__(self):
         self.menu=[Buyers.ObjBuyer(RGBSred,500),Buyers.ObjBuyer(RGBSgreen,500),Buyers.ObjBuyer(RGBSblue,500),Buyers.ObjBuyer(RGBMixer,500),Buyers.ObjBuyer(RGBBuyer,500),Buyers.ObjBuyer(RGBSpect,1000)]
 class RGBCategoryPuzz(object):
-    img=Img.imgret2("RGB\\RGBTab.png")
+    img=Img.imgret2("RGB/RGBTab.png")
     iscat=True
     doc="RGB stuff"
     def __init__(self):

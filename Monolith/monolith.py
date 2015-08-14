@@ -18,7 +18,7 @@ pset=0
 puzzles=0
 pnum=0
 c=pygame.time.Clock()
-Img.musply("Planets\\1. Mars.ogg")
+Img.musply("Planets/1. Mars.ogg")
 nland=Img.imgret("NiceLand.png")
 rgb=[200,255,255]
 tick=0

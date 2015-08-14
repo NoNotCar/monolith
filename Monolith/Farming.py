@@ -11,7 +11,7 @@ import Buyers
 import Entity
 randint=random.randint
 class Hoe(Tools.Tool):
-    img=Img.imgret2("Farming\\Hoe.png")
+    img=Img.imgret2("Farming/Hoe.png")
     def use(self, x, y, world, p):
         if world.get_tid(x,y)==0 and not world.get_obj(x,y):
             world.set_terr(x,y,10)
@@ -43,19 +43,19 @@ class Crop(Object.OObject):
             return self.cropitem(self.x,self.y)
 class WheatItem(Entity.ResourceB):
     value=5
-    img=Img.imgret2("Farming\\Wheat.png")
+    img=Img.imgret2("Farming/Wheat.png")
     name="Wheat"
     doc="Wheat: Not a valuable crop on its own, but can be baked into bread in an oven."
 class BreadItem(Entity.ResourceB):
     value=20
-    img=Img.imgret2("Farming\\Bread.png")
+    img=Img.imgret2("Farming/Bread.png")
     name="Bread"
 class BBreadItem(Entity.ResourceB):
     value=-20
-    img=Img.imgret2("Farming\\BurntBread.png")
+    img=Img.imgret2("Farming/BurntBread.png")
     name="Burnt Bread"
 class Wheat(Crop):
-    imgs=[Img.imgret2b("Farming\\Wheat%s.png" % (n+1)) for n in range(5)]
+    imgs=[Img.imgret2b("Farming/Wheat%s.png" % (n+1)) for n in range(5)]
     is3d=True
     off3d=10
     cropitem=WheatItem
@@ -66,7 +66,7 @@ class Oven(Object.OObject):
     off3d=8
     heat=20
     updatable=True
-    imgs=[Img.imgret2("Farming\\Oven%s.png" % str(n)) for n in range(1,4)]
+    imgs=[Img.imgret2("Farming/Oven%s.png" % str(n)) for n in range(1,4)]
     def __init__(self,x,y,owner):
         Object.OObject.__init__(self,x,y,owner)
         self.inv=[]
@@ -99,7 +99,7 @@ class CropBuyer(Buyers.ObjBuyer):
         return False
 class AutoPicker(Object.OObject):
     is3d=True
-    img=Img.imgret2("Farming\\AutoFarm.png")
+    img=Img.imgret2("Farming/AutoFarm.png")
     hasio="output"
     updatable=True
     doc="Harvests Plants in the 3x3 square around it and outputs the crops. Uses 500W. IO: Output"
@@ -121,7 +121,7 @@ class AutoPicker(Object.OObject):
         else:
             self.idle-=1
 class FarmCat(object):
-    img=Img.imgret2("Farming\\Hoe.png")
+    img=Img.imgret2("Farming/Hoe.png")
     iscat=True
     doc="Farming Essentials"
     def __init__(self):

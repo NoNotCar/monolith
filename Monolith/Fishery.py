@@ -13,7 +13,7 @@ import Vehicles
 import pygame
 from random import randint
 def imgref2(fil):
-    return Img.imgret2("Fishery\\"+fil)
+    return Img.imgret2("Fishery/"+fil)
 class Fish(Entity.ResourceB):
     img=imgref2("Fish.png")
     value=20

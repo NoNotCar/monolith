@@ -38,8 +38,8 @@ class PushPlate(Mech.Conv):
     doc="Uses electromagnetic force to move items much faster than a conveyor belt could. Requires 200W"
     speed=8
     hasp=False
-    imgoff=Img.imgret2("Electricity\\PushPlateOff.png")
-    imgon=Img.imgret2("Electricity\\PushPlate.png")
+    imgoff=Img.imgret2("Electricity/PushPlateOff.png")
+    imgon=Img.imgret2("Electricity/PushPlate.png")
     imgsoff=[pygame.transform.rotate(imgoff,n*90) for n in range(4)]
     imgson=[pygame.transform.rotate(imgon,n*90) for n in range(4)]
     updatable=True
@@ -58,19 +58,19 @@ class PushPlate(Mech.Conv):
             self.ent=ent
 class Battery(PowerStorer):
     doc="Stores electrical power. This model can store 60kJ"
-    img=Img.imgret2("Electricity\\Battery.png")
+    img=Img.imgret2("Electricity/Battery.png")
     maxS=3600000
     is3d=True
 class SolarPanel(PowerSupply):
     doc="Generates power from the sun. Produces 200W"
     is3d=True
-    img=Img.imgret2("Electricity\\SolarPanel.png")
+    img=Img.imgret2("Electricity/SolarPanel.png")
     def get_power(self,world):
         return 200
 class Generator1(PowerSupply):
     doc="Generates power from burning fuel. Produces 1kW. IO: Input"
-    img=Img.imgret2("Electricity\\GeneratorMk1.png")
-    imgon=Img.imgret2("Electricity\\GeneratorMk1on.png")
+    img=Img.imgret2("Electricity/GeneratorMk1.png")
+    imgon=Img.imgret2("Electricity/GeneratorMk1on.png")
     hasio="input"
     fuels={"Woodpile":60,"WoodpileSp":30}
     def __init__(self, x, y, owner):
@@ -94,8 +94,8 @@ class PowerOutput(Mech.Output):
     name="PowerOutput"
     imgb=Img.imgret("OutputBottom.png")
     imgbo=Img.imgret("OutputBottomOpen.png")
-    imgton=Img.imgret("Electricity\\OutputTopOn.png")
-    imgtoff=Img.imgret("Electricity\\OutputTopOff.png")
+    imgton=Img.imgret("Electricity/OutputTopOn.png")
+    imgtoff=Img.imgret("Electricity/OutputTopOff.png")
     doc="Uses electromagnetic force to move items much faster than a standard output could. Requires 500W"
     hasp=False
     def get_img(self,world):

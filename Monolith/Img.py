@@ -8,7 +8,7 @@ import os
 pygame.init()
 pygame.mixer.init()
 np=os.path.normpath
-loc = os.path.dirname(os.getcwd())+"\\Assets\\"
+loc = os.path.dirname(os.getcwd())+"/Assets/"
 def imgret2(fil):
     return pygame.transform.scale2x(pygame.image.load(np(loc + fil)).convert_alpha())
 def imgret2b(fil):
@@ -25,7 +25,7 @@ def imgretsrect(fil,x,y):
 def imgtransrect(fil,x,y):
     return pygame.transform.scale(fil, (x, y))
 def sndget(fil):
-    return pygame.mixer.Sound(np(loc+"Sounds\\" + fil))
+    return pygame.mixer.Sound(np(loc+"Sounds/" + fil))
 def imgret(img):
     return pygame.image.load(np(loc+img)).convert_alpha()
 def rot_center(image, angle):
@@ -37,7 +37,7 @@ def rot_center(image, angle):
     rot_image = rot_image.subsurface(rot_rect).copy()
     return rot_image
 def musply(mus,loops=-1):
-    pygame.mixer.music.load(np(loc+"Music\\"+mus))
+    pygame.mixer.music.load(np(loc+"Music/"+mus))
     pygame.mixer.music.play(loops)
 def Fsize(size):
     return pygame.font.Font(pygame.font.get_default_font(), size)
