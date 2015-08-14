@@ -9,6 +9,7 @@ import Object
 import random
 import Buyers
 import Entity
+randint=random.randint
 class Hoe(Tools.Tool):
     img=Img.imgret2("Farming\\Hoe.png")
     def use(self, x, y, world, p):
@@ -19,18 +20,23 @@ class Crop(Object.OObject):
     doc="A good crop for growing"
     updatable=True
     cropitem=None
+    gm=1
     def __init__(self, x, y, owner):
         self.x = x
         self.y = y
         self.owner = owner
         self.growth=0
+        self.tngrow=randint(1800*self.gm,3600*self.gm)
     def get_img(self,world):
         if self.owner:
             return self.imgs[self.growth]
         return self.cropitem.img
     def update(self,world):
-        if not random.randint(0,2000) and self.growth<4:
+        if self.tngrow==0 and self.growth<4:
             self.growth+=1
+            self.tngrow=randint(1800*self.gm,3600*self.gm)
+        elif self.tngrow>0:
+            self.tngrow-=1
     def pick(self,world):
         if self.growth==4:
             self.growth=0
@@ -39,6 +45,7 @@ class WheatItem(Entity.ResourceB):
     value=5
     img=Img.imgret2("Farming\\Wheat.png")
     name="Wheat"
+    doc="Wheat: Not a valuable crop on its own, but can be baked into bread in an oven."
 class BreadItem(Entity.ResourceB):
     value=20
     img=Img.imgret2("Farming\\Bread.png")
@@ -90,9 +97,32 @@ class CropBuyer(Buyers.ObjBuyer):
             world.spawn_obj(self.objclass(tx, ty, p))
             return True
         return False
+class AutoPicker(Object.OObject):
+    is3d=True
+    img=Img.imgret2("Farming\\AutoFarm.png")
+    hasio="output"
+    updatable=True
+    doc="Harvests Plants in the 3x3 square around it and outputs the crops. Uses 500W. IO: Output"
+    def __init__(self,x,y,owner):
+        Object.OObject.__init__(self,x,y,owner)
+        self.idle=60
+        self.output=[]
+    def update(self,world):
+        hasp=self.owner.get_power(500)
+        if self.idle==0:
+            for x in range(self.x-1,self.x+2):
+                for y in range(self.y-1,self.y+2):
+                    if world.get_obj(x,y) and not self.output and hasp:
+                        ent=world.get_obj(x,y).pick(world)
+                        if ent:
+                            self.output.append(ent)
+                            break
+            self.idle=60
+        else:
+            self.idle-=1
 class FarmCat(object):
     img=Img.imgret2("Farming\\Hoe.png")
     iscat=True
     doc="Farming Essentials"
     def __init__(self):
-        self.menu=[CropBuyer(Wheat,10),Buyers.ObjBuyer(Oven,200)]
+        self.menu=[CropBuyer(Wheat,10),Buyers.ObjBuyer(Oven,200),Buyers.ObjBuyer(AutoPicker,1000)]

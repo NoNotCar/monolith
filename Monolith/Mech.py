@@ -371,6 +371,10 @@ class DownTunnel(Object.OObject):
                         self.buffer=None
                         self.updatable=False
                     break
+class DownTunnelL(DownTunnel):
+    imgs=[Img.imgret2("Tunnel\\TunDownL"+s+".png") for s in ["L","D","R","U"]]
+    doc="Long distance tunnel: Will send items to an upward tunnel no more than 15 tiles away. IO: Input"
+    maxlength=15
 class UpTunnel(Object.OObject):
     is3d=True
     off3d=16

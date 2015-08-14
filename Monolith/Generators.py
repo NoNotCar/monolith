@@ -33,8 +33,8 @@ class Generator:
         pass
 class Original(Generator):
     musics=stdmix
-    extabs=[Forestry.FTab]
-    extools=[Tools.Axe]
+    extabs=[Forestry.FTab,Farming.FarmCat]
+    extools=[Tools.Axe,Farming.Hoe]
     def generate(self,world):
         self.lake=randint(10,world.size[0]-10),randint(10,world.size[1]-10)
         for x in range(len(world.terr)):
