@@ -51,7 +51,7 @@ class KeyPlayer(Entity.Entity):
         if bm!="Inf":
             self.money=bm
         else:
-            self.money="INFINITE"
+            self.money="INF"
             self.godmode=True
         self.selected=0
         self.tsel=0
@@ -187,10 +187,15 @@ class KeyPlayer(Entity.Entity):
             if world.get_ent(tx,ty) and world.get_ent(tx,ty).name=="Vehicle" and world.get_ent(tx,ty).p==self:
                 world.ents.remove(self)
                 world.get_ent(tx,ty).hasp=True
-            elif not self.hand and world.get_ent(tx,ty) and world.get_ent(tx,ty).pickup:
-                self.hand=world.get_ent(tx,ty)
-                world.ents.remove(self.hand)
-                picksound.play()
+            elif not self.hand:
+                if world.get_ent(tx,ty) and world.get_ent(tx,ty).pickup:
+                    self.hand=world.get_ent(tx,ty)
+                    world.ents.remove(self.hand)
+                    picksound.play()
+                elif world.get_obj(tx,ty):
+                    self.hand=world.get_obj(tx,ty).pick(world)
+                    if self.hand:
+                        picksound.play()
             elif self.hand and world.is_clear(tx,ty):
                 world.ents.append(self.hand)
                 self.hand.place(tx,ty)

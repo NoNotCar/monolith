@@ -10,6 +10,9 @@ pygame.mixer.init()
 loc = os.path.dirname(os.getcwd())+"\Assets\\"
 def imgret2(fil):
     return pygame.transform.scale2x(pygame.image.load(loc + fil).convert_alpha())
+def imgret2b(fil):
+    img=pygame.image.load(loc + fil).convert_alpha()
+    return pygame.transform.scale(img,(img.get_width()*2,img.get_height()*2))
 def imgret32(fil):
     return pygame.transform.scale(pygame.image.load(loc + fil).convert_alpha(),(32,32))
 def imgret32x16(fil):

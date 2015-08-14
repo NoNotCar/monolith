@@ -29,6 +29,7 @@ srect=pygame.Rect(0,0,0,0)
 grects=[]
 wsizemod=0
 wsrects=[]
+godmode=False
 while cont:
     for ev in pygame.event.get():
         if ev.type==pygame.QUIT:
@@ -43,6 +44,9 @@ while cont:
             for ws,n in wsrects:
                 if ws.collidepoint(mpos):
                     wsizemod=n
+        elif ev.type==pygame.KEYDOWN:
+            if ev.key==pygame.K_g and pygame.key.get_mods() & pygame.KMOD_LCTRL:
+                godmode=True
     screen.fill(rgb)
     screen.blit(nland,(0,0))
     Img.bcentre(Img.bfont, "MONOLITH", screen,-200)
@@ -67,7 +71,7 @@ while cont:
 screen=pygame.display.set_mode((384,384))
 #main loop
 while True:
-    w=World.World(numplayers,wgen,puzzles,pnum,pset,kp,(32*2**wsizemod,32*2**wsizemod))
+    w=World.World(numplayers,wgen,puzzles,pnum,pset,kp,godmode,(32*2**wsizemod,32*2**wsizemod))
     while not w.complete:
         e=pygame.event.get()
         for ev in e:

@@ -4,7 +4,7 @@ The Base Of All Things
 @author: NoNotCar
 '''
 import Img
-import sys
+import GUI
 
 sellsound=Img.sndget("Pickup_Coin.wav")
 class Object(object):
@@ -31,6 +31,8 @@ class Object(object):
         pass
     def is_owner(self,player):
         return False
+    def pick(self,world):
+        return None
 class OObject(Object):
     def __init__(self,x,y,owner):
         self.x=x
@@ -49,7 +51,8 @@ class SellPoint(Object):
         self.owner=owner
     def drop(self,world,ent):
         world.ents.remove(ent)
-        self.owner.money+=ent.value
+        if self.owner.money!="INF":
+            self.owner.money+=ent.value
         sellsound.play()
     def is_owner(self,player):
         return False
@@ -64,7 +67,8 @@ class SellPointBlock(OObject):
     hasio="input"
     doc="Placeable selling point with io. IO: Input"
     def input(self,ent):
-        self.owner.money+=ent.value
+        if self.owner.money!="INF":
+            self.owner.money+=ent.value
         sellsound.play()
         return True
 class Monolith(OObject):
@@ -79,5 +83,4 @@ class Monolith(OObject):
     def update(self,world):
         self.countdown-=1
         if self.countdown==0:
-            print "PLAYER %s WIN" % str(self.owner.num)
-            sys.exit()
+            world.run_GUI(GUI.WinGUI())

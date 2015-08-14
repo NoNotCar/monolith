@@ -21,7 +21,8 @@ ranconv={32:(1,7),64:(1,1),128:(4,1)}
 def cmenu(menu,select):
     return [menu[(select+n)%len(menu)] for n in range(-3,4)]
 class World(object):
-    def __init__(self,np,wgen,puz,pn,ps,kp,size=(32,25)):
+    def __init__(self,np,wgen,puz,pn,ps,kp,godmode,size=(32,25)):
+        self.guitorun=None
         if puz:
             generator = Generators.puzzles[ps][pn]
         else:
@@ -36,7 +37,7 @@ class World(object):
         if puz:
             self.ents=[Players.KeyPlayer(0,"Inf")]
         else:
-            self.ents=[Players.KeyPlayer(0,basemoney)]
+            self.ents=[Players.KeyPlayer(0,"Inf" if godmode else basemoney)]
         self.player=self.ents[0]
         if puz:
             for p in self.players:
@@ -87,6 +88,9 @@ class World(object):
                     break
     def scrollrender(self,screen):
         """Render Everything in scrolling mode"""
+        if self.guitorun:
+            self.guitorun.run(screen)
+            self.guitorun=None
         is3ds=[]
         ply = self.player
         sx=ply.x
@@ -243,3 +247,6 @@ class World(object):
     def exists(self,obj):
         """Has this object been destroyed?"""
         return self.get_obj(obj.x, obj.y) is obj
+    def run_GUI(self,gui):
+        """Run a GUI"""
+        self.guitorun=gui
