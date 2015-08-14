@@ -345,6 +345,7 @@ class DownTunnel(Object.OObject):
     hasio="input"
     imgs=[Img.imgret2("Tunnel\\TunDown"+s+".png") for s in ["L","D","R","U"]]
     maxlength=5
+    doc="Will send items to an upward tunnel no more than 5 tiles away. IO: Input"
     def __init__(self,x,y,dire,owner):
         self.x=x
         self.y=y
@@ -378,6 +379,7 @@ class UpTunnel(Object.OObject):
     speed=16
     updatable=True
     name="UpTunnel"
+    doc="Accepts items from downward tunnels and outputs them. IO: Output"
     def __init__(self,x,y,dire,owner):
         self.x=x
         self.y=y

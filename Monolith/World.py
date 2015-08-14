@@ -132,6 +132,8 @@ class World(object):
                     screen.blit(Img.sfont.render(smenu[3].doc[:n],True,(255,255,255)),(0,325))
                     screen.blit(Img.sfont.render(smenu[3].doc[n+1:],True,(255,255,255)),(0,335))
                     break
+            else:
+                screen.blit(Img.sfont.render(smenu[3].doc,True,(255,255,255)),(0,330))
         else:
             screen.blit(Img.sfont.render(smenu[3].doc,True,(255,255,255)),(0,330))
         screen.blit(border,(32,0))

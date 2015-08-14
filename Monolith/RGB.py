@@ -50,6 +50,7 @@ class RGBSpect(Object.OObject):
     hasio="input"
     is3d=True
     img=Img.imgret2("RGB\\RGBSpect.png")
+    doc="Displays the colour values of items on its screen, destroying the items. IO: Input"
     def __init__(self,x,y,p,startrgb=(0,0,0)):
         self.x=x
         self.y=y
