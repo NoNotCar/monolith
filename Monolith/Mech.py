@@ -245,7 +245,7 @@ class VInput(Object.OObject):
     img=Img.imgret2("VIn.png")
     hasio="output"
     updatable=True
-    doc="Drive a machine in front of this to output its contents. IO: Output"
+    doc="Drive a vehicle in front of this to output its contents. IO: Output"
     def __init__(self,x,y,owner):
         self.x=x
         self.y=y

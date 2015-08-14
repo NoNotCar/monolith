@@ -14,6 +14,7 @@ import Entity
 import Tools
 from random import randint,shuffle
 e=enumerate
+stdmix=["loop3.mp3","46b.ogg","Chopin.ogg"]
 class Generator:
     musics=None
     bm=0
@@ -31,7 +32,7 @@ class Generator:
     def generatec(self,world,x,y):
         pass
 class Original(Generator):
-    musics=["loop3.mp3","46b.ogg"]
+    musics=stdmix
     extabs=[Forestry.FTab]
     extools=[Tools.Axe]
     def generate(self,world):
@@ -50,7 +51,7 @@ class Original(Generator):
             else:
                 world.spawn_obj(Forestry.SpTree(x,y))
 class HeightMap(Generator):
-    musics=["loop3.mp3","46b.ogg"]
+    musics=stdmix
     extabs=[Forestry.FTab,Fishery.FisheryTab,Farming.FarmCat]
     bm=1000
     extools=[Fishery.FishingRod,Tools.Axe,Farming.Hoe]
