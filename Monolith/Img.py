@@ -36,9 +36,9 @@ def rot_center(image, angle):
     rot_rect.center = rot_image.get_rect().center
     rot_image = rot_image.subsurface(rot_rect).copy()
     return rot_image
-def musply(mus):
+def musply(mus,loops=-1):
     pygame.mixer.music.load(np(loc+"Music\\"+mus))
-    pygame.mixer.music.play(-1)
+    pygame.mixer.music.play(loops)
 def Fsize(size):
     return pygame.font.Font(pygame.font.get_default_font(), size)
 def blitrect(screen,col, x, y, w, h):

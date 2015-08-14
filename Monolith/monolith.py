@@ -69,6 +69,8 @@ while cont:
         tick-=1
 #resize screen
 screen=pygame.display.set_mode((384,384))
+#stop music
+pygame.mixer.music.stop()
 #main loop
 while True:
     w=World.World(numplayers,wgen,puzzles,pnum,pset,kp,godmode,(32*2**wsizemod,32*2**wsizemod))

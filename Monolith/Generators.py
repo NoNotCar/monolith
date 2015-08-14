@@ -15,7 +15,7 @@ import Tools
 from random import randint,shuffle
 e=enumerate
 class Generator:
-    music=None
+    musics=None
     bm=0
     extabs=[]
     extools=[]
@@ -25,13 +25,13 @@ class Generator:
             for y in range(len(world.terr[0])):
                 self.generatec(world,x,y)
         self.egen(world)
-        return self.music
+        return self.musics
     def egen(self,world):
         pass
     def generatec(self,world,x,y):
         pass
 class Original(Generator):
-    music="NNC_SPLASH.ogg"
+    musics=["loop3.mp3","46b.ogg"]
     extabs=[Forestry.FTab]
     extools=[Tools.Axe]
     def generate(self,world):
@@ -40,7 +40,7 @@ class Original(Generator):
             for y in range(len(world.terr[0])):
                 self.generatec(world,x,y)
         self.egen(world)
-        return self.music
+        return self.musics
     def generatec(self,world,x,y):
         generatelake(x,y,5,self.lake,3,5,world)
         dmiddle=math.sqrt(abs(x-world.size[0]//2)**2+abs(y-world.size[1]//2)**2)
@@ -50,7 +50,7 @@ class Original(Generator):
             else:
                 world.spawn_obj(Forestry.SpTree(x,y))
 class HeightMap(Generator):
-    music="NNC_SPLASH.ogg"
+    musics=["loop3.mp3","46b.ogg"]
     extabs=[Forestry.FTab,Fishery.FisheryTab,Farming.FarmCat]
     bm=1000
     extools=[Fishery.FishingRod,Tools.Axe,Farming.Hoe]
@@ -93,9 +93,9 @@ class HeightMap(Generator):
                 elif value>7:
                     world.spawn_obj(Object.Mountain(x,y))
                     world.terr[x][y]=0
-        return self.music
+        return self.musics
 class EcoDesert(Generator):
-    music="desert.ogg"
+    musics=["desert.ogg"]
     extabs=[Forestry.FTab]
     extools=[Tools.Axe]
     def generatec(self,world,x,y):
@@ -108,7 +108,7 @@ class EcoDesert(Generator):
         elif dmiddle>randint(6,8):
             world.set_terr(x,y,4)
 class RGBFactory(Generator):
-    music="Tetris.ogg"
+    musics=["loop3.mp3"]
     extabs=[RGB.RGBCategory]
     bm=5000
     gspoint=False
@@ -122,7 +122,7 @@ class RGBFactory(Generator):
             tx,ty=world.ranpos()
             world.spawn_obj(RGB.RGBSpawner(tx,ty,(255,255,255)))
 class RGBPuzzle(Generator):
-    music="Tetris.ogg"
+    musics=["loop3.mp3"]
     extabs=[RGB.RGBCategoryPuzz]
     bm=1000000
     gspoint=False
@@ -135,7 +135,7 @@ class RGBPuzzle(Generator):
         world.spawn_obj(RGB.RGBGoal(15,24,self.rgb))
         world.spawn_obj(RGB.RGBSpect(16,24,None,self.rgb))
 class Test(Generator):
-    music="Tetris.ogg"
+    musics=["loop3.mp3"]
     def egen(self,world):
         world.spawn_ent(Entity.PathTester(5,5,world))
         world.dest_obj(5,5)

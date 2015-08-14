@@ -6,7 +6,7 @@ Created on 22 Sep 2014
 import Players
 from Img import imgret2
 import Img
-from random import randint
+from random import randint,choice
 from Terrain import terrlist
 import Object
 import Generators
@@ -54,9 +54,7 @@ class World(object):
                 oxr.append(None)
             self.terr.append(xr)
             self.objs.append(oxr)
-        music=generator.generate(self)
-        if music:
-            Img.musply(music)
+        self.music=generator.generate(self)
         if generator.gspoint:
             self.objs[0][0]=Object.SellPoint(0,0,self.ents[0])
             if np==2:
@@ -65,6 +63,8 @@ class World(object):
         self.map=self.make_map()
     def update(self,events):
         """Update Everything"""
+        if not pygame.mixer.music.get_busy():
+            Img.musply(choice(self.music),1)
         for n in range(self.tran[0]):
             if not randint(0,self.tran[1]):
                 rx=randint(0,self.size[0]-1)
