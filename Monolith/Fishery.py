@@ -18,6 +18,10 @@ class Fish(Entity.ResourceB):
     img=imgref2("Fish.png")
     value=20
     name="Fish"
+class FishPoo(Entity.ResourceB):
+    img=imgref2("FWaste.png")
+    value=-1000
+    name="FishPoo"
 class FishingRod(Tools.Tool):
     img=imgref2("Fishingrod.png")
     def use(self,x,y,w,p):
@@ -43,31 +47,46 @@ class Fisher(Object.OObject):
 class FishFarm(Object.OObject):
     is3d=True
     img=imgref2("FISHTANK.png")
-    hasio="both"
+    imga=imgref2("ALGALTANK.png")
+    hasio="2both"
     updatable=False
     off3d=12
-    doc="When a fish is inputed into this machine, they multiply inside the water and a lot of fish are produced. 2x2 Object. IO: Both"
+    algal=False
+    doc="When a fish is inputed into this machine a lot of fish are produced, with harmful fish waste. 2x2 Object. IO: Both (2 outputs)"
     def __init__(self,x,y,owner):
         Object.OObject.__init__(self,x,y,owner)
         self.delay=randint(2000,4000)
+        self.poodelay=randint(1000,2000)
         self.output=[]
+        self.output2=[]
     def update(self,world):
+        if self.algal:
+            self.updatable=False
         self.delay-=1
+        self.poodelay-=1
         if self.delay==0:
             self.output.extend([Fish(self.x,self.y) for x in range(randint(64,128))])
             self.updatable=False
             self.delay=randint(2000,4000)
+        if self.poodelay==0:
+            if not self.output2:
+                self.output2.append(FishPoo(self.x,self.y))
+                self.poodelay=randint(1000,2000)
+            else:
+                self.algal=True
     def input(self,ent):
         if ent.name=="Fish" and not self.updatable:
             self.updatable=True
             return True
         return False
     def get_img(self,world):
-        if self.updatable:
+        if self.updatable and not self.algal:
             imgc=self.img.copy()
             for _ in range(4):
                 pygame.draw.rect(imgc,(255,255,255),pygame.Rect(randint(4,58),randint(4,58),2,2))
             return imgc
+        elif self.algal:
+            return self.imga
         return self.img
 class FloatBuyer(Buyers.ObjBuyer):
     def buy(self, world, tx, ty, p):
