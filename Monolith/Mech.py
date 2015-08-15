@@ -90,12 +90,9 @@ class Output(Object.OObject):
         self.y=y
         self.machines=[]
         self.owner=owner
+        self.make_imgs()
     def get_img(self,world):
-        img=pygame.Surface((16,19))
-        img.blit(pygame.transform.rotate(self.imgt,90*self.dir),(0,0))
-        img.blit(self.imgbo if self.dir==2 else self.imgb,(0,16))
-        img=pygame.transform.scale2x(img)
-        return img
+        return self.imgs[self.dir]
     def update(self,world):
         self.machines=[]
         for direction in dirconv:
@@ -113,6 +110,13 @@ class Output(Object.OObject):
                     ent.move(odirconv[self.dir][0],odirconv[self.dir][1],2,world)
                     mach.output.pop(0)
                 break
+    def make_imgs(self):
+        self.imgs=[]
+        for d in range(4):
+            i=pygame.Surface((16,19))
+            i.blit(pygame.transform.rotate(self.imgt,90*d),(0,0))
+            i.blit(self.imgbo if d==2 else self.imgb,(0,16))
+            self.imgs.append(pygame.transform.scale2x(i))
 class Output2(Output):
     name="Output2"
     imgb=Img.imgret("Output2Bottom.png")
@@ -182,12 +186,9 @@ class IOput(Input):
         self.buffer=None
         self.owner=owner
         self.dir=dire
+        self.make_imgs()
     def get_img(self,world):
-        img=pygame.Surface((16,19))
-        img.blit(pygame.transform.rotate(self.imgt,90*self.dir),(0,0))
-        img.blit(self.imgb,(0,16))
-        img=pygame.transform.scale2x(img)
-        return img
+        return self.imgs[self.dir]
     def update(self,world):
         self.imachines=[]
         self.omachines=[]
@@ -218,6 +219,13 @@ class IOput(Input):
         self.buffer=ent
         world.ents.remove(ent)
         self.solid=True
+    def make_imgs(self):
+        self.imgs=[]
+        for d in range(4):
+            i=pygame.Surface((16,19))
+            i.blit(pygame.transform.rotate(self.imgt,90*d),(0,0))
+            i.blit(self.imgb,(0,16))
+            self.imgs.append(pygame.transform.scale2x(i))
 #For basic machines. DO NOT USE BY ITSELF
 class BasicMachine(Object.OObject):
     solid=True

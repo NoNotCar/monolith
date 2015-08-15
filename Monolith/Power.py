@@ -99,11 +99,7 @@ class PowerOutput(Mech.Output):
     doc="Uses electromagnetic force to move items much faster than a standard output could. Requires 500W"
     hasp=False
     def get_img(self,world):
-        img=pygame.Surface((16,19))
-        img.blit(pygame.transform.rotate(self.imgton if self.hasp else self.imgtoff,90*self.dir),(0,0))
-        img.blit(self.imgbo if self.dir==2 else self.imgb,(0,16))
-        img=pygame.transform.scale2x(img)
-        return img
+        return self.imgs[self.dir+self.hasp*4]
     def update(self,world):
         self.machines=[]
         self.hasp=self.owner.get_power(500)
@@ -123,6 +119,13 @@ class PowerOutput(Mech.Output):
                         ent.move(Mech.odirconv[self.dir][0],Mech.odirconv[self.dir][1],8,world)
                         mach.output.pop(0)
                     break
+    def make_imgs(self):
+        self.imgs=[]
+        for d in range(8):
+            img=pygame.Surface((16,19))
+            img.blit(pygame.transform.rotate(self.imgton if d>3 else self.imgtoff,90*(d%4)),(0,0))
+            img.blit(self.imgbo if d%4==2 else self.imgb,(0,16))
+            self.imgs.append(pygame.transform.scale2x(img))
 class PowerCategory(object):
     img=Img.imgret2("PowerIcon.png")
     iscat=True
