@@ -47,11 +47,11 @@ class WheatItem(Entity.ResourceB):
     name="Wheat"
     doc="Wheat: Not a valuable crop on its own, but can be baked into bread in an oven."
 class BreadItem(Entity.ResourceB):
-    value=20
+    value=40
     img=Img.imgret2("Farming/Bread.png")
     name="Bread"
 class BBreadItem(Entity.ResourceB):
-    value=-20
+    value=-40
     img=Img.imgret2("Farming/BurntBread.png")
     name="Burnt Bread"
 class Wheat(Crop):
@@ -102,7 +102,7 @@ class AutoPicker(Object.OObject):
     img=Img.imgret2("Farming/AutoFarm.png")
     hasio="output"
     updatable=True
-    doc="Harvests Plants in the 3x3 square around it and outputs the crops. Uses 500W. IO: Output"
+    doc="Harvests Plants in the 5x5 square around it and outputs the crops. Uses 500W. IO: Output"
     def __init__(self,x,y,owner):
         Object.OObject.__init__(self,x,y,owner)
         self.idle=60
@@ -110,8 +110,8 @@ class AutoPicker(Object.OObject):
     def update(self,world):
         hasp=self.owner.get_power(500)
         if self.idle==0:
-            for x in range(self.x-1,self.x+2):
-                for y in range(self.y-1,self.y+2):
+            for x in range(self.x-2,self.x+3):
+                for y in range(self.y-2,self.y+3):
                     if world.get_obj(x,y) and not self.output and hasp:
                         ent=world.get_obj(x,y).pick(world)
                         if ent:

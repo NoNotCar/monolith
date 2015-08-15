@@ -131,4 +131,4 @@ class PowerCategory(object):
     iscat=True
     doc="Power Suppliers and Storage"
     def __init__(self):
-        self.menu=[Buyers.ObjBuyer(SolarPanel,1000),Buyers.ObjBuyer(Generator1,200),Buyers.ObjBuyer(Battery,1000),Buyers.RotObjBuyer(PushPlate,200),Buyers.RotObjBuyer(PowerOutput,500)]
+        self.menu=[Buyers.ObjBuyer(SolarPanel,1000),Buyers.ObjBuyer(Generator1,200),Buyers.ObjBuyer(Battery,500),Buyers.RotObjBuyer(PushPlate,200),Buyers.RotObjBuyer(PowerOutput,500)]
