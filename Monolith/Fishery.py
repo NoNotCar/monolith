@@ -42,12 +42,13 @@ class Fisher(Object.OObject):
         self.idle=randint(360,600)
         self.output=[]
     def update(self,world):
-        if self.idle:
-            self.idle-=1
-        else:
-            if not self.output:
-                self.output.append(Fish(self.x,self.y) if randint(1,20) else FishSp(self.x,self.y))
-            self.idle=randint(360,600)
+        if self.owner.get_power(100):
+            if self.idle:
+                self.idle-=1
+            else:
+                if not self.output:
+                    self.output.append(Fish(self.x,self.y) if randint(1,20) else FishSp(self.x,self.y))
+                self.idle=randint(360,600)
 class FishFarm(Object.OObject):
     is3d=True
     img=imgref2("FISHTANK.png")
