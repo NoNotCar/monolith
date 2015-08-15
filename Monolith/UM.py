@@ -63,6 +63,10 @@ class FrozenFish(Entity.ResourceB):
     name="Frozen Fish"
     img=Img.imgret2("UM/FroFish.png")
     value=40
+class FrozenSpecialFish(Entity.ResourceB):
+    name="Frozen Special Fish"
+    img=Img.imgret2("UM/FroSpFish.png")
+    value=600
 class Grinder(UMRMachine):
     imgs=[Img.imgret2("UM/Grinder%s.png" % str(n)) for n in range(5)+range(5)[::-1]]
     doc="Grinds items into 2 powder items. Consumes 500W while operating. IO: Both"
@@ -76,7 +80,7 @@ class Fridge(UMRMachine):
     doc="Freezes items (a slow process). Can freeze up to 10 items at once. Consumes 500W when starting, and 100W to keep cool. IO: Both"
     temperature=20
     updatable=True
-    recipes={"Fish":[FrozenFish,3600]}
+    recipes={"Fish":[FrozenFish,3600],"Special Fish":[FrozenSpecialFish,7200]}
     def __init__(self, x, y, owner):
         self.x=x
         self.y=y

@@ -18,6 +18,10 @@ class Fish(Entity.ResourceB):
     img=imgref2("Fish.png")
     value=20
     name="Fish"
+class FishSp(Entity.ResourceB):
+    img=imgref2("SpFish.png")
+    value=300
+    name="Special Fish"
 class FishPoo(Entity.ResourceB):
     img=imgref2("FWaste.png")
     value=-1000
@@ -32,18 +36,18 @@ class Fisher(Object.OObject):
     img=imgref2("Shocker.png")
     hasio="output"
     updatable=True
-    doc="Shocks fish in the water below it and output them. Must be placed in water (obviously). IO: Output"
+    doc="Shocks fish in the water below it and output them. Must be placed in water (obviously). Consumes 100W. IO: Output"
     def __init__(self,x,y,owner):
         Object.OObject.__init__(self,x,y,owner)
-        self.idle=randint(360,1000)
+        self.idle=randint(360,600)
         self.output=[]
     def update(self,world):
         if self.idle:
             self.idle-=1
         else:
             if not self.output:
-                self.output.append(Fish(self.x,self.y))
-            self.idle=randint(360,1000)
+                self.output.append(Fish(self.x,self.y) if randint(1,20) else FishSp(self.x,self.y))
+            self.idle=randint(360,600)
 class FishFarm(Object.OObject):
     is3d=True
     img=imgref2("FISHTANK.png")
@@ -113,5 +117,5 @@ class FisheryTab(object):
     iscat=True
     doc="Fishing apparatus"
     def __init__(self):
-        self.menu=[FloatBuyer(Fisher,1000),FFBuyer(FishFarm,500),Buyers.VBuyer(Vehicles.Boat,500),Buyers.BridgeBuyer()]
+        self.menu=[FloatBuyer(Fisher,500),FFBuyer(FishFarm,500),Buyers.VBuyer(Vehicles.Boat,500),Buyers.BridgeBuyer()]
             
