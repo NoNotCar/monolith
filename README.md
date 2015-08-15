@@ -10,9 +10,10 @@ A game made with pygame.
   * Scroll Wheel - scroll through top menu 
   * Shift+Scroll Wheel - scroll through side menu 
   * E - exit category 
-  * WASD - move 
+  * WASD - move
   * Left Shift - pick up object/enter or exit vehicle
   * R - reset position (if stuck)
+  * P - pause 
   * (Optional) WASD+Shift - scroll through menus  
 
 ##BONUS SCREENSHOTS  
