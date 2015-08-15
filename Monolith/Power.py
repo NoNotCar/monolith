@@ -72,7 +72,7 @@ class Generator1(PowerSupply):
     img=Img.imgret2("Electricity/GeneratorMk1.png")
     imgon=Img.imgret2("Electricity/GeneratorMk1on.png")
     hasio="input"
-    fuels={"Woodpile":60,"WoodpileSp":30}
+    fuels={"Woodpile":60,"WoodpileSp":30,"Wood Chips":60}
     def __init__(self, x, y, owner):
         PowerSupply.__init__(self, x, y, owner)
         self.fuel=0

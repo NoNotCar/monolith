@@ -15,7 +15,7 @@ import pygame
 e=enumerate
 selimage=imgret2("Mouse.png")
 border=imgret2("MenuWrapper.png")
-picon=imgret2("PowerIcon.png")
+picon=Img.imgret("PowerIcon.png")
 border2=pygame.transform.rotate(border,90)
 ranconv={32:(1,7),64:(1,1),128:(4,1)}
 def cmenu(menu,select):
@@ -153,10 +153,10 @@ class World(object):
         screen.blit(Img.dfont.render("\xa3"+str(ply.money),True, (255,255,255)),(288,0))
         if ply.hand:
             screen.blit(ply.hand.get_img(),(0,0))
-        screen.blit(picon,(0,352))
-        screen.blit(Img.dfont.render("%g" % (ply.psupply/1000.0)+"kW",True, (255,255,255)),(32,352))
-        screen.blit(Img.dfont.render("%g" % (round(sum([ps.stored for ps in ply.pstorage])/60000.0,1))+"/"+
-                                     "%g" % (round(sum([ps.maxS for ps in ply.pstorage])/60000.0,1))+"kJ",True, (100,255,100)),(128,352))
+        screen.blit(picon,(0,368))
+        screen.blit(Img.pfont2.render("%g" % (ply.rpsupply/1000.0)+"kW",True, (100,255,100) if ply.rpsupply>0 else (255,0,0) if ply.rpsupply<0 else (255,255,255)),(16,368))
+        screen.blit(Img.pfont2.render("%g" % (round(sum([ps.stored for ps in ply.pstorage])/60000.0,1))+"/"+
+                                     "%g" % (round(sum([ps.maxS for ps in ply.pstorage])/60000.0,1))+"kJ",True, (100,255,100)),(128,368))
         for obj3 in is3ds:
             sscreen.blit(obj3.get_img(self),(obj3.x*32-asx,obj3.y*32-obj3.off3d-asy))
         screen.blit(sscreen,(32,32))

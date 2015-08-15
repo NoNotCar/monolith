@@ -18,7 +18,7 @@ class WinGUI(GUI):
         sys.exit()
 class PauseGUI(GUI):
     def run(self,screen):
-        """The pause GUI should use minimal resources"""
+        """The pause GUI should use minimal system resources"""
         pygame.mixer.music.pause()
         screen.fill((255,255,255))
         Img.bcentre(Img.bfont,"Paused",screen)

@@ -39,6 +39,7 @@ class KeyPlayer(Entity.Entity):
     solid=True
     estop=False
     psupply=0
+    rpsupply=0
     def __init__(self, num,bm):
         self.num=num
         self.x=0
@@ -76,6 +77,7 @@ class KeyPlayer(Entity.Entity):
                 self.psupply+=psup.get_power(world)
             else:
                 self.psuppliers.remove(psup)
+        self.rpsupply=self.psupply
         #Garbage collection
         for psto in [pst for pst in self.pstorage if not world.exists(pst)]:
             self.pstorage.remove(psto)
@@ -208,6 +210,7 @@ class KeyPlayer(Entity.Entity):
     def get_img(self):
         return self.images[hdirconv[self.dir]]
     def get_power(self,amount):
+        self.rpsupply-=amount
         if self.psupply>=amount:
             self.psupply-=amount
             return True
