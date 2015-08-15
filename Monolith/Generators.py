@@ -14,7 +14,7 @@ import Entity
 import Tools
 from random import randint,shuffle
 e=enumerate
-stdmix=["loop3.mp3","46b.ogg","Chopin.ogg"]
+stdmix=["loop3.mp3","46b.ogg","Chopin.ogg","Start5.ogg","Packy.ogg","Minority.ogg","ChOrDs.ogg"]
 class Generator:
     musics=None
     bm=0

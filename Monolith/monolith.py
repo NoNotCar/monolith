@@ -11,6 +11,7 @@ screen=pygame.display.set_mode((640,640))
 import World
 import Generators
 import Img
+import GUI
 
 numplayers=1
 wgen=0
@@ -79,6 +80,8 @@ while True:
         for ev in e:
             if ev.type==pygame.QUIT:
                 sys.exit()
+            elif ev.type==pygame.KEYDOWN and ev.key==pygame.K_p:
+                w.run_GUI(GUI.PauseGUI())
         screen.fill((100,100,100))
         w.update(e)
         w.scrollrender(screen)

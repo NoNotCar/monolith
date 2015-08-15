@@ -16,3 +16,18 @@ class WinGUI(GUI):
         pygame.display.flip()
         pygame.time.wait(1000)
         sys.exit()
+class PauseGUI(GUI):
+    def run(self,screen):
+        """The pause GUI should use minimal resources"""
+        pygame.mixer.music.pause()
+        screen.fill((255,255,255))
+        Img.bcentre(Img.bfont,"Paused",screen)
+        pygame.display.flip()
+        while True:
+            for e in pygame.event.get():
+                if e.type==pygame.QUIT:
+                    sys.exit()
+                if e.type==pygame.KEYDOWN and e.key==pygame.K_p:
+                    pygame.mixer.music.unpause()
+                    return None
+            pygame.time.wait(200)
