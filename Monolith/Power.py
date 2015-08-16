@@ -44,12 +44,12 @@ class PushPlate(Mech.Conv):
     imgson=[pygame.transform.rotate(imgon,n*90) for n in range(4)]
     updatable=True
     def get_img(self,world):
-        if self.owner is not None and not self.hasp and not self.owner.estop:
+        if self.owner is not None and not any([self.hasp,self.owner.estop,self.stopped]):
             return self.imgsoff[self.dir]
         else:
             return self.imgson[self.dir]
     def update(self,world):
-        if not self.owner.estop:
+        if not self.owner.estop or self.stopped:
             self.hasp=self.owner.get_power(200)
             if self.hasp and self.ent and self.ent.move(Mech.dirconv[self.dir][0],Mech.dirconv[self.dir][1],self.speed,world):
                 self.ent=None

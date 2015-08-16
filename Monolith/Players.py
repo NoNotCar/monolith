@@ -64,7 +64,7 @@ class KeyPlayer(Entity.Entity):
         self.menu=[Buyers.ObjBuyer(Object.Monolith,30000),Buyers.TerrBuyer(2,10),Buyers.VBuyer(Vehicles.FastCar,1000)]
         for tab in tabclasses:
             self.menu.append(tab())
-        self.tools=[Tools.Hammer(),Tools.Estop()]
+        self.tools=[Tools.Wrench(),Tools.Estop()]
         for tool in toolclasses:
             self.tools.append(tool())
         self.pstorage=[]
@@ -126,7 +126,7 @@ class KeyPlayer(Entity.Entity):
             if not self.moving:
                 hatpos=self.get_dirkeys()
                 if hatpos!=(0,0):
-                    if not pygame.key.get_mods() & pygame.KMOD_LSHIFT:
+                    if not pygame.key.get_mods() & pygame.KMOD_LCTRL:
                         self.move(*(hatpos+ (2, world,True)))
                     elif self.mmovewait==0:
                         self.tsel=(self.tsel+hatpos[1])%len(self.tools)

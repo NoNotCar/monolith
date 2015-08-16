@@ -4,6 +4,7 @@ Created on 24 Jun 2015
 @author: NoNotCar
 '''
 import Img
+import pygame
 
 destsound=Img.sndget("explode.wav")
 class Tool(object):
@@ -15,12 +16,18 @@ class Axe(Tool):
     def use(self,x,y,world,p):
         if world.get_obj(x,y):
             world.get_obj(x,y).cut(world)
-class Hammer(Tool):
-    img=Img.imgret2("Hammer.png")
+class Wrench(Tool):
+    img=Img.imgret2("Wrench.png")
     def use(self,x,y,world,p):
-        if world.get_obj(x,y) and world.get_obj(x,y).is_owner(p):
-            world.dest_obj(x,y)
-            destsound.play()
+        kmods=pygame.key.get_mods()
+        if world.get_obj(x,y):
+            if kmods & pygame.KMOD_LSHIFT:
+                world.get_obj(x,y).rotate()
+            elif kmods & pygame.KMOD_LCTRL:
+                world.get_obj(x,y).wrench(world)
+            elif world.get_obj(x,y).is_owner(p):
+                world.dest_obj(x,y)
+                destsound.play()
 class Estop(Tool):
     img1=Img.imgret2("EStop.png")
     img2=Img.imgret2("EStop2.png")

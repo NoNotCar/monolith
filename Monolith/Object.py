@@ -22,6 +22,11 @@ class Object(object):
     def __init__(self,x,y):
         self.x=x
         self.y=y
+    def rotate(self):
+        if hasattr(self, "dir"):
+            self.dir=(self.dir+1)%4
+    def wrench(self,world):
+        pass
     #override for animation
     def get_img(self,world):
         return self.img

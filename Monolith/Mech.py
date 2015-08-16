@@ -38,6 +38,7 @@ class Conv(Object.OObject):
     speed=2
     images=convimgs
     doc="Moves items on top of it"
+    stopped=False
     def __init__(self,x,y,dire,owner):
         self.dir=dire
         self.x=x
@@ -45,16 +46,18 @@ class Conv(Object.OObject):
         self.ent=None
         self.owner=owner
     def get_img(self,world):
-        if self.owner is not None and self.owner.estop:
+        if self.stopped or (self.owner is not None and self.owner.estop):
             return self.images[self.dir*14]
         return self.images[world.anitick%14+self.dir*14]
     def update(self,world):
-        if not self.owner.estop and self.ent.move(dirconv[self.dir][0],dirconv[self.dir][1],self.speed,world):
+        if not self.owner.estop and not self.stopped and self.ent.move(dirconv[self.dir][0],dirconv[self.dir][1],self.speed,world):
             self.updatable=False
     def drop(self,world,ent):
         if world.inworld(ent.x+dirconv[self.dir][0],ent.y+dirconv[self.dir][1]):
             self.ent=ent
             self.updatable=True
+    def wrench(self, world):
+        self.stopped=not self.stopped
 class SlowConv(Conv):
     name="SlowConveyor"
     solid=False
@@ -62,7 +65,7 @@ class SlowConv(Conv):
     images=slowconvimgs
     doc="Moves items on top of it slowly"
     def get_img(self,world):
-        if self.owner is not None and self.owner.estop:
+        if self.stopped or (self.owner is not None and self.owner.estop):
             return self.images[self.dir*14]
         return self.images[world.anitick//4%14+self.dir*14]
 class RainConv(Conv):
@@ -72,7 +75,7 @@ class RainConv(Conv):
     images=rainconvimgs
     doc="Moves items on top of it at great speed!"
     def get_img(self,world):
-        if self.owner is not None and self.owner.estop:
+        if self.stopped or (self.owner is not None and self.owner.estop):
             return self.images[self.dir*14]
         return self.images[(world.anitick*2)%14+self.dir*14]
 class Output(Object.OObject):
