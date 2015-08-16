@@ -28,14 +28,3 @@ class Wrench(Tool):
             elif world.get_obj(x,y).is_owner(p):
                 world.dest_obj(x,y)
                 destsound.play()
-class Estop(Tool):
-    img1=Img.imgret2("EStop.png")
-    img2=Img.imgret2("EStop2.png")
-    img=img1
-    def use(self,x,y,world,p):
-        if not p.estop:
-            p.estop=True
-            self.img=self.img2
-        else:
-            p.estop=False
-            self.img=self.img1

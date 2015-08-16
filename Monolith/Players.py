@@ -64,7 +64,7 @@ class KeyPlayer(Entity.Entity):
         self.menu=[Buyers.ObjBuyer(Object.Monolith,30000),Buyers.TerrBuyer(2,10),Buyers.VBuyer(Vehicles.FastCar,1000)]
         for tab in tabclasses:
             self.menu.append(tab())
-        self.tools=[Tools.Wrench(),Tools.Estop()]
+        self.tools=[Tools.Wrench()]
         for tool in toolclasses:
             self.tools.append(tool())
         self.pstorage=[]
