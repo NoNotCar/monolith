@@ -252,7 +252,6 @@ class BasicMachine(Object.OObject):
                 return True
         return False
 class VInput(Object.OObject):
-    solid=True
     is3d=True
     img=Img.imgret2("VIn.png")
     hasio="output"
@@ -270,6 +269,28 @@ class VInput(Object.OObject):
                     if ent.x==self.x+1 and ent.y==self.y and ent.output:
                         self.output.append(ent.output.pop())
                         break
+class VLoader(Object.OObject):
+    is3d=True
+    img=Img.imgret2("VLoad.png")
+    hasio="input"
+    updatable=True
+    doc="Drive a vehicle in front of this to load items (if possible). IO: Input"
+    def __init__(self,x,y,owner):
+        self.x=x
+        self.y=y
+        self.owner=owner
+        self.lv=None
+    def update(self,world):
+        if not self.lv:
+            for ent in world.ents:
+                if ent.name=="Vehicle":
+                    if ent.x==self.x+1 and ent.y==self.y:
+                        self.lv=ent
+        else:
+            if self.lv.x!=self.x+1 or self.lv.y!=self.y:
+                self.lv=None
+    def input(self,ent):
+        return self.lv and self.lv.load(ent)
 class Buffer5(Object.OObject):
     solid=True
     is3d=True

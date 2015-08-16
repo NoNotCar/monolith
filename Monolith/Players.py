@@ -31,7 +31,7 @@ class MechCategory(object):
                    Buyers.RotObjBuyer(Mech.DownTunnel,200),Buyers.RotObjBuyer(Mech.DownTunnelL,1000),Buyers.RotObjBuyer(Mech.UpTunnel,500),
                    Buyers.RotObjBuyer(Mech.Output,100),Buyers.RotObjBuyer(Mech.Output2,200),Buyers.ObjBuyer(Mech.Input,100),Buyers.RotObjBuyer(Mech.IOput,300),Buyers.ObjBuyer(Mech.Buffer5,500),
                    Buyers.ObjBuyer(Mech.Splitter,500),Buyers.ObjBuyer(Mech.PurpPri,500),Buyers.ObjBuyer(Mech.Filter,500),
-                   Buyers.VBuyer(Vehicles.Lorry,1000),Buyers.ObjBuyer(Mech.VInput,50),Buyers.ObjBuyer(Object.SellPointBlock,10000)]
+                   Buyers.VBuyer(Vehicles.Lorry,1000),Buyers.ObjBuyer(Mech.VInput,50),Buyers.ObjBuyer(Mech.VLoader,50),Buyers.ObjBuyer(Object.SellPointBlock,10000)]
 
 tabclasses=[MechCategory,Power.PowerCategory,UM.UMCategory]
 toolclasses=[]

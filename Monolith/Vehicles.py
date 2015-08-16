@@ -39,6 +39,8 @@ class Vehicle(Entity.Entity):
         if self.hasp:
             self.p.x,self.p.xoff,self.p.y,self.p.yoff=self.x,self.xoff,self.y,self.yoff
             self.p.vupdate(world,events,self)
+    def load(self,ent):
+        return False
 class FastCar(Vehicle):
     vspeed=4
     img=Img.imgret2("FastCar.png")
@@ -68,3 +70,6 @@ class Lorry(Vehicle):
                     self.output.append(world.get_ent(tx,ty))
                     world.dest_ent(tx,ty)
                     self.movesteps(direction[0], direction[1], len(self.output)+8, world, True)
+    def load(self,ent):
+        self.output.append(ent)
+        return True

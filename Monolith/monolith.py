@@ -13,6 +13,9 @@ import Generators
 import Img
 import GUI
 
+
+pygame.display.set_icon(Img.imgret2("Monolith.png"))
+pygame.display.set_caption("monolith")
 numplayers=1
 wgen=0
 pset=0
