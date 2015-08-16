@@ -15,6 +15,7 @@ import Tools
 from random import randint,shuffle
 e=enumerate
 stdmix=["loop3.mp3","46b.ogg","Chopin.ogg","Start5.ogg","Packy.ogg","Minority.ogg","ChOrDs.ogg"]
+stdmixdes=["46b.ogg","Chopin.ogg","Minority.ogg"]
 class Generator:
     musics=None
     bm=0
@@ -59,7 +60,7 @@ class HeightMap(Generator):
         self.smooth=smoothness
     def generate(self,world):
         poss=[]
-        heightmap=[[None]*len(world.terr[0]) for n in range(len(world.terr))]
+        heightmap=[[None]*len(world.terr[0]) for _ in range(len(world.terr))]
         for x in range(len(world.terr)):
             for y in range(len(world.terr[0])):
                 poss.append((x,y))
@@ -85,29 +86,29 @@ class HeightMap(Generator):
                     heightmap[x][y]=randint(-5,8)
         for x,row in e(heightmap):
             for y,value in e(row):
-                world.terr[x][y]=5 if value<=0 else 7 if value==1 else 0 if value<6 else 9
-                if 1<value<5:
-                    if randint(0,50):
-                        world.spawn_obj(Forestry.Tree(x,y))
-                    else:
-                        world.spawn_obj(Forestry.SpTree(x,y))
-                elif value>7:
-                    world.spawn_obj(Object.Mountain(x,y))
-                    world.terr[x][y]=0
+                self.generatehv(x, y, value, world)
         return self.musics
-class EcoDesert(Generator):
-    musics=["desert.ogg"]
-    extabs=[Forestry.FTab]
-    extools=[Tools.Axe]
-    def generatec(self,world,x,y):
-        dmiddle=math.sqrt(abs(x-world.size[0]//2)**2+abs(y-world.size[1]//2)**2)
-        if dmiddle<randint(2,4):
+    def generatehv(self,x,y,value,world):
+        world.terr[x][y]=5 if value<=0 else 7 if value==1 else 0 if value<6 else 9
+        if 1<value<5:
             if randint(0,50):
                 world.spawn_obj(Forestry.Tree(x,y))
             else:
                 world.spawn_obj(Forestry.SpTree(x,y))
-        elif dmiddle>randint(6,8):
-            world.set_terr(x,y,4)
+        elif value>7:
+            world.spawn_obj(Object.Mountain(x,y))
+            world.terr[x][y]=0
+class EcoDesert(HeightMap):
+    musics=["desert.ogg"]+stdmixdes
+    def generatehv(self, x, y, value, world):
+        world.terr[x][y]=5 if value<=-3 else 7 if value==-2 else 4 if value<4 else 0
+        if 4<value:
+            if randint(0,20):
+                world.spawn_obj(Forestry.Tree(x,y))
+            else:
+                world.spawn_obj(Forestry.SpTree(x,y))
+        elif value>7:
+            world.spawn_obj(Object.Mountain(x,y))
 class RGBFactory(Generator):
     musics=["loop3.mp3"]
     extabs=[RGB.RGBCategory]
@@ -150,6 +151,6 @@ def generatelake(x,y,tid,centre,fullsize,partsize,world):
     dmiddle=math.sqrt(abs(x-32+centre[0])**2+abs(y-25+centre[1])**2)
     if dmiddle<randint(fullsize,partsize):
         world.set_terr(x,y,tid)
-gens=[Original(),EcoDesert(),RGBFactory(),HeightMap(1),HeightMap(3)]
+gens=[Original(),EcoDesert(3),RGBFactory(),HeightMap(1),HeightMap(3)]
 puzzles=[[RGBPuzzle((0,0,0)),RGBPuzzle((0,255,0)),RGBPuzzle((255,255,255)),RGBPuzzle((127,127,0))],
          [RGBPuzzle((63,0,63)),RGBPuzzle((0,191,63)),RGBPuzzle((127,63,191)),RGBPuzzle((31,127,0))]]

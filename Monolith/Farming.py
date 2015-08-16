@@ -86,7 +86,7 @@ class Oven(Object.OObject):
                     self.output=[BreadItem(self.x,self.y)]
                     self.inv.remove(pair)
     def input(self,ent):
-        if len(self.inv)<4 and ent.name=="Wheat":
+        if len(self.inv)<4 and ent.name in ["Wheat","Flour"]:
             self.inv.append([ent,0])
             return True
     def get_img(self,world):

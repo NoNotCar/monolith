@@ -89,7 +89,7 @@ class World(object):
     def scrollrender(self,screen):
         """Render Everything in scrolling mode"""
         if self.guitorun:
-            self.guitorun.run(screen)
+            self.guitorun.run(screen,self.player)
             self.guitorun=None
         is3ds=[]
         ply = self.player

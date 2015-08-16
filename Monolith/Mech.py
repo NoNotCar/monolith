@@ -6,6 +6,7 @@ Created on 14 Jun 2015
 import Object
 import Img
 import pygame
+import GUI
 convimgs=[]
 slowconvimgs=[]
 rainconvimgs=[]
@@ -327,13 +328,40 @@ class PurpPri(Object.OObject):
         self.output=[]
         self.output2=[]
     def input(self,ent):
-         if not self.output2:
-             self.output2.append(ent)
-             return True
-         elif not self.output:
-             self.output.append(ent)
-             return True
-         return False
+        if not self.output2:
+            self.output2.append(ent)
+            return True
+        elif not self.output:
+            self.output.append(ent)
+            return True
+        return False
+class Filter(Object.OObject):
+    is3d=True
+    img=Img.imgret2("Filter.png")
+    name="Filter"
+    hasio="2both"
+    updatable=False
+    doc="Sorts items. CTRL+Wrench (with item in hand) to configure. IO: Both (2 outputs)"
+    def __init__(self,x,y,owner):
+        self.x=x
+        self.y=y
+        self.owner=owner
+        self.output=[]
+        self.output2=[]
+        self.gui=GUI.ListGui("BLUE OUTPUT:", (65,155,224))
+    def input(self,ent):
+        if ent.name in self.gui.contents:
+            if not self.output:
+                self.output=[ent]
+                return True
+            return False
+        else:
+            if not self.output2:
+                self.output2=[ent]
+                return True
+            return False
+    def wrench(self, world):
+        world.run_GUI(self.gui)
 class MultiBlock(Object.Object):
     def __init__(self, x, y,exblock):
         self.x = x

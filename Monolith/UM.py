@@ -59,6 +59,10 @@ class WoodChips(Entity.ResourceB):
     name="Wood Chips"
     img=Img.imgret2("UM/WoodChip.png")
     value=20
+class Flour(Entity.ResourceB):
+    name="Flour"
+    img=Img.imgret2("UM/Flour.png")
+    value=10
 class FrozenFish(Entity.ResourceB):
     name="Frozen Fish"
     img=Img.imgret2("UM/FroFish.png")
@@ -70,7 +74,7 @@ class FrozenSpecialFish(Entity.ResourceB):
 class Grinder(UMRMachine):
     imgs=[Img.imgret2("UM/Grinder%s.png" % str(n)) for n in range(5)+range(5)[::-1]]
     doc="Grinds items into 2 powder items. Consumes 500W while operating. IO: Both"
-    recipes={"Woodpile":[WoodChips,240],"WoodpileSp":[WoodChips,240]}
+    recipes={"Woodpile":[WoodChips,240],"WoodpileSp":[WoodChips,240],"Wheat":[Flour,600]}
     powerusage=500
     numproducts=2
     def get_img(self,world):
