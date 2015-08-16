@@ -30,9 +30,11 @@ cont=True
 kp=True
 #titlescreen
 srect=pygame.Rect(0,0,0,0)
+prect=pygame.Rect(0,0,0,0)
 grects=[]
 wsizemod=0
 wsrects=[]
+psrects=[]
 godmode=False
 while cont:
     for ev in pygame.event.get():
@@ -42,27 +44,38 @@ while cont:
             mpos=pygame.mouse.get_pos()
             if srect.collidepoint(mpos):
                 cont=False
+            if prect.collidepoint(mpos):
+                puzzles=not puzzles
             for gr,n in grects:
                 if gr.collidepoint(mpos):
                     wgen=n
             for ws,n in wsrects:
                 if ws.collidepoint(mpos):
                     wsizemod=n
+            for ps,n in psrects:
+                if ps.collidepoint(mpos):
+                    pset=n
         elif ev.type==pygame.KEYDOWN:
             if ev.key==pygame.K_g and pygame.key.get_mods() & pygame.KMOD_LCTRL:
                 godmode=True
     screen.fill(rgb)
     screen.blit(nland,(0,0))
     Img.bcentre(Img.bfont, "MONOLITH", screen,-200)
-    screen.blit(Img.dfont.render("GENERATOR:",True,(100,100,100)),(0,480))
-    screen.blit(Img.dfont.render("SIZE:",True,(100,100,100)),(490,480))
     grects=[]
     wsrects=[]
-    for n in range(len(Generators.gens)):
-        grects.append((pygame.draw.rect(screen,(200,200,200) if n==wgen else (100,100,100),pygame.Rect(2+n*50,512,48,48)),n))
-    for n in range(3):
-        wsrects.append((pygame.draw.rect(screen,(200,200,200) if n==wsizemod else (100,100,100),pygame.Rect(490+n*50,512,48,48)),n))
-    srect=Img.bcentre(Img.sbfont, "START GAME", screen,275,(100,255,100))
+    if not puzzles:
+        screen.blit(Img.dfont.render("GENERATOR:",True,(100,100,100)),(0,480))
+        screen.blit(Img.dfont.render("SIZE:",True,(100,100,100)),(490,480))
+        for n in range(len(Generators.gens)):
+            grects.append((pygame.draw.rect(screen,(200,200,200) if n==wgen else (100,100,100),pygame.Rect(2+n*50,512,48,48)),n))
+        for n in range(3):
+            wsrects.append((pygame.draw.rect(screen,(200,200,200) if n==wsizemod else (100,100,100),pygame.Rect(490+n*50,512,48,48)),n))
+    if puzzles:
+        screen.blit(Img.dfont.render("PUZZLE SET:",True,(100,100,100)),(0,480))
+        for n in range(len(Generators.puzzles)):
+            psrects.append((pygame.draw.rect(screen,(200,200,200) if n==pset else (100,100,100),pygame.Rect(2+n*50,512,48,48)),n))
+    srect=Img.fblit(screen,Img.sbfont, "START GAME", (100,255,100),(0,600))
+    prect=Img.fblit(screen,Img.sbfont, "PUZZLES", (100,100,255) if puzzles else (50,50,127),(420,600))
     pygame.display.flip()
     c.tick(60)
     if rgb[1]!=0 and tick==0:
@@ -95,4 +108,4 @@ while True:
     if pnum<len(Generators.puzzles[pset])-1:
         pnum+=1
     else:
-        sys.exit()
+        w.run_GUI(GUI.WinGUI)

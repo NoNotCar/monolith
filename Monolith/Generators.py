@@ -133,9 +133,9 @@ class RGBPuzzle(Generator):
     def generatec(self,world,x,y):
         world.set_terr(x,y,6)
     def egen(self,world):
-        world.spawn_obj(RGB.RGBSpawner(0,24,(0,0,0)))
-        world.spawn_obj(RGB.RGBGoal(15,24,self.rgb))
-        world.spawn_obj(RGB.RGBSpect(16,24,None,self.rgb))
+        world.spawn_obj(RGB.RGBSpawner(1,1,(0,0,0)))
+        world.spawn_obj(RGB.RGBGoal(1,3,self.rgb))
+        world.spawn_obj(RGB.RGBSpect(1,4,None,self.rgb))
 class Test(Generator):
     musics=["loop3.mp3"]
     def egen(self,world):

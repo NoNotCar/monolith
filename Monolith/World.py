@@ -21,17 +21,19 @@ ranconv={32:(1,7),64:(1,1),128:(4,1)}
 def cmenu(menu,select):
     return [menu[(select+n)%len(menu)] for n in range(-3,4)]
 class World(object):
-    def __init__(self,np,wgen,puz,pn,ps,kp,godmode,size=(32,25)):
+    def __init__(self,np,wgen,puz,pn,ps,kp,godmode,size=(32,32)):
         self.guitorun=None
         if puz:
+            size=(32,32)
             generator = Generators.puzzles[ps][pn]
         else:
             generator = Generators.gens[wgen]
         basemoney=generator.bm
-        for etab in generator.extabs:
-            Players.tabclasses.append(etab)
-        for extool in generator.extools:
-            Players.toolclasses.append(extool)
+        if not pn:
+            for etab in generator.extabs:
+                Players.tabclasses.append(etab)
+            for extool in generator.extools:
+                Players.toolclasses.append(extool)
         self.terr=[]
         self.objs=[]
         if puz:
@@ -40,8 +42,7 @@ class World(object):
             self.ents=[Players.KeyPlayer(0,"Inf" if godmode else basemoney)]
         self.player=self.ents[0]
         if puz:
-            for p in self.players:
-                p.menu=[b for b in p.menu if b.iscat]
+            self.player.menu=[b for b in self.player.menu if b.iscat]
         self.complete=False
         self.size=size
         self.sv=(size[0]//32)**2

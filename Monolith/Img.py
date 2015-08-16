@@ -51,6 +51,8 @@ def bcentre(font,text,surface,offset=0,col=(0,0,0),xoffset=0):
     textrect.centerx = surface.get_rect().centerx+xoffset
     textrect.centery = surface.get_rect().centery+offset
     return surface.blit(render,textrect)
+def fblit(surface,font,text,col,pos):
+    return surface.blit(font.render(str(text),True,col),pos)
 pfont = pygame.font.Font(pygame.font.get_default_font(), 30)
 sbfont = pygame.font.Font(pygame.font.get_default_font(), 48)
 pfont2 = pygame.font.Font(pygame.font.get_default_font(), 14)

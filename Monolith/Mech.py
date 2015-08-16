@@ -51,6 +51,10 @@ class Conv(Object.OObject):
             return self.images[self.dir*14]
         return self.images[world.anitick%14+self.dir*14]
     def update(self,world):
+        if self.ent.x!=self.x or self.ent.y!=self.y:
+            self.ent=None
+            self.updatable=False
+            return None
         if not self.owner.estop and not self.stopped and self.ent.move(dirconv[self.dir][0],dirconv[self.dir][1],self.speed,world):
             self.updatable=False
     def drop(self,world,ent):
