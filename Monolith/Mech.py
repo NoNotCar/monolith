@@ -258,37 +258,45 @@ class BasicMachine(Object.OObject):
 class VInput(Object.OObject):
     is3d=True
     img=Img.imgret2("VIn.png")
+    imgf=pygame.transform.flip(img,True,False)
     hasio="output"
     updatable=True
-    doc="Drive a vehicle in front of this to output its contents. IO: Output"
-    def __init__(self,x,y,owner):
+    doc="Drive a vehicle (or robot) in front of this to output its contents. IO: Output"
+    def __init__(self,x,y,dire,owner):
         self.x=x
         self.y=y
         self.owner=owner
         self.output=[]
+        self.dir=dire
+    def get_img(self, world):
+        return self.imgf if self.dir%2 else self.img
     def update(self,world):
         if not self.output:
             for ent in world.ents:
-                if ent.name=="Vehicle":
-                    if ent.x==self.x+1 and ent.y==self.y and ent.output:
+                if ent.name=="Vehicle" or "Robotic" in ent.types:
+                    if ent.x==self.x+(-1 if self.dir%2 else 1) and ent.y==self.y and ent.output:
                         self.output.append(ent.output.pop())
                         break
 class VLoader(Object.OObject):
     is3d=True
     img=Img.imgret2("VLoad.png")
+    imgf=pygame.transform.flip(img,True,False)
     hasio="input"
     updatable=True
-    doc="Drive a vehicle in front of this to load items (if possible). IO: Input"
-    def __init__(self,x,y,owner):
+    doc="Drive a vehicle (or robot) in front of this to load items (if possible). IO: Input"
+    def __init__(self,x,y,dire,owner):
         self.x=x
         self.y=y
         self.owner=owner
         self.lv=None
+        self.dir=dire
+    def get_img(self, world):
+        return self.imgf if self.dir%2 else self.img
     def update(self,world):
         if not self.lv:
             for ent in world.ents:
-                if ent.name=="Vehicle":
-                    if ent.x==self.x+1 and ent.y==self.y:
+                if ent.name=="Vehicle" or "Robotic" in ent.types:
+                    if ent.x==self.x+(-1 if self.dir%2 else 1) and ent.y==self.y:
                         self.lv=ent
         else:
             if self.lv.x!=self.x+1 or self.lv.y!=self.y:

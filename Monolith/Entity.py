@@ -11,6 +11,7 @@ class Entity(object):
     pickup=True
     value=0
     name="Entity"
+    types=[]
     hidden=False
     xoff=0
     yoff=0
@@ -19,8 +20,9 @@ class Entity(object):
     moving=False
     pathfollowing=False
     path=None
+    img=Img.blank32
     def get_img(self):
-        return Img.blank32
+        return self.img
     def update(self,world,events):
         pass
     def mupdate(self,world,events):
@@ -107,8 +109,6 @@ class ResourceB(Entity):
         self.x=x
         self.y=y
         self.hidden=False
-    def get_img(self):
-        return self.img
 class Path(object):
     def __init__(self,path):
         self.path=path
