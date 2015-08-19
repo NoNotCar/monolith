@@ -9,6 +9,7 @@ import Img
 import pygame
 import Buyers
 dirconv=[[-1,0],[0,1],[1,0],[0,-1]]
+diadirconv=[[-1,-1],[-1,1],[1,1],[1,-1]]
 class Robot(Entity.Entity):
     name="Robot"
     types=["Robotic"]
@@ -62,6 +63,11 @@ class Director(Object.OObject):
         return self.imgs[self.dir]
     def direct(self,world,bot):
         bot.direction=dirconv[self.dir]
+class DiaDirector(Director):
+    img=Img.imgret2("Robotics/DiaDirector.png")
+    imgs=[pygame.transform.rotate(img,n*90) for n in range(4)]
+    def direct(self,world,bot):
+        bot.direction=diadirconv[self.dir]
 class UnloadDir(Object.OObject):
     img=Img.imgret2("Robotics/Unload.png")
     name="Director"
@@ -117,7 +123,6 @@ class RobInput(Object.OObject):
         self.machines=[]
         self.owner=owner
     def update(self,world):
-        print self.wait
         if not self.wait:
             self.machines=[]
             for direction in dirconv:
@@ -145,4 +150,4 @@ class RobotCategory(object):
     doc="Robots!"
     def __init__(self):
         self.menu=[RobotBuyer(Robot,300),RobotBuyer(FarmBot,1000),
-                   Buyers.RotObjBuyer(Director,100),Buyers.ObjBuyer(UnloadDir,100),Buyers.ObjBuyer(LoadDir,100),Buyers.ObjBuyer(RobOutput,100),Buyers.ObjBuyer(RobInput,100)]
+                   Buyers.RotObjBuyer(Director,100),Buyers.RotObjBuyer(DiaDirector,300),Buyers.ObjBuyer(UnloadDir,100),Buyers.ObjBuyer(LoadDir,100),Buyers.ObjBuyer(RobOutput,100),Buyers.ObjBuyer(RobInput,100)]
