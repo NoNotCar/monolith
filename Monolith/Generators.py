@@ -53,7 +53,6 @@ class Original(Generator):
                 world.spawn_obj(Forestry.Tree(x,y))
             else:
                 world.spawn_obj(Forestry.SpTree(x,y))
-
 class HeightMap(Generator):
     musics=stdmix
     extabs=[Forestry.FTab,Fishery.FisheryTab,Farming.FarmCat]
@@ -102,14 +101,6 @@ class HeightMap(Generator):
         elif value>7:
             world.spawn_obj(Object.Mountain(x,y))
             world.terr[x][y]=0
-class HeightRobots(HeightMap):
-    musics=stdmix
-    extabs=[Forestry.FTab,Fishery.FisheryTab,Farming.FarmCat,Mech.RobMechCategory]
-    extools=[Fishery.FishingRod,Tools.Axe,Farming.Hoe]
-    gspoint=False
-    def egen(self, world):
-        world.player.menu.pop(3)
-        world.spawn_obj(Object.SellPointBlock(1,1,world.player))
 class EcoDesert(HeightMap):
     musics=["desert.ogg"]+stdmixdes
     def generatehv(self, x, y, value, world):
@@ -121,6 +112,13 @@ class EcoDesert(HeightMap):
                 world.spawn_obj(Forestry.SpTree(x,y))
         elif value>7:
             world.spawn_obj(Object.Mountain(x,y))
+class HeightRobots(EcoDesert):
+    gspoint=False
+    bm=5000
+    def egen(self, world):
+        world.player.menu.pop(3)
+        world.spawn_obj(Object.SellPointBlock(1,1,world.player))
+        world.player.menu.append(Mech.RobMechCategory())
 class RGBFactory(Generator):
     musics=["loop3.mp3"]
     extabs=[RGB.RGBCategory]

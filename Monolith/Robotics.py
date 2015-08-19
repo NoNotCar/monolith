@@ -158,6 +158,7 @@ class RobOutput(Object.OObject):
                         if "Robotic" in bot.types and not bot.moving and abs(bot.x-self.x)+abs(bot.y-self.y)==1 and bot.load(ent):
                             mach.output.pop(0)
                             self.wait=30
+                            break
         else:
             self.wait-=1
 class RobInput(Object.OObject):
