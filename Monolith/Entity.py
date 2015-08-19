@@ -86,6 +86,9 @@ class Entity(object):
     def move(self,dx,dy,s,world,player=False,boat=False,ignoreobs=False):
         tx=self.x+dx
         ty=self.y+dy
+        if dx and dy and not ignoreobs:
+            if not (world.is_clear(tx,self.y,player,boat) and world.is_clear(self.x,ty,player,boat)):
+                return False
         if world.is_clear(tx,ty,player,boat) or (world.inworld(tx,ty) and ignoreobs):
             self.x=tx
             self.y=ty
