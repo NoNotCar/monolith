@@ -103,6 +103,14 @@ class Director(Object.OObject):
         return self.imgs[self.dir]
     def direct(self,world,bot):
         bot.direction=dirconv[self.dir]
+class RevDirector(Director):
+    img=Img.imgret2("Robotics/NonReverse.png")
+    doc="Makes the robot go in the arrow's direction, but won't make the robot reverse"
+    imgs=[pygame.transform.rotate(img,n*90) for n in range(4)]
+    def direct(self,world,bot):
+        dire = dirconv[self.dir]
+        if bot.direction !=[-dire[0],-dire[1]]:
+            bot.direction=dire
 class WeakDirector(Director):
     img=Img.imgret2("Robotics/WeakDirector.png")
     doc="Makes the robot go in the arrow's direction if the space in front of the arrow is clear"
@@ -118,6 +126,13 @@ class DiaDirector(Director):
     imgs=[pygame.transform.rotate(img,n*90) for n in range(4)]
     def direct(self,world,bot):
         bot.direction=diadirconv[self.dir]
+class LoadDirRot(Director):
+    imgs=[Img.imgret2("Robotics/Load%s.png" % (s)) for s in ["L","D","R","U"]]
+    doc="Stops the robot until it is full. The robot then follows the arrow"
+    solid=False
+    def direct(self,world,bot):
+        bot.stopped=len(bot.output)!=bot.maxload
+        bot.direction=dirconv[self.dir]
 class UnloadDir(Object.OObject):
     img=Img.imgret2("Robotics/Unload.png")
     name="Director"
@@ -161,6 +176,35 @@ class RobOutput(Object.OObject):
                             break
         else:
             self.wait-=1
+class RobOutputGold(RobOutput):
+    name="RobotOutputGold"
+    img=Img.imgret2("Robotics/RobotOutputGold.png")
+    doc="When next to a machine, outputs items in the machine's output buffer into adjacent robots. Has a 5-item storage facility."
+    def __init__(self,x,y,owner):
+        self.x=x
+        self.y=y
+        self.machines=[]
+        self.owner=owner
+        self.buffer=[]
+    def update(self,world):
+        if not self.wait:
+            self.machines=[]
+            for direction in dirconv:
+                obj=world.get_obj(self.x+direction[0],self.y+direction[1])
+                if obj and obj.hasio in ["output","both","2both","2output"]:
+                    self.machines.append(obj)
+            if len(self.buffer)<5:
+                for mach in self.machines:
+                    if mach.output:
+                        self.buffer.append(mach.output.pop(0))
+            if self.buffer:
+                for bot in world.ents:
+                    if "Robotic" in bot.types and not bot.moving and abs(bot.x-self.x)+abs(bot.y-self.y)==1 and bot.load(self.buffer[0]):
+                        self.buffer.pop(0)
+                        self.wait=30
+                        break
+        else:
+            self.wait-=1
 class RobInput(Object.OObject):
     name="Robot Input"
     img=Img.imgret2("Robotics/RobotInput.png")
@@ -201,5 +245,6 @@ class RobotCategory(object):
     doc="Robots!"
     def __init__(self):
         self.menu=[RobotBuyer(Robot,300),RobotBuyer(FarmBot,1000),RobotBuyer(AmphiBot,1000),RobotBuyer(ChopBot,1000),
-                   Buyers.RotObjBuyer(Director,100),Buyers.RotObjBuyer(DiaDirector,300),Buyers.ObjBuyer(UnloadDir,100),Buyers.ObjBuyer(LoadDir,100),Buyers.RotObjBuyer(WeakDirector,100),
-                   Buyers.ObjBuyer(RobOutput,100),Buyers.ObjBuyer(RobInput,100)]
+                   Buyers.RotObjBuyer(Director,100),Buyers.RotObjBuyer(RevDirector,100),Buyers.RotObjBuyer(DiaDirector,300),
+                   Buyers.ObjBuyer(UnloadDir,100),Buyers.ObjBuyer(LoadDir,100),Buyers.RotObjBuyer(LoadDirRot,300),Buyers.RotObjBuyer(WeakDirector,100),
+                   Buyers.ObjBuyer(RobOutput,100),Buyers.ObjBuyer(RobOutputGold,500),Buyers.ObjBuyer(RobInput,100)]
