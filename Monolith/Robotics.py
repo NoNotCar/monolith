@@ -17,6 +17,7 @@ class Robot(Entity.Entity):
     maxload=10
     doc="A basic robot. Can hold up to 10 items."
     stopped=False
+    solid=True
     def __init__(self,x,y,owner):
         self.x=x
         self.y=y
@@ -37,7 +38,40 @@ class Robot(Entity.Entity):
 class FarmBot(Robot):
     name="Farmbot"
     img=Img.imgret2("Robotics/FarmerBot.png")
-    doc="This robot will harvest crops nest to it. Can hold up to 10 items"
+    doc="This robot will harvest crops next to it. Can hold up to 10 items"
+    def update(self, world, events):
+        if not self.moving:
+            for dx,dy in dirconv:
+                gobj=world.get_obj(self.x+dx,self.y+dy)
+                if gobj and len(self.output)<self.maxload:
+                    pent=gobj.pick(world)
+                    if pent:
+                        self.output.append(pent)
+            if world.get_objname(self.x,self.y)=="Director":
+                world.get_obj(self.x,self.y).direct(world,self)
+            if self.direction!=(0,0) and not self.stopped:
+                self.move(self.direction[0], self.direction[1], 2, world, True)
+class ChopBot(Robot):
+    name="Chopbot"
+    img=Img.imgret2("Robotics/LumberBot.png")
+    doc="This robot will chop down trees next to it. Can hold up to 5 items"
+    def update(self, world, events):
+        if not self.moving:
+            for dx,dy in dirconv:
+                gobj=world.get_obj(self.x+dx,self.y+dy)
+                if gobj and len(self.output)<self.maxload:
+                    pent=gobj.cut(world)
+                    if pent:
+                        self.output.append(pent)
+                        world.ents.remove(pent)
+            if world.get_objname(self.x,self.y)=="Director":
+                world.get_obj(self.x,self.y).direct(world,self)
+            if self.direction!=(0,0) and not self.stopped:
+                self.move(self.direction[0], self.direction[1], 2, world, True)
+class AmphiBot(Robot):
+    name="Amphibot"
+    img=Img.imgret2("Robotics/AmphiBot.png")
+    doc="This robot can travel across water and land. Can hold up to 10 items"
     def update(self, world, events):
         if not self.moving:
             for dx,dy in dirconv:
@@ -49,7 +83,8 @@ class FarmBot(Robot):
             if world.get_objname(self.x,self.y)=="Director":
                 world.get_obj(self.x,self.y).direct(world,self)
             if self.direction!=(0,0) and not self.stopped:
-                self.move(self.direction[0], self.direction[1], 2, world, True)
+                if not self.move(self.direction[0], self.direction[1], 2, world, True):
+                    self.move(self.direction[0], self.direction[1], 2, world, True,True)
 class Director(Object.OObject):
     img=Img.imgret2("Robotics/Director.png")
     name="Director"
@@ -63,6 +98,16 @@ class Director(Object.OObject):
         return self.imgs[self.dir]
     def direct(self,world,bot):
         bot.direction=dirconv[self.dir]
+class WeakDirector(Director):
+    img=Img.imgret2("Robotics/WeakDirector.png")
+    doc="Makes the robot go in the arrow's direction if the space in front of the arrow is clear"
+    imgs=[pygame.transform.rotate(img,n*90) for n in range(4)]
+    def direct(self,world,bot):
+        dc = dirconv[self.dir]
+        if world.is_clear(self.x+dc[0],self.y+dc[1],True):
+            bot.direction=dc
+        elif bot.name=="Amphibot" and world.is_clear(self.x+dc[0],self.y+dc[1],True,True):
+            bot.direction=dc
 class DiaDirector(Director):
     img=Img.imgret2("Robotics/DiaDirector.png")
     imgs=[pygame.transform.rotate(img,n*90) for n in range(4)]
@@ -107,7 +152,7 @@ class RobOutput(Object.OObject):
                     for bot in world.ents:
                         if "Robotic" in bot.types and not bot.moving and abs(bot.x-self.x)+abs(bot.y-self.y)==1 and bot.load(ent):
                             mach.output.pop(0)
-                            self.wait=16
+                            self.wait=30
         else:
             self.wait-=1
 class RobInput(Object.OObject):
@@ -134,7 +179,7 @@ class RobInput(Object.OObject):
                     if "Robotic" in bot.types and not bot.moving and len(bot.output) and abs(bot.x-self.x)+abs(bot.y-self.y)==1:
                         if mach.input(bot.output[0]):
                             bot.output.pop(0)
-                            self.wait=16
+                            self.wait=30
         else:
             self.wait-=1
 class RobotBuyer(Buyers.VBuyer):
@@ -149,5 +194,6 @@ class RobotCategory(object):
     iscat=True
     doc="Robots!"
     def __init__(self):
-        self.menu=[RobotBuyer(Robot,300),RobotBuyer(FarmBot,1000),
-                   Buyers.RotObjBuyer(Director,100),Buyers.RotObjBuyer(DiaDirector,300),Buyers.ObjBuyer(UnloadDir,100),Buyers.ObjBuyer(LoadDir,100),Buyers.ObjBuyer(RobOutput,100),Buyers.ObjBuyer(RobInput,100)]
+        self.menu=[RobotBuyer(Robot,300),RobotBuyer(FarmBot,1000),RobotBuyer(AmphiBot,1000),RobotBuyer(ChopBot,1000),
+                   Buyers.RotObjBuyer(Director,100),Buyers.RotObjBuyer(DiaDirector,300),Buyers.ObjBuyer(UnloadDir,100),Buyers.ObjBuyer(LoadDir,100),Buyers.RotObjBuyer(WeakDirector,100),
+                   Buyers.ObjBuyer(RobOutput,100),Buyers.ObjBuyer(RobInput,100)]

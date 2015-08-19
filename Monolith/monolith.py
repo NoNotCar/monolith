@@ -1,7 +1,6 @@
 #Import non-image modules here
 import pygame
 import sys
-import os
 
 #init video
 pygame.init()
