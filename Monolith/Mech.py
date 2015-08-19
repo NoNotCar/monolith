@@ -7,6 +7,7 @@ import Object
 import Img
 import pygame
 import GUI
+import Buyers
 convimgs=[]
 slowconvimgs=[]
 rainconvimgs=[]
@@ -483,3 +484,11 @@ class UpTunnel(Object.OObject):
             return False
         self.tunnel.append([stretch,ent])
         return True
+class RobMechCategory(object):
+    img=Img.imgret2("Gear.png")
+    iscat=True
+    doc="Tech stuff"
+    def __init__(self):
+        self.menu=[Buyers.RotObjBuyer(DownTunnel,200),Buyers.RotObjBuyer(DownTunnelL,1000),Buyers.RotObjBuyer(UpTunnel,500),
+                   Buyers.RotObjBuyer(Output,100),Buyers.RotObjBuyer(Output2,200),Buyers.ObjBuyer(Input,100),Buyers.RotObjBuyer(IOput,300),Buyers.ObjBuyer(Buffer5,500),
+                   Buyers.ObjBuyer(Splitter,500),Buyers.ObjBuyer(PurpPri,500),Buyers.ObjBuyer(Filter,500),Buyers.RotObjBuyer(VInput,50),Buyers.RotObjBuyer(VLoader,50),Buyers.ObjBuyer(Object.SellPointBlock,10000)]

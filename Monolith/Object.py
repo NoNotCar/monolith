@@ -62,8 +62,7 @@ class SellPoint(Object):
 class Mountain(Object):
     img=Img.imgret2("Mountain.png")
 class SellPointBlock(OObject):
-    solid=False
-    playerenter=False
+    solid=True
     img=Img.imgret2("BuyBlock.png")
     name="SellPointBlock"
     is3d=True

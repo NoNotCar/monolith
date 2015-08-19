@@ -12,7 +12,9 @@ import Fishery
 import Farming
 import Entity
 import Tools
+import Players
 from random import randint,shuffle
+from Monolith import Mech
 e=enumerate
 stdmix=["loop3.mp3","46b.ogg","Chopin.ogg","Start5.ogg","Packy.ogg","Minority.ogg","ChOrDs.ogg"]
 stdmixdes=["46b.ogg","Chopin.ogg","Minority.ogg"]
@@ -51,6 +53,7 @@ class Original(Generator):
                 world.spawn_obj(Forestry.Tree(x,y))
             else:
                 world.spawn_obj(Forestry.SpTree(x,y))
+
 class HeightMap(Generator):
     musics=stdmix
     extabs=[Forestry.FTab,Fishery.FisheryTab,Farming.FarmCat]
@@ -87,6 +90,7 @@ class HeightMap(Generator):
         for x,row in e(heightmap):
             for y,value in e(row):
                 self.generatehv(x, y, value, world)
+        self.egen(world)
         return self.musics
     def generatehv(self,x,y,value,world):
         world.terr[x][y]=5 if value<=0 else 7 if value==1 else 0 if value<6 else 9
@@ -98,6 +102,14 @@ class HeightMap(Generator):
         elif value>7:
             world.spawn_obj(Object.Mountain(x,y))
             world.terr[x][y]=0
+class HeightRobots(HeightMap):
+    musics=stdmix
+    extabs=[Forestry.FTab,Fishery.FisheryTab,Farming.FarmCat,Mech.RobMechCategory]
+    extools=[Fishery.FishingRod,Tools.Axe,Farming.Hoe]
+    gspoint=False
+    def egen(self, world):
+        world.player.menu.pop(3)
+        world.spawn_obj(Object.SellPointBlock(1,1,world.player))
 class EcoDesert(HeightMap):
     musics=["desert.ogg"]+stdmixdes
     def generatehv(self, x, y, value, world):
@@ -126,7 +138,7 @@ class RGBFactory(Generator):
 class RGBPuzzle(Generator):
     musics=["loop3.mp3"]
     extabs=[RGB.RGBCategoryPuzz]
-    bm=1000000
+    bm="Inf"
     gspoint=False
     def __init__(self,rgb):
         self.rgb=rgb
@@ -151,6 +163,6 @@ def generatelake(x,y,tid,centre,fullsize,partsize,world):
     dmiddle=math.sqrt(abs(x-32+centre[0])**2+abs(y-25+centre[1])**2)
     if dmiddle<randint(fullsize,partsize):
         world.set_terr(x,y,tid)
-gens=[Original(),EcoDesert(3),RGBFactory(),HeightMap(1),HeightMap(3)]
+gens=[Original(),EcoDesert(3),HeightRobots(2),HeightMap(1),HeightMap(3)]
 puzzles=[[RGBPuzzle((0,0,0)),RGBPuzzle((0,255,0)),RGBPuzzle((255,255,255)),RGBPuzzle((127,127,0))],
          [RGBPuzzle((63,0,63)),RGBPuzzle((0,191,63)),RGBPuzzle((127,63,191)),RGBPuzzle((31,127,0))]]

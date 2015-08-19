@@ -26,6 +26,7 @@ class Robot(Entity.Entity):
         self.output=[]
     def update(self, world, events):
         if not self.moving:
+            self.stopped=False
             if world.get_objname(self.x,self.y)=="Director":
                 world.get_obj(self.x,self.y).direct(world,self)
             if self.direction!=(0,0) and not self.stopped:
@@ -47,6 +48,7 @@ class FarmBot(Robot):
                     pent=gobj.pick(world)
                     if pent:
                         self.output.append(pent)
+            self.stopped=False
             if world.get_objname(self.x,self.y)=="Director":
                 world.get_obj(self.x,self.y).direct(world,self)
             if self.direction!=(0,0) and not self.stopped:
@@ -55,6 +57,7 @@ class ChopBot(Robot):
     name="Chopbot"
     img=Img.imgret2("Robotics/LumberBot.png")
     doc="This robot will chop down trees next to it. Can hold up to 5 items"
+    maxload=5
     def update(self, world, events):
         if not self.moving:
             for dx,dy in dirconv:
@@ -64,6 +67,7 @@ class ChopBot(Robot):
                     if pent:
                         self.output.append(pent)
                         world.ents.remove(pent)
+            self.stopped=False
             if world.get_objname(self.x,self.y)=="Director":
                 world.get_obj(self.x,self.y).direct(world,self)
             if self.direction!=(0,0) and not self.stopped:
@@ -80,6 +84,7 @@ class AmphiBot(Robot):
                     pent=gobj.pick(world)
                     if pent:
                         self.output.append(pent)
+            self.stopped=False
             if world.get_objname(self.x,self.y)=="Director":
                 world.get_obj(self.x,self.y).direct(world,self)
             if self.direction!=(0,0) and not self.stopped:

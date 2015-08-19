@@ -36,10 +36,7 @@ class World(object):
                 Players.toolclasses.append(extool)
         self.terr=[]
         self.objs=[]
-        if puz:
-            self.ents=[Players.KeyPlayer(0,"Inf")]
-        else:
-            self.ents=[Players.KeyPlayer(0,"Inf" if godmode else basemoney)]
+        self.ents=[Players.KeyPlayer(0,"Inf" if godmode else basemoney)]
         self.player=self.ents[0]
         if puz:
             self.player.menu=[b for b in self.player.menu if b.iscat]
@@ -226,6 +223,11 @@ class World(object):
         if boat and not self.get_terr(x,y).iswasser:
             return False
         return not (self.get_obj(x, y) and (self.get_obj(x, y).solid or (player and not self.get_obj(x,y).playerenter))) and not (self.get_ent(x,y) and self.get_ent(x,y).solid)
+    def get_solidobj(self,x,y,player=False):
+        """If there is a solid object here"""
+        if not self.inworld(x, y):
+            return True
+        return  self.get_obj(x, y) and (self.get_obj(x, y).solid or (player and not self.get_obj(x,y).playerenter))
     def get_terr(self,x,y):
         """Get the terrain object of the location"""
         return terrlist[self.get_tid(x, y)]

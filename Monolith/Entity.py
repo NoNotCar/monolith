@@ -87,7 +87,7 @@ class Entity(object):
         tx=self.x+dx
         ty=self.y+dy
         if dx and dy and not ignoreobs:
-            if not (world.is_clear(tx,self.y,player,boat) and world.is_clear(self.x,ty,player,boat)):
+            if world.get_solidobj(tx,self.y,player) or world.get_solidobj(self.x,ty,player):
                 return False
         if world.is_clear(tx,ty,player,boat) or (world.inworld(tx,ty) and ignoreobs):
             self.x=tx
