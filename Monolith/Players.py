@@ -23,6 +23,7 @@ hdirconv={(0,-1):0,(-1,0):1,(0,1):2,(1,0):3}
 ps2map=[2,1,5,6,7,0,4,9]
 xboxmap=[0,1,2]
 picksound=Img.sndget("Randomize2.wav")
+sellsound=Img.sndget("Pickup_Coin.wav")
 class MechCategory(object):
     img=Img.imgret2("Gear.png")
     iscat=True
@@ -72,6 +73,7 @@ class KeyPlayer(Entity.Entity):
         self.pstorage=[]
         self.psuppliers=[]
         self.mmovewait=0
+        self.production={}
     def pupdate(self,world):
         self.psupply=0
         for psup in self.psuppliers[:]:
@@ -105,7 +107,7 @@ class KeyPlayer(Entity.Entity):
                                 if world.inworld(tx,ty) and selbuy.buy(world,tx,ty,self) and not self.godmode:
                                     self.money-=selbuy.cost
                             else:
-                                if selbuy.buy(world,self.x,self.y,self):
+                                if selbuy.buy(world,self.x,self.y,self) and not self.godmode:
                                     self.money-=selbuy.cost
                         elif selbuy.iscat:
                             self.submenu=0
@@ -185,7 +187,11 @@ class KeyPlayer(Entity.Entity):
         tx=self.x+self.dir[0]
         ty=self.y+self.dir[1]
         if world.inworld(tx,ty):
-            self.tools[self.tsel].use(tx,ty,world,self)
+            for _ in self.tools:
+                if self.tools[self.tsel].use(tx,ty,world,self):
+                    break
+                else:
+                    self.tsel=(self.tsel+1)%len(self.tools)
     def pickup(self,world):
         tx=self.x+self.dir[0]
         ty=self.y+self.dir[1]
@@ -230,4 +236,8 @@ class KeyPlayer(Entity.Entity):
                     supply.stored=0
             return True
         return False
+    def sell(self,ent):
+        if self.money!="INF":
+            self.money+=ent.value
+        sellsound.play()
             

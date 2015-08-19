@@ -29,8 +29,10 @@ class FishPoo(Entity.ResourceB):
 class FishingRod(Tools.Tool):
     img=imgref2("Fishingrod.png")
     def use(self,x,y,w,p):
-        if not randint(0,5) and w.get_terr(x,y).iswasser and not p.hand:
-            p.hand=Fish(x,y)
+        if w.get_terr(x,y).iswasser and not p.hand:
+            if not randint(0,5):
+                p.hand=Fish(x,y)
+            return True
 class Fisher(Object.OObject):
     is3d=True
     img=imgref2("Shocker.png")

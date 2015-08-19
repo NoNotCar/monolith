@@ -13,6 +13,8 @@ class Terrain(object):
     mcol=(200,200,200)
     def ranupdate(self,world,x,y):
         pass
+    def trample(self,world,x,y):
+        pass
 ruleround=((-1,-1),(0,-1),(1,-1),(-1,0),(1,0),(-1,1),(0,1),(1,1))
 class Grass(Terrain):
     image=Img.imgret2("Grass2.png")
@@ -61,5 +63,7 @@ class GrassIF(Terrain):
 class Field(Terrain):
     image=Img.imgret2("Farming/Farmland.png")
     mcol=(66,26,0)
+    def trample(self, world, x, y):
+        world.set_terr(x,y,0)
                 
 terrlist=[Grass(),Road(),Gravel(),Dirt(),Sand(),Wasser(),Metal(),Sand2(),Bridge(),GrassIF(),Field()]

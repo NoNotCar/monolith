@@ -251,7 +251,7 @@ class BasicMachine(Object.OObject):
     def input(self,ent):
         for r in self.recipes:
             if not self.output and ent.name==r[0]:
-                for x in range(r[2]):
+                for _ in range(r[2]):
                     self.output.append(r[1](self.x,self.y))
                 return True
         return False

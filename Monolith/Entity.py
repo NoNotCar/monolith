@@ -19,6 +19,7 @@ class Entity(object):
     droppable=False
     moving=False
     pathfollowing=False
+    trample=True
     path=None
     img=Img.blank32
     def get_img(self):
@@ -38,6 +39,8 @@ class Entity(object):
             self.xoff=0
             self.yoff=0
             self.moving=False
+            if self.trample:
+                world.get_terr(self.x,self.y).trample(world,self.x,self.y)
             if world.get_obj(self.x,self.y) and self.droppable:
                 world.get_obj(self.x,self.y).drop(world,self)
             if self.droppable:

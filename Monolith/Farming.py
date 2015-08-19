@@ -15,12 +15,14 @@ class Hoe(Tools.Tool):
     def use(self, x, y, world, p):
         if world.get_tid(x,y)==0 and not world.get_obj(x,y):
             world.set_terr(x,y,10)
+            return True
 class Crop(Object.OObject):
     imgs=[]
     doc="A good crop for growing"
     updatable=True
     cropitem=None
     gm=1
+    types=["Crop"]
     def __init__(self, x, y, owner):
         self.x = x
         self.y = y

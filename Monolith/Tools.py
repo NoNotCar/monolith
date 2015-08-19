@@ -15,7 +15,7 @@ class Axe(Tool):
     img=Img.imgret2("Axe.png")
     def use(self,x,y,world,p):
         if world.get_obj(x,y):
-            world.get_obj(x,y).cut(world)
+            return world.get_obj(x,y).cut(world)
 class Wrench(Tool):
     img=Img.imgret2("Wrench.png")
     def use(self,x,y,world,p):
@@ -23,8 +23,11 @@ class Wrench(Tool):
         if world.get_obj(x,y):
             if kmods & pygame.KMOD_LSHIFT:
                 world.get_obj(x,y).rotate()
+                return True
             elif kmods & pygame.KMOD_LCTRL:
                 world.get_obj(x,y).wrench(world)
+                return True
             elif world.get_obj(x,y).is_owner(p):
                 world.dest_obj(x,y)
                 destsound.play()
+                return True

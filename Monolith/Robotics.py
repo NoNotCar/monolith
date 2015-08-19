@@ -33,7 +33,22 @@ class Robot(Entity.Entity):
             self.output.append(ent)
             return True
         return False
-
+class FarmBot(Robot):
+    name="Farmbot"
+    img=Img.imgret2("Robotics/FarmerBot.png")
+    doc="This robot will harvest crops nest to it. Can hold up to 10 items"
+    def update(self, world, events):
+        if not self.moving:
+            for dx,dy in dirconv:
+                gobj=world.get_obj(self.x+dx,self.y+dy)
+                if gobj:
+                    pent=gobj.pick(world)
+                    if pent:
+                        self.output.append(pent)
+            if world.get_objname(self.x,self.y)=="Director":
+                world.get_obj(self.x,self.y).direct(world,self)
+            if self.direction!=(0,0) and not self.stopped:
+                self.move(self.direction[0], self.direction[1], 2, world, True)
 class Director(Object.OObject):
     img=Img.imgret2("Robotics/Director.png")
     name="Director"
@@ -102,6 +117,7 @@ class RobInput(Object.OObject):
         self.machines=[]
         self.owner=owner
     def update(self,world):
+        print self.wait
         if not self.wait:
             self.machines=[]
             for direction in dirconv:
@@ -128,4 +144,5 @@ class RobotCategory(object):
     iscat=True
     doc="Robots!"
     def __init__(self):
-        self.menu=[RobotBuyer(Robot,300),Buyers.RotObjBuyer(Director,100),Buyers.ObjBuyer(UnloadDir,100),Buyers.ObjBuyer(LoadDir,100),Buyers.ObjBuyer(RobOutput,100),Buyers.ObjBuyer(RobInput,100)]
+        self.menu=[RobotBuyer(Robot,300),RobotBuyer(FarmBot,1000),
+                   Buyers.RotObjBuyer(Director,100),Buyers.ObjBuyer(UnloadDir,100),Buyers.ObjBuyer(LoadDir,100),Buyers.ObjBuyer(RobOutput,100),Buyers.ObjBuyer(RobInput,100)]

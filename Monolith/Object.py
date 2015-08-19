@@ -6,7 +6,6 @@ The Base Of All Things
 import Img
 import GUI
 
-sellsound=Img.sndget("Pickup_Coin.wav")
 class Object(object):
     #Immovable things like trees and pipes
     img=Img.blank32
@@ -19,6 +18,7 @@ class Object(object):
     ispipe=False
     mcol=None
     off3d=6
+    types=[]
     def __init__(self,x,y):
         self.x=x
         self.y=y
@@ -56,9 +56,7 @@ class SellPoint(Object):
         self.owner=owner
     def drop(self,world,ent):
         world.ents.remove(ent)
-        if self.owner.money!="INF":
-            self.owner.money+=ent.value
-        sellsound.play()
+        self.owner.sell(ent)
     def is_owner(self,player):
         return False
 class Mountain(Object):
@@ -72,9 +70,7 @@ class SellPointBlock(OObject):
     hasio="input"
     doc="Placeable selling point with io. IO: Input"
     def input(self,ent):
-        if self.owner.money!="INF":
-            self.owner.money+=ent.value
-        sellsound.play()
+        self.owner.sell(ent)
         return True
 class Monolith(OObject):
     updatable=True
