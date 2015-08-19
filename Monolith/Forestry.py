@@ -46,7 +46,7 @@ class AutoChopper(Object.OObject):
             self.idle-=1
 class AutoChopperPlus(AutoChopper):
     img=Img.imgret2("AutoChopperPlus.png")
-    doc="Chops down trees in the 5x5 square ring around it and outputs the logs. Uses 0.1kJ per operation. IO: Output"
+    doc="Chops down trees in the 5x5 square ring around it and outputs the logs. Consumes 100W. IO: Output"
     def update(self,world):
         hasp=self.owner.get_power(100)
         if self.idle==0:
