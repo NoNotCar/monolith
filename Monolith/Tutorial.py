@@ -8,6 +8,7 @@ from Buyers import ObjBuyer,RotObjBuyer,Buyer
 import Img
 from GUI import HelpGUI
 import Tools
+import Mech
 class Help(Buyer):
     doc="Right click for help!"
     forward=False
@@ -36,6 +37,9 @@ class Tutorial(object):
         pass
     def generatec(self,world,x,y):
         pass
-class TestTutorial(Tutorial):
+class TestTutorial1(Tutorial):
     pmenu=[Help(Img.imgret("Tutorial/1.png")),ObjBuyer(Object.Monolith,0)]
+    extools=[Tools.Axe]
+class TestTutorial2(Tutorial):
+    pmenu=[Help(Img.imgret("Tutorial/2.png")),RotObjBuyer(Mech.SlowConv,25),ObjBuyer(Object.Monolith,0)]
     extools=[Tools.Axe]
