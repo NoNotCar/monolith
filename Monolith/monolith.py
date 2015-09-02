@@ -12,7 +12,6 @@ import Generators
 import Img
 import GUI
 
-
 pygame.display.set_icon(Img.imgret2("Monolith.png"))
 pygame.display.set_caption("monolith")
 numplayers=1
@@ -35,6 +34,8 @@ wsizemod=0
 wsrects=[]
 psrects=[]
 godmode=False
+tutorial=False
+tutb=pygame.Rect(0,0,0,0)
 while cont:
     for ev in pygame.event.get():
         if ev.type==pygame.QUIT:
@@ -45,6 +46,10 @@ while cont:
                 cont=False
             if prect.collidepoint(mpos):
                 puzzles=not puzzles
+            if tutb.collidepoint(mpos):
+                tutorial=True
+                puzzles=True
+                cont=False
             for gr,n in grects:
                 if gr.collidepoint(mpos):
                     wgen=n
@@ -60,6 +65,7 @@ while cont:
     screen.fill(rgb)
     screen.blit(nland,(0,0))
     Img.bcentre(Img.bfont, "MONOLITH", screen,-200)
+    tutb=Img.fblit(screen, Img.dfont, "TUTORIAL", (255,0,0), (0,0))
     grects=[]
     wsrects=[]
     if not puzzles:
@@ -87,9 +93,13 @@ while cont:
 screen=pygame.display.set_mode((384,384))
 #stop music
 pygame.mixer.music.stop()
+screenshotting=False
 #main loop
 while True:
-    w=World.World(numplayers,wgen,puzzles,pnum,pset,kp,godmode,(32*2**wsizemod,32*2**wsizemod))
+    if tutorial:
+        w=World.World(1,0,2,pnum,0,kp,0,(32,32))
+    else:
+        w=World.World(1,wgen,puzzles,pnum,pset,kp,godmode,(32*2**wsizemod,32*2**wsizemod))
     while not w.complete:
         e=pygame.event.get()
         for ev in e:
@@ -97,14 +107,21 @@ while True:
                 sys.exit()
             elif ev.type==pygame.KEYDOWN and ev.key==pygame.K_p:
                 w.run_GUI(GUI.PauseGUI())
+            elif ev.type==pygame.KEYDOWN and ev.key==pygame.K_s and pygame.key.get_mods() & pygame.KMOD_LALT:
+                screenshotting=True
         screen.fill((100,100,100))
         w.update(e)
         w.scrollrender(screen)
         pygame.display.flip()
+        if screenshotting:
+            pygame.image.save(screen,Img.np(Img.loc+"Screenshots/screen.png"))
+            screenshotting=False
         c.tick(60)
     pygame.mixer.music.stop()
     pygame.time.wait(1000)
-    if pnum<len(Generators.puzzles[pset])-1:
+    if tutorial and pnum<len(Generators.tutorials)-1:
+        pnum+=1
+    elif not tutorial and pnum<len(Generators.puzzles[pset])-1:
         pnum+=1
     else:
-        w.run_GUI(GUI.WinGUI)
+        sys.exit()

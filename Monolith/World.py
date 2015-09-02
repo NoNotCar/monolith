@@ -23,7 +23,10 @@ def cmenu(menu,select):
 class World(object):
     def __init__(self,np,wgen,puz,pn,ps,kp,godmode,size=(32,32)):
         self.guitorun=None
-        if puz:
+        self.puz=puz
+        if puz==2:
+            generator=Generators.tutorials[pn]
+        elif puz:
             size=(32,32)
             generator = Generators.puzzles[ps][pn]
         else:

@@ -83,4 +83,5 @@ class Monolith(OObject):
     def update(self,world):
         self.countdown-=1
         if self.countdown==0:
-            world.run_GUI(GUI.WinGUI())
+            world.run_GUI(GUI.WinGUI(world.puz))
+            world.complete=True

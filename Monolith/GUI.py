@@ -11,12 +11,15 @@ class GUI(object):
     def run(self,screen,player):
         pass
 class WinGUI(GUI):
+    def __init__(self,puz=False):
+        self.p=puz
     def run(self,screen,player):
         screen.fill((255,255,255))
         Img.bcentre(Img.bfont,"WIN",screen)
         pygame.display.flip()
         pygame.time.wait(1000)
-        sys.exit()
+        if not self.p:
+            sys.exit()
 class PauseGUI(GUI):
     def run(self,screen,player):
         """The pause GUI should use minimal system resources"""
@@ -61,3 +64,17 @@ class ListGui(GUI):
             if player.hand and player.hand.name not in self.contents:
                 arect=screen.blit(self.addimg,(nx,32))
             pygame.display.flip()
+class HelpGUI(GUI):
+    def __init__(self,img):
+        self.img=img
+    def run(self,screen,player):
+        screen.fill((255,255,255))
+        screen.blit(self.img,(0,0))
+        pygame.display.flip()
+        while True:
+            for e in pygame.event.get():
+                if e.type==pygame.QUIT:
+                    sys.exit()
+                if e.type==pygame.MOUSEBUTTONDOWN:
+                    return None
+            pygame.time.wait(200)
