@@ -38,8 +38,8 @@ class Tutorial(object):
     def generatec(self,world,x,y):
         pass
 class TestTutorial1(Tutorial):
-    pmenu=[Help(Img.imgret("Tutorial/1.png")),ObjBuyer(Object.Monolith,0)]
+    pmenu=[Help(Img.imgret("Tutorial/1.png")),ObjBuyer(Object.Monolith,1000)]
     extools=[Tools.Axe]
 class TestTutorial2(Tutorial):
-    pmenu=[Help(Img.imgret("Tutorial/2.png")),RotObjBuyer(Mech.SlowConv,25),ObjBuyer(Object.Monolith,0)]
+    pmenu=[Help(Img.imgret("Tutorial/2.png")),RotObjBuyer(Mech.SlowConv,25),ObjBuyer(Object.Monolith,2000)]
     extools=[Tools.Axe]
