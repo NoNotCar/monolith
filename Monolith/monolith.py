@@ -11,6 +11,7 @@ import World
 import Generators
 import Img
 import GUI
+import Tutorial
 
 pygame.display.set_icon(Img.imgret2("Monolith.png"))
 pygame.display.set_caption("monolith")
@@ -119,7 +120,7 @@ while True:
         c.tick(60)
     pygame.mixer.music.stop()
     pygame.time.wait(1000)
-    if tutorial and pnum<len(Generators.tutorials)-1:
+    if tutorial and pnum<len(Tutorial.tutorials)-1:
         pnum+=1
     elif not tutorial and pnum<len(Generators.puzzles[pset])-1:
         pnum+=1

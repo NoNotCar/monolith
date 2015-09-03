@@ -10,6 +10,7 @@ from random import randint,choice
 from Terrain import terrlist
 import Object
 import Generators
+import Tutorial
 import pygame
 #util
 e=enumerate
@@ -25,18 +26,15 @@ class World(object):
         self.guitorun=None
         self.puz=puz
         if puz==2:
-            generator=Generators.tutorials[pn]
+            generator=Tutorial.tutorials[pn]
         elif puz:
             size=(32,32)
             generator = Generators.puzzles[ps][pn]
         else:
             generator = Generators.gens[wgen]
         basemoney=generator.bm
-        if not pn:
-            for etab in generator.extabs:
-                Players.tabclasses.append(etab)
-            for extool in generator.extools:
-                Players.toolclasses.append(extool)
+        Players.tabclasses=Players.btabclasses+generator.extabs
+        Players.toolclasses=generator.extools
         self.terr=[]
         self.objs=[]
         self.ents=[Players.KeyPlayer(0,"Inf" if godmode else basemoney)]

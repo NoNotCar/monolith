@@ -10,6 +10,9 @@ from GUI import HelpGUI
 import Tools
 import Mech
 import Forestry
+import pygame
+from Generators import Original
+from Monolith import Forestry
 class Help(Buyer):
     doc="Right click for help!"
     forward=False
@@ -22,6 +25,20 @@ class Help(Buyer):
         return True
     def get_img(self, world):
         return self.img
+class FilterSellPoint(Object.SellPoint):
+    img=Img.imgret2("Bridge.png")
+    def __init__(self, x, y,owner, fent):
+        self.x = x
+        self.y = y
+        self.owner=owner
+        self.ent=fent
+        simg=pygame.transform.scale(self.ent.img,(16,16))
+        self.img.blit(simg,(4,8))
+        self.img.blit(Img.imgret("Tutorial\Psign.png"),(16,8))
+    def drop(self, world, ent):
+        if ent.name==self.ent.name:
+            world.ents.remove(ent)
+            self.owner.sell(ent)
 class Tutorial(object):
     musics=None
     bm=0
@@ -43,13 +60,20 @@ class TT1(Tutorial):
         self.generator=generator
         self.pmenu=pmenu
         self.extools=extools
+class TT1F(TT1):
+    gspoint=False
+    def __init__(self,generator,pmenu,extools,fent):
+        self.generator=generator
+        self.pmenu=pmenu
+        self.extools=extools
+        self.fent=fent
     def generate(self,world):
         world.player.menu=self.pmenu
+        world.spawn_obj(FilterSellPoint(0,0,world.player,self.fent))
         return self.generator.generate(world)
-    def egen(self,world):
-        pass
-    def generatec(self,world,x,y):
-        pass
-tutorials=[[[Help(1),ObjBuyer(Object.Monolith,1000)],[Tools.Axe]],
-           [[Help(2),RotObjBuyer(Mech.SlowConv,25),ObjBuyer(Object.Monolith,2000)],[Tools.Axe]],
-           [[Help(3),ObjBuyer(Forestry.AutoChopper,500),RotObjBuyer(Mech.Output,25),RotObjBuyer(Mech.SlowConv,25),ObjBuyer(Object.Monolith,10000)],[Tools.Axe]]]
+ttpaper=TT1F(Original(),[Help(4),ObjBuyer(Forestry.PaperMill,500),ObjBuyer(Forestry.AutoChopperNP,500),RotObjBuyer(Mech.Output,25),ObjBuyer(Mech.Input,25),RotObjBuyer(Mech.Conv,25),ObjBuyer(Object.Monolith,10000)],[Tools.Axe],Forestry.Paper)
+ttpaper.bm=1000
+tutorials=[TT1(Original(),[Help(1),ObjBuyer(Object.Monolith,1000)],[Tools.Axe]),
+           TT1(Original(),[Help(2),RotObjBuyer(Mech.SlowConv,25),ObjBuyer(Object.Monolith,2000)],[Tools.Axe]),
+           TT1(Original(),[Help(3),ObjBuyer(Forestry.AutoChopperNP,500),RotObjBuyer(Mech.Output,25),RotObjBuyer(Mech.Conv,25),ObjBuyer(Object.Monolith,10000)],[Tools.Axe]),
+           ttpaper]

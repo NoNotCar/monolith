@@ -36,6 +36,7 @@ class MechCategory(object):
                    Buyers.VBuyer(Vehicles.Lorry,1000),Buyers.RotObjBuyer(Mech.VInput,50),Buyers.RotObjBuyer(Mech.VLoader,50),Buyers.ObjBuyer(Object.SellPointBlock,10000)]
 
 tabclasses=[MechCategory,Power.PowerCategory,UM.UMCategory,Robotics.RobotCategory]
+btabclasses=tabclasses[:]
 toolclasses=[]
 class KeyPlayer(Entity.Entity):
     name="Player"

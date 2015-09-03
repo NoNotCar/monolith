@@ -12,7 +12,6 @@ import Fishery
 import Farming
 import Entity
 import Tools
-import Tutorial
 from random import randint,shuffle
 import Mech
 e=enumerate
@@ -164,4 +163,3 @@ def generatelake(x,y,tid,centre,fullsize,partsize,world):
 gens=[Original(),EcoDesert(3),HeightRobots(2),HeightMap(1),HeightMap(3)]
 puzzles=[[RGBPuzzle((0,0,0)),RGBPuzzle((0,255,0)),RGBPuzzle((255,255,255)),RGBPuzzle((127,127,0))],
          [RGBPuzzle((63,0,63)),RGBPuzzle((0,191,63)),RGBPuzzle((127,63,191)),RGBPuzzle((31,127,0))]]
-tutorials=[Tutorial.TT1(Original(),n[0],n[1]) for n in Tutorial.tutorials]
