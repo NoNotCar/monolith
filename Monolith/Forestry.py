@@ -44,6 +44,18 @@ class AutoChopper(Object.OObject):
             self.idle=60
         else:
             self.idle-=1
+class AutoChopperNP(AutoChopper):
+    doc="Chops down trees in the 3x3 square around it and outputs the logs."
+    def update(self,world):
+        if self.idle==0:
+            for x in range(self.x-1,self.x+2):
+                for y in range(self.y-1,self.y+2):
+                    if world.get_obj(x,y) and world.get_objname(x,y)[:4]=="Tree" and not self.output:
+                        self.output.append(world.get_obj(x,y).cut(world,False))
+                        break
+            self.idle=60
+        else:
+            self.idle-=1
 class AutoChopperPlus(AutoChopper):
     img=Img.imgret2("AutoChopperPlus.png")
     doc="Chops down trees in the 5x5 square ring around it and outputs the logs. Consumes 100W. IO: Output"

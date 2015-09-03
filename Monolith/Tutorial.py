@@ -9,13 +9,14 @@ import Img
 from GUI import HelpGUI
 import Tools
 import Mech
+import Forestry
 class Help(Buyer):
     doc="Right click for help!"
     forward=False
     img=Img.imgret2("Tutorial/Help.png")
-    def __init__(self,img):
+    def __init__(self,num):
         self.cost=0
-        self.gui=HelpGUI(img)
+        self.gui=HelpGUI(Img.imgret("Tutorial/"+str(num)+".png"))
     def buy(self, world, tx, ty, p):
         world.run_GUI(self.gui)
         return True
@@ -37,9 +38,18 @@ class Tutorial(object):
         pass
     def generatec(self,world,x,y):
         pass
-class TestTutorial1(Tutorial):
-    pmenu=[Help(Img.imgret("Tutorial/1.png")),ObjBuyer(Object.Monolith,1000)]
-    extools=[Tools.Axe]
-class TestTutorial2(Tutorial):
-    pmenu=[Help(Img.imgret("Tutorial/2.png")),RotObjBuyer(Mech.SlowConv,25),ObjBuyer(Object.Monolith,2000)]
-    extools=[Tools.Axe]
+class TT1(Tutorial):
+    def __init__(self,generator,pmenu,extools):
+        self.generator=generator
+        self.pmenu=pmenu
+        self.extools=extools
+    def generate(self,world):
+        world.player.menu=self.pmenu
+        return self.generator.generate(world)
+    def egen(self,world):
+        pass
+    def generatec(self,world,x,y):
+        pass
+tutorials=[[[Help(1),ObjBuyer(Object.Monolith,1000)],[Tools.Axe]],
+           [[Help(2),RotObjBuyer(Mech.SlowConv,25),ObjBuyer(Object.Monolith,2000)],[Tools.Axe]],
+           [[Help(3),ObjBuyer(Forestry.AutoChopper,500),RotObjBuyer(Mech.Output,25),RotObjBuyer(Mech.SlowConv,25),ObjBuyer(Object.Monolith,10000)],[Tools.Axe]]]
