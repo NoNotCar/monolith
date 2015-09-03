@@ -4,7 +4,7 @@ Created on 31 Aug 2015
 @author: NoNotCar
 '''
 import Object
-from Buyers import ObjBuyer,RotObjBuyer,Buyer
+from Buyers import ObjBuyer,RotObjBuyer,Buyer,VBuyer
 import Img
 from GUI import HelpGUI
 import Tools
@@ -76,4 +76,7 @@ ttpaper.bm=1000
 tutorials=[TT1(Original(),[Help(1),ObjBuyer(Object.Monolith,1000)],[Tools.Axe]),
            TT1(Original(),[Help(2),RotObjBuyer(Mech.SlowConv,25),ObjBuyer(Object.Monolith,2000)],[Tools.Axe]),
            TT1(Original(),[Help(3),ObjBuyer(Forestry.AutoChopperNP,500),RotObjBuyer(Mech.Output,25),RotObjBuyer(Mech.Conv,25),ObjBuyer(Object.Monolith,10000)],[Tools.Axe]),
-           ttpaper]
+           ttpaper,
+           TT1(Original(),[Help(5),RotObjBuyer(Mech.Output,25),RotObjBuyer(Mech.Conv,25),ObjBuyer(Object.Monolith,10000),RotObjBuyer(Mech.VInput,50),VBuyer(Forestry.ChopMaster9000,1000)],[Tools.Axe]),
+           TT1(Original(),[Help(6),RotObjBuyer(Mech.Conv,25),ObjBuyer(Object.Monolith,20000),RotObjBuyer(Mech.VInput,50),
+                           VBuyer(Forestry.ChopMaster9000,1000),ObjBuyer(Forestry.AutoChopperNP,500),ObjBuyer(Forestry.PaperMill,500),ObjBuyer(Mech.Input,25),RotObjBuyer(Mech.Output,25)],[Tools.Axe])]

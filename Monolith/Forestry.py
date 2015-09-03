@@ -122,8 +122,6 @@ class ChopMaster9000(Vehicles.Vehicle):
             if world.inworld(tx,ty):
                 if world.is_clear(tx,ty,True):
                     self.movesteps(direction[0],direction[1], self.vspeed, world, True)
-                    if not world.get_tid(tx,ty):
-                        world.set_terr(tx,ty,3)
                 elif world.get_obj(tx,ty) and world.get_objname(tx,ty)[:4]=="Tree" and len(self.output)<9:
                     self.output.append(world.get_obj(tx,ty).cut(world,False))
                     self.movesteps(direction[0],direction[1], self.vspeed, world, True)
