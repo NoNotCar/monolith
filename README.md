@@ -17,6 +17,8 @@ A game made with pygame.
   * P - pause 
   * (Optional) WASD+Shift - scroll through menus  
 
+##TO RUN
+Monolith requires pygame 1.9.X and python 2.7.X
 ##BONUS SCREENSHOTS  
 ![Screenshot 3](/Assets/Screenshots/3.png)
 ![Screenshot 4](/Assets/Screenshots/4.png)
