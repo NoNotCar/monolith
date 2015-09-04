@@ -12,7 +12,7 @@ import Mech
 import Forestry
 import pygame
 from Generators import Original
-from Monolith import Forestry
+import Forestry
 class Help(Buyer):
     doc="Right click for help!"
     forward=False
