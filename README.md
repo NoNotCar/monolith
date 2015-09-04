@@ -18,7 +18,7 @@ A game made with pygame.
   * (Optional) WASD+Shift - scroll through menus  
 
 ##TO RUN
-Monolith requires pygame 1.9.X and python 2.7.X
+Monolith requires pygame 1.9.X and python 2.7.X. Run monolith.py (in the Monolith folder)
 ##BONUS SCREENSHOTS  
 ![Screenshot 3](/Assets/Screenshots/3.png)
 ![Screenshot 4](/Assets/Screenshots/4.png)
