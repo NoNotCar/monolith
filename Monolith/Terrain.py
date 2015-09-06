@@ -6,6 +6,7 @@ And The Earth Rose To Cleanse Him
 import Img
 from random import randint,choice
 import Forestry
+import pygame
 class Terrain(object):
     image=Img.blank32
     walkspeed=10
@@ -15,6 +16,8 @@ class Terrain(object):
         pass
     def trample(self,world,x,y):
         pass
+    def get_img(self,world,x,y):
+        return self.image
 ruleround=((-1,-1),(0,-1),(1,-1),(-1,0),(1,0),(-1,1),(0,1),(1,1))
 class Grass(Terrain):
     image=Img.imgret2("Grass2.png")
@@ -55,8 +58,19 @@ class Metal(Terrain):
     image=Img.imgret2("Metal.png")
     walkspeed=8
 class Bridge(Terrain):
-    image=Img.imgret2("Bridge.png")
+    image=Img.imgret2("BBridge.png")
     walkspeed=8
+    def get_img(self,world,x,y):
+        img=self.image.copy()
+        if world.get_tid(x,y-1)!=8:
+            pygame.draw.rect(img,(100,100,100),pygame.Rect(0,0,32,2))
+        if world.get_tid(x,y+1)!=8:
+            pygame.draw.rect(img,(100,100,100),pygame.Rect(0,30,32,2))
+        if world.get_tid(x-1,y)!=8:
+            pygame.draw.rect(img,(100,100,100),pygame.Rect(0,0,2,32))
+        if world.get_tid(x+1,y)!=8:
+            pygame.draw.rect(img,(100,100,100),pygame.Rect(30,0,2,32))
+        return img
 class GrassIF(Terrain):
     image=Img.imgret2("GrassIF.png")
     walkspeed=8

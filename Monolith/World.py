@@ -101,7 +101,7 @@ class World(object):
         for x,row in e(self.terr):
             for y,tile in e(row):
                 if abs(x-sx)<7 and abs(y-sy)<7:
-                    sscreen.blit(terrlist[tile].image,(x*32-asx,y*32-asy))
+                    sscreen.blit(terrlist[tile].get_img(self,x,y),(x*32-asx,y*32-asy))
         for y in xrange(self.size[1]):
             for x in xrange(self.size[0]):
                 obj = self.get_obj(x, y)
