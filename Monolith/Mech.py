@@ -15,12 +15,12 @@ baseimg=Img.imgret("Conv/ConvBase.png")
 sbaseimg=Img.imgret("Conv/ConvBaseSlow.png")
 rbaseimg=Img.imgret("Conv/ConvBaseRain.png")
 plusimg=Img.imgret("Conv/ConvPlus.png")
-plusimg2=Img.imgret("Conv/SlowConvPlus.png")
+splusimg=Img.imgret("Conv/SlowConvPlus.png")
+rplusimg=Img.imgret("Conv/RainConvPlus.png")
 dirconv=[[-1,0],[0,1],[1,0],[0,-1]]
 odirconv=[[0,-1],[-1,0],[0,1],[1,0]]
 idirconv=[[0,1],[1,0],[0,-1],[-1,0]]
-for bi,imgs in [(baseimg,convimgs),(sbaseimg,slowconvimgs),(rbaseimg,rainconvimgs)]:
-    pimg=plusimg if bi is not sbaseimg else plusimg2
+for bi,imgs,pimg in [(baseimg,convimgs,plusimg),(sbaseimg,slowconvimgs,splusimg),(rbaseimg,rainconvimgs,plusimg)]:
     for ani in range(14):
         bit1=pimg.subsurface(pygame.Rect(0,0,ani,10))
         bit2=pimg.subsurface(pygame.Rect(ani,0,14-ani,10))
