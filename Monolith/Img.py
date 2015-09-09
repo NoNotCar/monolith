@@ -60,7 +60,11 @@ def rot_center(image, angle):
 
 
 def musply(mus, loops=-1):
-    pygame.mixer.music.load(np(loc + "Music/" + mus))
+    if mus[:3]=="EMX":
+        mus=mus[3:]
+        pygame.mixer.music.load(np(loc + "EMX/" + mus))
+    else:
+        pygame.mixer.music.load(np(loc + "Music/" + mus))
     pygame.mixer.music.play(loops)
 
 

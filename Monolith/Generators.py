@@ -5,7 +5,6 @@ And the computer said .generate(world) and it was
 '''
 import math
 import Forestry
-import Hunting
 import RGB
 import Object
 import Fishery
@@ -14,11 +13,17 @@ import Entity
 import Tools
 from random import randint, shuffle
 import Mech
+import os
+from Img import loc
 
 e = enumerate
 stdmix = ["loop3.mp3", "46b.ogg", "Chopin.ogg", "Start5.ogg", "Packy.ogg", "Minority.ogg", "ChOrDs.ogg"]
 stdmixdes = ["46b.ogg", "Chopin.ogg", "Minority.ogg"]
-
+emxs = os.listdir(loc+"EMX/")
+for emx in emxs:
+    if emx[-4:] in [".ogg",".wav",".mp3"]:
+        stdmix.append("EMX"+emx)
+        stdmixdes.append("EMX"+emx)
 
 class Generator:
     musics = None
