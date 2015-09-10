@@ -12,6 +12,7 @@ class Buyer(object):
     forward = True
     iscat = False
     doc = "ABBA JAV"
+    ismoney = True
 
     def buy(self, world, tx, ty, p):
         return True
@@ -107,6 +108,31 @@ class ObjBuyer(Buyer):
             world.spawn_obj(self.objclass(tx, ty, p))
             return True
         return False
+
+
+class CrObjBuyer(ObjBuyer):
+    forward = True
+    ismoney = False
+
+    def __init__(self, objclass):
+        self.objclass = objclass
+        self.name = objclass.name
+        self.renobj = objclass(0, 0, None)
+        if hasattr(objclass, "doc"):
+            self.doc = objclass.doc
+
+
+class CRotObjBuyer(RotObjBuyer):
+    forward = True
+    ismoney = False
+
+    def __init__(self, objclass):
+        self.objclass = objclass
+        self.name = objclass.name
+        self.dir = 0
+        self.renobj = objclass(0, 0, 0, None)
+        if hasattr(objclass, "doc"):
+            self.doc = objclass.doc
 
 
 class UnOwnObjBuyer(ObjBuyer):

@@ -151,10 +151,17 @@ class World(object):
         else:
             selitem = ply.menu[ply.selected].menu[ply.submenu]
         if not selitem.iscat:
-            if selitem.cost % 1000 == 0:
-                screen.blit(Img.sfont.render("\xa3" + str(selitem.cost // 1000) + "k", True, (0, 0, 0)), (144, 23))
+            if selitem.ismoney:
+                if selitem.cost % 1000 == 0:
+                    screen.blit(Img.sfont.render("\xa3" + str(selitem.cost // 1000) + "k", True, (0, 0, 0)), (144, 23))
+                else:
+                    screen.blit(Img.sfont.render("\xa3" + str(selitem.cost), True, (0, 0, 0)), (144, 23))
             else:
-                screen.blit(Img.sfont.render("\xa3" + str(selitem.cost), True, (0, 0, 0)), (144, 23))
+                if self.player.inv.has_key(selitem.name):
+                    screen.blit(Img.sfont.render("x"+str(self.player.inv[selitem.name]), True, (0, 0, 0)), (144, 23))
+                else:
+                    self.player.inv[selitem.name]=0
+                    screen.blit(Img.sfont.render("x0", True, (0, 0, 0)), (144, 23))
         screen.blit(selimage, (0, 0 + 832 * ply.num))
         screen.blit(Img.dfont.render("\xa3" + str(ply.money), True, (255, 255, 255)), (288, 0))
         if ply.hand:

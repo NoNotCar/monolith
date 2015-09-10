@@ -15,6 +15,7 @@ import Img
 import Power
 import UM
 import Robotics
+import Crafting
 
 pygame.init()
 loc = os.path.dirname(os.getcwd()) + "/Assets/"
@@ -33,7 +34,7 @@ class MechCategory(object):
     doc = "Tech stuff"
 
     def __init__(self):
-        self.menu = [Buyers.RotObjBuyer(Mech.SlowConv, 25), Buyers.RotObjBuyer(Mech.Conv, 100),
+        self.menu = [Buyers.CRotObjBuyer(Mech.SlowConv), Buyers.RotObjBuyer(Mech.Conv, 100),
                      Buyers.RotObjBuyer(Mech.RainConv, 1000),
                      Buyers.RotObjBuyer(Mech.DownTunnel, 200), Buyers.RotObjBuyer(Mech.DownTunnelL, 1000),
                      Buyers.RotObjBuyer(Mech.UpTunnel, 500),
@@ -43,7 +44,8 @@ class MechCategory(object):
                      Buyers.ObjBuyer(Mech.Splitter, 500), Buyers.ObjBuyer(Mech.PurpPri, 500),
                      Buyers.ObjBuyer(Mech.Filter, 500),
                      Buyers.VBuyer(Vehicles.Lorry, 1000), Buyers.RotObjBuyer(Mech.VInput, 50),
-                     Buyers.RotObjBuyer(Mech.VLoader, 50), Buyers.ObjBuyer(Object.SellPointBlock, 10000)]
+                     Buyers.RotObjBuyer(Mech.VLoader, 50), Buyers.ObjBuyer(Object.SellPointBlock, 10000),
+                     Buyers.ObjBuyer(Crafting.CraftingTable,50)]
 
 
 tabclasses = [MechCategory, Power.PowerCategory, UM.UMCategory, Robotics.RobotCategory]
@@ -90,7 +92,7 @@ class KeyPlayer(Entity.Entity):
         self.psuppliers = []
         self.mmovewait = 0
         self.production = {}
-
+        self.inv={}
     def pupdate(self, world):
         self.psupply = 0
         for psup in self.psuppliers[:]:
@@ -118,15 +120,25 @@ class KeyPlayer(Entity.Entity):
                         if not selbuy.iscat:
                             selbuy.rotate()
                     elif e.button == 3:
-                        if not selbuy.iscat and (self.money >= selbuy.cost or self.godmode):
-                            if selbuy.forward:
-                                tx = self.dir[0] + self.x
-                                ty = self.dir[1] + self.y
-                                if world.inworld(tx, ty) and selbuy.buy(world, tx, ty, self) and not self.godmode:
-                                    self.money -= selbuy.cost
-                            else:
-                                if selbuy.buy(world, self.x, self.y, self) and not self.godmode:
-                                    self.money -= selbuy.cost
+                        if not selbuy.iscat:
+                            if selbuy.ismoney and (self.money >= selbuy.cost or self.godmode):
+                                if selbuy.forward:
+                                    tx = self.dir[0] + self.x
+                                    ty = self.dir[1] + self.y
+                                    if world.inworld(tx, ty) and selbuy.buy(world, tx, ty, self) and not self.godmode:
+                                        self.money -= selbuy.cost
+                                else:
+                                    if selbuy.buy(world, self.x, self.y, self) and not self.godmode:
+                                        self.money -= selbuy.cost
+                            elif not selbuy.ismoney and self.inv[selbuy.name]:
+                                if selbuy.forward:
+                                    tx = self.dir[0] + self.x
+                                    ty = self.dir[1] + self.y
+                                    if world.inworld(tx, ty) and selbuy.buy(world, tx, ty, self) and not self.godmode:
+                                        self.inv[selbuy.name]-=1
+                                else:
+                                    if selbuy.buy(world, self.x, self.y, self) and not self.godmode:
+                                        self.inv[selbuy.name]-=1
                         elif selbuy.iscat:
                             self.submenu = 0
                     elif e.button == 4 or e.button == 5:

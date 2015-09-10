@@ -7,6 +7,8 @@ import Object
 import Img
 import Buyers
 import Entity
+import Crafting
+import GameRegistry
 
 
 class Incinerator(Object.OObject):
@@ -135,10 +137,41 @@ class Fridge(UMRMachine):
         return False
 
 
+class AutoCrafter(Object.OObject):
+    img = Img.imgret2("UM/Crafter.png")
+    is3d = True
+    hasio = "input"
+    doc = "Automatic Crafting Machine - a crafting table with IO. IO: Input"
+    recipe = 0
+
+    def __init__(self, x, y, owner):
+        Object.OObject.__init__(self, x, y, owner)
+        self.recipeprogress = GameRegistry.craftrecipes[0][0][:]
+        self.gui = Crafting.CrGUI(self)
+        self.tocraft = None
+
+    def update(self, world):
+        rec = GameRegistry.craftrecipes[self.recipe]
+        world.player.inv[rec[1][0]] += rec[1][1]
+        self.updatable = False
+
+    def input(self, ent):
+        if ent.name in self.recipeprogress:
+            self.recipeprogress.remove(ent.name)
+            if not len(self.recipeprogress):
+                self.updatable = True
+                self.recipeprogress = GameRegistry.craftrecipes[self.recipe][0][:]
+            return True
+
+    def pick(self, world):
+        world.run_GUI(self.gui)
+
+
 class UMCategory(object):
     img = Img.imgret2("UM/logo.png")
     iscat = True
     doc = "Universal Machines"
 
     def __init__(self):
-        self.menu = [Buyers.ObjBuyer(Incinerator, 1000), Buyers.ObjBuyer(Grinder, 500), Buyers.ObjBuyer(Fridge, 200)]
+        self.menu = [Buyers.ObjBuyer(Incinerator, 1000), Buyers.ObjBuyer(Grinder, 500), Buyers.ObjBuyer(Fridge, 200),
+                     Buyers.ObjBuyer(AutoCrafter, 500)]

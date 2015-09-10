@@ -8,6 +8,8 @@ import Img
 import pygame
 import GUI
 import Buyers
+import GameRegistry
+import Crafting
 
 convimgs = []
 slowconvimgs = []
@@ -585,4 +587,7 @@ class RobMechCategory(object):
                      Buyers.RotObjBuyer(IOput, 300), Buyers.ObjBuyer(Buffer5, 500),
                      Buyers.ObjBuyer(Splitter, 500), Buyers.ObjBuyer(PurpPri, 500), Buyers.ObjBuyer(Filter, 500),
                      Buyers.RotObjBuyer(VInput, 50), Buyers.RotObjBuyer(VLoader, 50),
-                     Buyers.ObjBuyer(Object.SellPointBlock, 10000)]
+                     Buyers.ObjBuyer(Object.SellPointBlock, 10000),Buyers.ObjBuyer(Crafting.CraftingTable,50)]
+
+
+GameRegistry.add_recipe(["Woodpile", "Wheat", "Wheat"], ["SlowConveyor", 4], SlowConv.images[0])
