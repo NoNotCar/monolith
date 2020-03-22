@@ -1,10 +1,9 @@
 # monolith
 A game made with pygame.
-##SCREENSHOTS
+## SCREENSHOTS
 ![Screenshot 1](/Assets/Screenshots/1.png)
 ![Screenshot 2](/Assets/Screenshots/2.png)
-![EPIC WIN](/Assets/Screenshots/EPIC WIN.png)
-##CONTROLS (mouse and keyboard required):
+## CONTROLS (mouse and keyboard required):
   * Left Mouse Button - use tool 
   * Right Mouse Button - buy object/go into category 
   * Middle Mouse Button - rotate object in top menu 
@@ -17,9 +16,11 @@ A game made with pygame.
   * P - pause 
   * (Optional) WASD+Shift - scroll through menus  
 
-##TO RUN
+## TO RUN
+
 Monolith requires pygame 1.9.X and python 2.7.X. Run monolith.py (in the Monolith folder)
-##BONUS SCREENSHOTS  
+## BONUS SCREENSHOTS
+
 ![Screenshot 3](/Assets/Screenshots/3.png)
 ![Screenshot 4](/Assets/Screenshots/4.png)
 ![Screenshot 5](/Assets/Screenshots/5.png)
